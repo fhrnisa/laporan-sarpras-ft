@@ -1,11 +1,12 @@
-## Website Laporan Perbaikan Sarpras FT UNNES
+# Website Laporan Perbaikan Sarpras FT UNNES
 
 Repositori ini berisi proyek pengembangan **Website Laporan Perbaikan Sarana dan Prasarana** di Fakultas Teknik Universitas Negeri Semarang. Sistem ini dibuat sebagai bagian dari **kegiatan Praktik Kerja Lapangan (PKL)** dan dikerjakan oleh **dua siswa SMK** yang melaksanakan PKL di FT UNNES.
 
 Website ini dirancang untuk mempermudah proses pelaporan kerusakan sarpras, mempercepat tindak lanjut, serta menyediakan dokumentasi perbaikan yang lebih terstruktur.
 
+---
 
-# 🚀 **Fitur Utama**
+## 🚀 **Fitur Utama**
 
 * **Form Laporan Kerusakan**
   Pengguna dapat mengisi laporan beserta foto bukti, lokasi, dan deskripsi kerusakan.
@@ -24,22 +25,18 @@ Website ini dirancang untuk mempermudah proses pelaporan kerusakan sarpras, memp
 ## 🛠️ **Teknologi yang Digunakan**
 
 * **Frontend:** HTML, CSS, JavaScript
-* **Backend:** PHP / Laravel (sesuaikan jika berbeda)
+* **Backend:** PHP / Laravel
 * **Database:** MySQL
-* **Tools:** Git, GitHub, XAMPP/Laragon
+* **Tools:** Git, GitHub, XAMPP
 
 ---
 
-## 👥 **Tim Pengembang (PKL SMK)**
+## 👥 **Tim Pengembang**
 
 Proyek ini dikerjakan oleh dua siswa SMK peserta PKL di FT UNNES:
 
-| Nama           | Peran                           |
-| -------------- | ------------------------------- |
-| [Nama Siswa 1] | Pengembangan Backend / Database |
-| [Nama Siswa 2] | Pengembangan Frontend / UI      |
-
-> Isi dengan nama asli—bagian ini menunjukkan profesionalisme kolaborasi.
+1. Fahrunnisa Kusumawardani
+2. Sang Bimo Raharjoning Leksono
 
 ---
 
