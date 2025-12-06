@@ -12,9 +12,9 @@
                      alt="Logo Unnes Horizontal" 
                      class="h-10 w-auto">
     
-                <a href="#">
+                <a href="{{ route('home') }}">
                     <img src="{{ asset('icon/arrow-left.png') }}"
-                         alt="Profile Icon"
+                         alt="Back Icon"
                          class="h-6 w-6">
                 </a>
             </div>

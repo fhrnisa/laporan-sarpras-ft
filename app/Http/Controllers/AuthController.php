@@ -47,4 +47,9 @@ class AuthController extends Controller
 
         return redirect()->route('index')->with('success', 'Anda telah logout.');
     }
+
+    public function showForm()
+    {
+        return view('index');
+    }
 }
