@@ -4,9 +4,9 @@
 
 @section('content')
 
-    <div class="mt-1 mb-10 grid max-w-7xl mx-auto md:grid-cols-2 md:flex">
+    <div class="mt-1 mb-10 grid max-w-7xl mx-auto lg:grid-cols-2 lg:flex">
     
-        <div class="md:px-10 max-w-xl mx-auto w-full">
+        <div class="lg:px-10 max-w-xl mx-auto w-full">
             <div class="flex justify-between items-center w-full">
                 <img src="{{ asset('img/unnes-logo-horizontal.webp') }}" 
                      alt="Logo Unnes Horizontal" 
