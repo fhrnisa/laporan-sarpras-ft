@@ -8,12 +8,12 @@
     
         <div class="md:px-10 max-w-xl mx-auto w-full">
             <div class="flex justify-between items-center w-full">
-                <img src="{{ asset('img/unnes-logo-horizontal.png') }}" 
+                <img src="{{ asset('img/unnes-logo-horizontal.webp') }}" 
                      alt="Logo Unnes Horizontal" 
                      class="h-10 w-auto">
     
                 <a href="{{ route('home') }}">
-                    <img src="{{ asset('icon/arrow-left.png') }}"
+                    <img src="{{ asset('icon/arrow-left.svg') }}"
                          alt="Back Icon"
                          class="h-6 w-6">
                 </a>
@@ -47,17 +47,22 @@
                     <!-- Password -->
                     <div class="relative">
                         <label class="block text-sm font-semibold text-[#002D56] mb-1">Password</label>
-                        <input type="password"
-                               name="password"
-                               placeholder="min. 10 karakter"
-                               class="w-full rounded-lg border border-[#DDDDDD] px-3 py-3 focus:outline-none focus:ring-1 focus:ring-[#002D56]">
+                        <input 
+                            id="password"
+                            type="password"
+                            name="password"
+                            placeholder="min. 10 karakter"
+                            class="w-full rounded-lg border border-[#DDDDDD] px-3 py-3 focus:outline-none focus:ring-1 focus:ring-[#002D56]">
 
-                    <!-- Button eye slash dan open belum dibenarkan -->
                             <button type="button" 
-                                    id="togglePassword"
-                                    class="absolute inset-y-0 right-3 flex items-center text-gray-500">
+                                    onclick="togglePassword()"
+                                    class="absolute mt-6 -translate-y-1/2 right-3">
+                                    <!-- Eye Closed -->
+                                    <img id="eyeSlash" src="{{ asset('icon/eye-slash.svg') }}" alt="" class="w-6 h-6">
+                               
+                                    <!-- Eye Open -->
+                                    <img id="eyeOpen" src="{{ asset('icon/eye-open.svg') }}" alt="" class="w-6 h-6 hidden">
 
-                                    <img id="eyeClosed" src="{{ asset('icon/eye-slash.png') }}" alt="" class="w-6 h-6">
                             </button>
                     </div>
         
@@ -80,10 +85,28 @@
             </div>
 
             <div class="hidden md:flex items-center justify-center px-8">
-                <img src="{{ asset('img/unnes-image.png') }}"
+                <img src="{{ asset('img/unnes-image.webp') }}"
                     alt="Unnes Form Image"
                     class="h-[110vh] max-w-2xl object-contain rounded-xl">
             </div>
 
     </div>
+
+<script>
+    function togglePassword() {
+        const input = document.getElementById('password');
+        const eyeOpen = document.getElementById('eyeOpen');
+        const eyeSlash = document.getElementById('eyeSlash');
+
+        if (input.type === "password") {
+            input.type = "text";
+            eyeOpen.classList.add("hidden");
+            eyeSlash.classList.remove('hidden');
+        } else {
+            input.type = "password";
+            eyeOpen.classList.remove("hidden");
+            eyeSlash.classList.add("hidden");
+        }
+    }
+</script>
 @endsection
