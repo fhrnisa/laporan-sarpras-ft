@@ -8,12 +8,12 @@
     
         <div class="md:px-10 max-w-xl mx-auto w-full">
             <div class="flex justify-between items-center w-full">
-                <img src="{{ asset('img/unnes-logo-horizontal.png') }}" 
+                <img src="{{ asset('img/unnes-logo-horizontal.webp') }}" 
                      alt="Logo Unnes Horizontal" 
                      class="h-10 md:h-12 w-auto">
     
-                <a href="{{ route('login') }}">
-                    <img src="{{ asset('icon/profile-icon.png') }}"
+                <a href="{{ route('auth.login') }}">
+                    <img src="{{ asset('icon/profile-icon.svg') }}"
                          alt="Profile Icon"
                          class="h-6 w-6">
                 </a>
@@ -90,7 +90,7 @@
                         <label class="flex items-center gap-3 w-full px-4 py-3 text-sm md:text-base border border-[#DDDDDD] rounded-lg cursor-pointer hover:bg-gray-50 transition">
             
                             <!-- Icon Upload -->
-                            <img src="{{ asset('icon/upload-icon.png') }}" alt="Upload Icon" class="w-6 h-6">
+                            <img src="{{ asset('icon/upload-icon.svg') }}" alt="Upload Icon" class="w-6 h-6">
         
                             <!-- Placeholder -->
                             <span class="text-[#959595]">Tambahkan foto</span>
@@ -115,7 +115,7 @@
             </div>
 
             <div class="hidden md:flex items-center justify-center px-8">
-                <img src="{{ asset('img/unnes-image.png') }}"
+                <img src="{{ asset('img/unnes-image.webp') }}"
                     alt="Unnes Form Image"
                     class="h-[110vh] max-w-2xl object-contain rounded-xl">
             </div>
