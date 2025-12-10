@@ -73,13 +73,13 @@
 
     </div>
 
-    
+
  <!-- GRAFIK LAPORAN -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <div class="bg-white border border-[#DDDDDD] rounded-xl p-6 w-full mb-8">
     <h2 class="text-2xl text-[#002C55] font-semibold mb-6">Grafik Laporan</h2>
-    
+
     <!-- Filter Section -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-3">
         <!-- Filter Status -->
@@ -93,7 +93,7 @@
                 <option value="ditolak">Ditolak</option>
             </select>
         </div>
-        
+
         <!-- Filter Tanggal -->
         <div class="flex items-center gap-3">
             <span class="text-[#002C55]">Tanggal</span>
@@ -103,7 +103,7 @@
                 <option value="bulan">Bulan Ini</option>
             </select>
         </div>
-        
+
         <div class="flex gap-5">
             <div class="flex gap-2 items-center">
                 <div class="flex w-4 h-4 rounded-full bg-[#E1E7E9]"></div>
@@ -126,10 +126,10 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Chart Container -->
     <div class="flex flex-col gap-8">
-        
+
         <!-- Chart -->
         <div class="w-full">
             <div class="relative h-[350px]">
@@ -146,7 +146,7 @@
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M13.2633 5.43908L5.05327 14.1291C4.74327 14.4591 4.44327 15.1091 4.38327 15.5591L4.01327 18.7991C3.88327 19.9691 4.72327 20.7691 5.88327 20.5691L9.10327 20.0191C9.55327 19.9391 10.1833 19.6091 10.4933 19.2691L18.7033 10.5791C20.1233 9.07908 20.7633 7.36908 18.5533 5.27908C16.3533 3.20908 14.6833 3.93908 13.2633 5.43908Z" stroke="white" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M11.8931 6.8891C12.3231 9.6491 14.5631 11.7591 17.3431 12.0391" stroke="white" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg> 
+            </svg>
             Beritahu kami
         </a>
     </div>
@@ -154,7 +154,7 @@
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     const ctx = document.getElementById('statusChart').getContext('2d');
-    
+
     // Data dummy sesuai gambar
     const chartData = {
         labels: ['30 Nov', '1 Des', '2 Des', '3 Des', '4 Des', '5 Des'],
@@ -294,20 +294,20 @@ document.addEventListener("DOMContentLoaded", function () {
             'terselesaikan': 0,
             'ditolak': 0
         };
-        
+
         // Hitung total dari data chart
         chartData.datasets.forEach((dataset, index) => {
             const status = dataset.label.toLowerCase();
             totals[status] = dataset.data.reduce((a, b) => a + b, 0);
         });
-        
+
         // Update HTML
         document.querySelectorAll('.status-legend').forEach(legend => {
             const status = legend.dataset.status;
             const countSpan = legend.querySelector('.ml-auto');
             countSpan.textContent = totals[status];
         });
-        
+
         // Update total laporan
         const totalAll = Object.values(totals).reduce((a, b) => a + b, 0);
         document.querySelector('.text-2xl.font-bold.text-\\[\\#002C55\\]').textContent = totalAll;
@@ -335,7 +335,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.getElementById('filterBulan').addEventListener('change', function(e) {
         console.log('Filter Bulan:', e.target.value);
-        
+
         // Simulasi perubahan data berdasarkan bulan
         const monthData = {
             'nov': {
@@ -360,10 +360,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 ditolak: [2, 1, 0, 2, 1, 0, 2]
             }
         };
-        
+
         const selectedMonth = e.target.value;
         const data = monthData[selectedMonth];
-        
+
         if (data) {
             // Update chart data
             laporanChart.data.labels = data.labels;
@@ -371,10 +371,10 @@ document.addEventListener("DOMContentLoaded", function () {
             laporanChart.data.datasets[1].data = data.diproses;
             laporanChart.data.datasets[2].data = data.terselesaikan;
             laporanChart.data.datasets[3].data = data.ditolak;
-            
+
             // Update chart
             laporanChart.update();
-            
+
             // Update totals
             updateStatusTotals();
         }
@@ -385,12 +385,12 @@ document.addEventListener("DOMContentLoaded", function () {
         legend.addEventListener('click', function() {
             const status = this.dataset.status;
             const datasetIndex = chartData.datasets.findIndex(ds => ds.label.toLowerCase() === status);
-            
+
             if (datasetIndex !== -1) {
                 const meta = laporanChart.getDatasetMeta(datasetIndex);
                 meta.hidden = meta.hidden === null ? true : !meta.hidden;
                 laporanChart.update();
-                
+
                 // Toggle visual state legend
                 this.classList.toggle('opacity-50');
                 this.classList.toggle('bg-gray-100');
