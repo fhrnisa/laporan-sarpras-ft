@@ -32,31 +32,21 @@
                 </select>
             </div>
         </div>
-        
-        <button id="manage-data" class="bg-[#022C55] rounded-lg py-2 px-4">
-            <span class="text-white text-base">Kelola Data</span>
-        </button>
-    </div>
-    
-    <!-- BUTTON DELETE -->
-    <div class="action-buttons hidden" id="global-actions">
-        <button id="cancel-action" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 mr-2">
-            Batal
-        </button>
-        <div class="relative inline-block">
-            <button id="delete-options-btn" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 flex items-center">
-                Hapus <i class="fas fa-chevron-down ml-2"></i>
+
+        <div class="flex gap-2">
+            <button id="kelolaBtn" class="bg-[#022C55] text-white text-base rounded-lg py-2 px-4">
+                Kelola Data
             </button>
-            <div id="delete-options" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
-                <button class="w-full text-left px-4 py-3 hover:bg-gray-50 text-yellow-600 delete-option" data-type="soft">
-                    <i class="fas fa-archive mr-3"></i> Arsipkan (Soft Delete)
-                </button>
-                <button class="w-full text-left px-4 py-3 hover:bg-gray-50 text-red-600 delete-option" data-type="hard">
-                    <i class="fas fa-trash-alt mr-3"></i> Hapus Permanen
-                </button>
-            </div>
+        </div>
+
+        <!-- Hidden buttons -->
+        <div id="manageOptions" class="hidden gap-2 absolute z-50 mt-12">
+            <button class="px-4 py-2 bg-red-600 text-white rounded">Hapus Permanen</button>
+            <button class="px-4 py-2 bg-yellow-500 text-white rounded">Arsipkan</button>
+            <button id="batalBtn" class="px-4 py-2 bg-gray-600 text-white rounded">Batal</button>
         </div>
     </div>
+    
 
     <!-- Table Section -->
     <div class="bg-white border border-[#DDDDDD] rounded-xl overflow-hidden">
@@ -88,9 +78,9 @@
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Status
                         </th>
-                        <!-- Action Column (Visible by default) -->
+                        
                         <th class="action-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Aksi
+                            
                         </th>
                     </tr>
                 </thead>
@@ -202,11 +192,6 @@
 
                     @foreach($reports as $report)
                     <tr class="hover:bg-gray-50 transition-colors report-row" data-id="{{ $report['id'] }}">
-                        <!-- Checkbox Cell (Hidden by default) -->
-                        <td class="checkbox-cell hidden px-6 py-4 whitespace-nowrap">
-                            <input type="checkbox" value="{{ $report['id'] }}" class="report-checkbox rounded border-gray-300">
-                        </td>
-                        
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                             #{{ $report['id'] }}
                         </td>
@@ -241,19 +226,21 @@
                                 {{ $report['status_text'] }}
                             </span>
                         </td>
+
+
                         <!-- Action Cell (Visible by default) -->
-                        <td class="action-cell px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <div class="flex items-center space-x-2">
-                                <button class="text-blue-600 hover:text-blue-900 p-1 rounded hover:bg-blue-50 view-detail" title="Lihat Detail" data-id="{{ $report['id'] }}">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                                <button class="text-green-600 hover:text-green-900 p-1 rounded hover:bg-green-50" title="Download">
-                                    <i class="fas fa-download"></i>
-                                </button>
-                                <button class="text-yellow-600 hover:text-yellow-900 p-1 rounded hover:bg-yellow-50" title="Edit">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                            </div>
+                        <td class="text-center">
+                            <!-- Default: titik tiga -->
+                            <button class="aksiBtn" data-id="#">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M19 13C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11C18.4477 11 18 11.4477 18 12C18 12.5523 18.4477 13 19 13Z" stroke="#002C55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z" stroke="#002C55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M5 13C5.55228 13 6 12.5523 6 12C6 11.4477 5.55228 11 5 11C4.44772 11 4 11.4477 4 12C4 12.5523 4.44772 13 5 13Z" stroke="#002C55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+
+                            <!-- Checkbox saat mode kelola aktif -->
+                            
                         </td>
                     </tr>
                     @endforeach
@@ -281,6 +268,48 @@
 
 @push('scripts')
 <script>
+document.addEventListener("DOMContentLoaded", function() {
+    const kelolaBtn = document.getElementById("kelolaBtn");
+    const batalBtn = document.getElementById("batalBtn");
+    const manageOptions = document.getElementById("manageOptions");
 
+    const aksiButtons = document.querySelectorAll(".aksiBtn");
+    const checkboxCells = document.querySelectorAll(".checkbox-cell");
+    const reportCheckboxes = document.querySelectorAll(".report-checkbox");
+    const selectAll = document.getElementById("select-all");
+
+    // Mode Kelola
+    kelolaBtn.addEventListener("click", () => {
+        kelolaBtn.classList.add("hidden");
+        manageOptions.classList.remove("hidden");
+
+        // Tampilkan kolom checkbox
+        checkboxCells.forEach(cell => cell.classList.remove("hidden"));
+
+        // Sembunyikan tombol titik tiga
+        aksiButtons.forEach(btn => btn.classList.add("hidden"));
+    });
+
+    // Mode Batal
+    batalBtn.addEventListener("click", () => {
+        kelolaBtn.classList.remove("hidden");
+        manageOptions.classList.add("hidden");
+
+        // Sembunyikan kolom checkbox
+        checkboxCells.forEach(cell => cell.classList.add("hidden"));
+
+        // Tampilkan tombol titik tiga
+        aksiButtons.forEach(btn => btn.classList.remove("hidden"));
+
+        // Reset checkbox
+        reportCheckboxes.forEach(ch => ch.checked = false);
+        selectAll.checked = false;
+    });
+
+    // Select All checkbox
+    selectAll.addEventListener("change", function() {
+        reportCheckboxes.forEach(ch => ch.checked = selectAll.checked);
+    });
+});
 </script>
 @endpush
