@@ -27,6 +27,23 @@
         font-size: 0.875rem; /* text-sm */
         margin-top: 4px;
     }
+
+    .timer-big {
+        font-size: 3rem;
+        font-weight: bold;
+    }
+
+    .btn-disabled {
+        background: #CCCCCC !important;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+
+    .btn-active {
+        background: #002D56 !important;
+        cursor: pointer;
+        pointer-events: auto;
+    }
     </style>
 
 </head>
