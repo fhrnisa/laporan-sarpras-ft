@@ -94,53 +94,120 @@
 
     </div>
 
+
+<!-- MODAL LIMIT ACCESS -->
+<!-- MODAL LIMIT ACCESS -->
+<div id="limitModal" class="hidden fixed inset-0 justify-center items-center bg-black/50 backdrop-blur-sm">
+    <div class="bg-white p-6 rounded-2xl text-center max-w-md mx-4 space-y-4">
+        <h2 class="text-[#002D56] font-bold text-lg lg:text-2xl">
+            Akses Sementara <span class="text-[#F36A00]">Diblokir</span>
+        </h2>
+
+        <p class="text-[#002D56]">
+            Sistem mendeteksi percobaan masuk yang tidak valid sebanyak 5 kali.
+            Silakan menunggu hingga periode pemblokiran berakhir.
+        </p>
+
+        <p id="limitMessage" class="text-[#002D56] font-bold text-5xl tracking-wide"></p>
+
+        <button id="closeLimitModal"
+                disabled
+                class="w-full py-3 rounded-lg text-white font-semibold text-lg lg:text-xl
+                       bg-gray-400 cursor-not-allowed transition">
+            Tutup
+        </button>
+    </div>
+</div>
+
+
+
 <script>
+/* ============================================
+   TOGGLE PASSWORD
+============================================ */
+function togglePassword() {
+    const input = document.getElementById('password');
+    const eyeOpen = document.getElementById('eyeOpen');
+    const eyeSlash = document.getElementById('eyeSlash');
 
-    function togglePassword() {
-        const input = document.getElementById('password');
-        const eyeOpen = document.getElementById('eyeOpen');
-        const eyeSlash = document.getElementById('eyeSlash');
+    input.type = input.type === "password" ? "text" : "password";
+    eyeOpen.classList.toggle("hidden");
+    eyeSlash.classList.toggle("hidden");
+}
 
-        if (input.type === "password") {
-            input.type = "text";
-            eyeOpen.classList.remove("hidden");
-            eyeSlash.classList.add('hidden');
-        } else {
-            input.type = "password";
-            eyeOpen.classList.add("hidden");
-            eyeSlash.classList.remove("hidden");
-        }
+/* ============================================
+   MODAL CONTROL
+============================================ */
+function showLimitModal(message) {
+    document.getElementById("limitMessage").innerText = message;
+    document.getElementById("limitModal").classList.remove("hidden");
+}
+
+function closeLimitModal() {
+    document.getElementById("limitModal").classList.add("hidden");
+}
+
+function setButtonDisabled(disabled) {
+    const btn = document.getElementById("closeLimitModal");
+    btn.disabled = disabled;
+
+    if (disabled) {
+        btn.classList.remove("bg-[#002D56]");
+        btn.classList.add("bg-gray-400", "cursor-not-allowed");
+    } else {
+        btn.classList.remove("bg-gray-400", "cursor-not-allowed");
+        btn.classList.add("bg-[#002D56]");
     }
+}
 
-    function showTimerCountdown() {
+/* ============================================
+   COUNTDOWN SYSTEM
+============================================ */
+function startModalCountdown() {
+    const msg = document.getElementById("limitMessage");
     const interval = setInterval(() => {
-        const blockedUntil = localStorage.getItem("blocked_until");
+        const until = localStorage.getItem("blocked_until");
 
-        if (!blockedUntil) {
+        // Tidak ada blokir → stop
+        if (!until) {
             clearInterval(interval);
             return;
         }
 
-        const diff = blockedUntil - Date.now();
+        const diff = until - Date.now();
 
+        // Waktu habis
         if (diff <= 0) {
             clearInterval(interval);
+            msg.innerText = "00:00";
             localStorage.removeItem("blocked_until");
-            emailError.innerText = "";
-            passwordError.innerText = "";
+            setButtonDisabled(false);
             return;
         }
 
-        const minutes = Math.floor(diff / 60000);
-        const seconds = Math.floor((diff % 60000) / 1000);
+        // Update display
+        const m = Math.floor(diff / 60000);
+        const s = Math.floor((diff % 60000) / 1000);
+        msg.innerText = `${m}:${s.toString().padStart(2, '0')}`;
 
-        emailError.innerText = `Anda diblokir. Coba lagi ${minutes}:${seconds}`;
-        passwordError.innerText = `Anda diblokir. Coba lagi ${minutes}:${seconds}`;
+        // Selama masih blokir → tetap disable
+        setButtonDisabled(true);
     }, 1000);
 }
 
+/* ============================================
+   CLOSE BUTTON CLICK
+============================================ */
+document.getElementById("closeLimitModal").addEventListener("click", () => {
+    if (!localStorage.getItem("blocked_until")) {
+        closeLimitModal();
+    }
+});
 
-    document.addEventListener("DOMContentLoaded", () => {
+/* ============================================
+   LOGIN HANDLER
+============================================ */
+document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById('loginForm');
     if (!form) return;
 
@@ -149,7 +216,13 @@
     const emailError = document.getElementById("emailError");
     const passwordError = document.getElementById("passwordError");
 
-    form.addEventListener('submit', async (e) => {
+    // Jika halaman direfresh saat masih diblokir
+    if (localStorage.getItem("blocked_until")) {
+        showLimitModal("10:00");
+        startModalCountdown();
+    }
+
+    form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
         const email = emailInput.value;
@@ -160,48 +233,42 @@
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Accept": "application/json"
+                    "Accept": "application/json",
                 },
                 body: JSON.stringify({ email, password })
             });
 
             const data = await response.json();
 
-            // 1. Cek throttle dulu
+            // Terlalu banyak percobaan
             if (response.status === 429) {
-                showError("Terlalu banyak percobaan login. Coba lagi nanti.");
                 const unblockTime = Date.now() + 10 * 60 * 1000;
                 localStorage.setItem("blocked_until", unblockTime);
-                showTimerCountdown();
+
+                showLimitModal("10:00");
+                startModalCountdown();
                 return;
             }
 
-            // 2. Cek login gagal
+            // Login gagal
             if (!response.ok) {
-                showError("Access denied");
+                emailError.innerText = "Email atau password salah.";
+                passwordError.innerText = "Email atau password salah.";
+                emailError.classList.remove("hidden");
+                passwordError.classList.remove("hidden");
                 return;
             }
 
-            // 3. Login sukses
+            // Login sukses
             localStorage.setItem("token", data.token);
             window.location.href = "/admin/dashboard";
 
         } catch (err) {
-            alert("Kesalahan: " + err.message);
+            alert("Error: " + err.message);
         }
     });
-
-    function showError(msg) {
-        emailInput.classList.add("input-error");
-        passwordInput.classList.add("input-error");
-
-        emailError.innerText = msg;
-        passwordError.innerText = msg;
-
-        emailError.classList.remove("hidden");
-        passwordError.classList.remove("hidden");
-    }
 });
-
 </script>
+
+
 @endsection
