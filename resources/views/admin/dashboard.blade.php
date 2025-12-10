@@ -31,7 +31,7 @@
     </div>
 
     <!-- Summary Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-10">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-7">
 
         <div class="bg-[#C5CAFF] p-4 rounded-lg">
             <img src="{{ asset('icon/receive-icon.svg') }}" alt="" class="h-10">
@@ -78,10 +78,10 @@
     <h2 class="text-2xl text-[#002C55] font-semibold mb-6">Grafik Laporan</h2>
     
     <!-- Filter Section -->
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-3">
         <!-- Filter Status -->
         <div class="flex items-center gap-3">
-            <span class="text-[#002C55] font-medium">Status</span>
+            <span class="text-[#002C55]">Status</span>
             <select id="filterStatus" class="border border-[#DDDDDD] rounded-lg text-sm text-[#002C55] py-2 px-3 w-40 focus:outline-none focus:ring-1 focus:ring-[#002C55] focus:border-[#002C55]">
                 <option value="all">Semua Status</option>
                 <option value="menunggu">Menunggu</option>
@@ -93,8 +93,8 @@
         
         <!-- Filter Tanggal -->
         <div class="flex items-center gap-3">
-            <span class="text-[#002C55] font-medium">Tanggal</span>
-            <select id="filterTanggal" class="border border-gray-300 rounded-lg text-sm py-2 px-3 w-40 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            <span class="text-[#002C55]">Tanggal</span>
+            <select id="filterTanggal" class="border border-gray-300 rounded-lg text-sm py-2 px-3 w-40 focus:outline-none focus:ring-1 focus:ring-[#002C55] focus:border-[#002C55]">
                 <option value="7hari">7 Hari Terakhir</option>
                 <option value="30hari">30 Hari Terakhir</option>
                 <option value="bulan">Bulan Ini</option>
@@ -129,12 +129,24 @@
         
         <!-- Chart -->
         <div class="w-full">
-            <div class="relative">
+            <div class="relative h-[350px]">
                 <canvas id="statusChart"></canvas>
             </div>
         </div>
     </div>
 </div>
+
+    <!--  -->
+    <div class="flex bg-[#FED43E] rounded-lg items-center justify-between p-6">
+        <h2 class="text-2xl text-[#002C55] font-semibold">Menemukan bug?</h2>
+        <a href="#" class="bg-[#002C55] rounded-lg flex text-white py-2 px-4 gap-2">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M13.2633 5.43908L5.05327 14.1291C4.74327 14.4591 4.44327 15.1091 4.38327 15.5591L4.01327 18.7991C3.88327 19.9691 4.72327 20.7691 5.88327 20.5691L9.10327 20.0191C9.55327 19.9391 10.1833 19.6091 10.4933 19.2691L18.7033 10.5791C20.1233 9.07908 20.7633 7.36908 18.5533 5.27908C16.3533 3.20908 14.6833 3.93908 13.2633 5.43908Z" stroke="white" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M11.8931 6.8891C12.3231 9.6491 14.5631 11.7591 17.3431 12.0391" stroke="white" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg> 
+            Beritahu kami
+        </a>
+    </div>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -189,7 +201,8 @@ document.addEventListener("DOMContentLoaded", function () {
         data: chartData,
         options: {
             responsive: true,
-            maintainAspectRatio: true,
+            maintainAspectRatio: false,
+            devicePixelRatio: window.devicePixelRatio,
             interaction: {
                 intersect: false,
                 mode: 'index',
@@ -233,9 +246,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     display: false // Hide default legend
                 },
                 tooltip: {
-                    backgroundColor: 'rgba(0, 44, 85, 0.9)',
-                    titleColor: '#fff',
+                    backgroundColor: '#FFFFFF',
+                    titleColor: '#022C55',
                     bodyColor: '#fff',
+                    borderColor: '#DDDDDD',
+                    borderWidth: 1,
                     padding: 12,
                     cornerRadius: 6,
                     displayColors: true,
@@ -371,8 +386,8 @@ document.addEventListener("DOMContentLoaded", function () {
 <style>
 /* Custom styles untuk chart */
 #statusChart {
-    height: 300px !important;
     width: 100% !important;
+    height: auto !important;
 }
 
 .status-legend.active {
