@@ -32,7 +32,7 @@
 
     <!-- SIDEBAR -->
     <aside id="sidebar"
-        class="relative bg-[#002C5F] text-white p-4 flex flex-col transition-all duration-300 w-64">
+        class="fixed top-0 left-0 h-screen bg-[#002C5F] text-white p-4 flex flex-col transition-all duration-300 w-64">
         
         <!-- HEADER SIDEBAR -->
         <div class="relative mb-8 pt-4 px-2">
@@ -169,7 +169,8 @@
     </aside>
 
     <!-- CONTENT -->
-    <main class="flex-1 p-6 bg-white overflow-auto">
+    <main id="main-content" class="flex-1 ml-64 p-6 bg-white overflow-auto">
+        @include('admin.components.topbar')
         @yield('content')
     </main>
     
@@ -196,6 +197,10 @@ document.addEventListener('DOMContentLoaded', () => {
         sidebar.classList.remove('w-64');
         sidebar.classList.add('w-20');
 
+        const main = document.getElementById("main-content");
+        main.classList.remove('ml-64');
+        main.classList.add('ml-20');
+
         sidebarTexts.forEach(text => text.classList.add('hidden'));
 
         logoExpanded.classList.add('hidden');
@@ -214,6 +219,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Set state expand UI
         sidebar.classList.remove('w-20');
         sidebar.classList.add('w-64');
+
+        const main = document.getElementById("main-content");
+        main.classList.remove('ml-20');
+        main.classList.add('ml-64');
 
         sidebarTexts.forEach(text => text.classList.remove('hidden'));
 
