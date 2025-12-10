@@ -17,6 +17,18 @@
 
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
+
+    <style>
+    .input-error {
+        border-color: #dc2626 !important; /* merah */
+    }
+    .error-text {
+        color: #dc2626;
+        font-size: 0.875rem; /* text-sm */
+        margin-top: 4px;
+    }
+    </style>
+
 </head>
 
 <body class="bg-white text-gray-900 font-sans">
