@@ -65,7 +65,7 @@
                                     <img id="eyeOpen" src="{{ asset('icon/eye-open.svg') }}" alt="" class="w-6 h-6 hidden">
 
                             </button>
-                            <p id="passwordError" class="error-text-hidden"></p>
+                            <p id="passwordError" class="error-text hidden"></p>
                     </div>
 
                    <label class="flex items-center gap-2 cursor-pointer">
@@ -103,20 +103,57 @@
 
         if (input.type === "password") {
             input.type = "text";
-            eyeOpen.classList.add("hidden");
-            eyeSlash.classList.remove('hidden');
+            eyeOpen.classList.remove("hidden");
+            eyeSlash.classList.add('hidden');
         } else {
             input.type = "password";
-            eyeOpen.classList.remove("hidden");
-            eyeSlash.classList.add("hidden");
+            eyeOpen.classList.add("hidden");
+            eyeSlash.classList.remove("hidden");
         }
     }
 
+    function showTimerCountdown() {
+    const interval = setInterval(() => {
+        const blockedUntil = localStorage.getItem("blocked_until");
 
-    document.addEventListener("DOMContentLoaded", () => {document.getElementById('loginForm').addEventListener('submit', async (e) => {e.preventDefault();
+        if (!blockedUntil) {
+            clearInterval(interval);
+            return;
+        }
 
-        const email = e.target.email.value;
-        const password = e.target.password.value;
+        const diff = blockedUntil - Date.now();
+
+        if (diff <= 0) {
+            clearInterval(interval);
+            localStorage.removeItem("blocked_until");
+            emailError.innerText = "";
+            passwordError.innerText = "";
+            return;
+        }
+
+        const minutes = Math.floor(diff / 60000);
+        const seconds = Math.floor((diff % 60000) / 1000);
+
+        emailError.innerText = `Anda diblokir. Coba lagi ${minutes}:${seconds}`;
+        passwordError.innerText = `Anda diblokir. Coba lagi ${minutes}:${seconds}`;
+    }, 1000);
+}
+
+
+    document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById('loginForm');
+    if (!form) return;
+
+    const emailInput = document.querySelector("[name='email']");
+    const passwordInput = document.querySelector("[name='password']");
+    const emailError = document.getElementById("emailError");
+    const passwordError = document.getElementById("passwordError");
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const email = emailInput.value;
+        const password = passwordInput.value;
 
         try {
             const response = await fetch("http://localhost:8001/api/login", {
@@ -125,44 +162,45 @@
                     "Content-Type": "application/json",
                     "Accept": "application/json"
                 },
-                body: JSON.stringify({
-                    email,
-                    password
-                })
+                body: JSON.stringify({ email, password })
             });
 
             const data = await response.json();
 
-            if (!response.ok) {
-                // reset error styles
-                document.querySelector("[name='email']").classList.remove("input-error");
-                document.querySelector("[name='password']").classList.remove("input-error");
-                emailError.classList.add("hidden");
-                passwordError.classList.add("hidden");
-
-                // tetapkan error
-                document.querySelector("[name='email']").classList.add("input-error");
-                document.querySelector("[name='password']").classList.add("input-error");
-
-                // tampilkan pesan kecil
-                document.getElementById('emailError').innerText = "Access denied";
-                document.getElementById('passwordError').innerText = "Access denied";
-
-                document.getElementById('emailError').classList.remove("hidden");
-                document.getElementById('passwordError').classList.remove("hidden");
-
-            return;
+            // 1. Cek throttle dulu
+            if (response.status === 429) {
+                showError("Terlalu banyak percobaan login. Coba lagi nanti.");
+                const unblockTime = Date.now() + 10 * 60 * 1000;
+                localStorage.setItem("blocked_until", unblockTime);
+                showTimerCountdown();
+                return;
             }
 
+            // 2. Cek login gagal
+            if (!response.ok) {
+                showError("Access denied");
+                return;
+            }
 
+            // 3. Login sukses
             localStorage.setItem("token", data.token);
             window.location.href = "/admin/dashboard";
 
-        } catch (error) {
-            alert("Terjadi kesalahan: " + error.message);
+        } catch (err) {
+            alert("Kesalahan: " + err.message);
         }
     });
 
+    function showError(msg) {
+        emailInput.classList.add("input-error");
+        passwordInput.classList.add("input-error");
+
+        emailError.innerText = msg;
+        passwordError.innerText = msg;
+
+        emailError.classList.remove("hidden");
+        passwordError.classList.remove("hidden");
+    }
 });
 
 </script>
