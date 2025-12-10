@@ -141,10 +141,12 @@ function togglePassword() {
 function showLimitModal(message) {
     document.getElementById("limitMessage").innerText = message;
     document.getElementById("limitModal").classList.remove("hidden");
+    document.getElementById("limitModal").classList.add("flex");
 }
 
 function closeLimitModal() {
     document.getElementById("limitModal").classList.add("hidden");
+    document.getElementById("limitModal").classList.remove("flex");
 }
 
 function setButtonDisabled(disabled) {
@@ -225,6 +227,16 @@ document.addEventListener("DOMContentLoaded", () => {
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
+        // Reset error state
+        emailError.classList.add("hidden");
+        passwordError.classList.add("hidden");
+
+        emailInput.classList.remove("border-red-500");
+        passwordInput.classList.remove("border-red-500");
+
+        emailInput.classList.add("border-[#DDDDDD]");
+        passwordInput.classList.add("border-[#DDDDDD]");
+
         const email = emailInput.value;
         const password = passwordInput.value;
 
@@ -254,8 +266,17 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!response.ok) {
                 emailError.innerText = "Email atau password salah.";
                 passwordError.innerText = "Email atau password salah.";
+
                 emailError.classList.remove("hidden");
                 passwordError.classList.remove("hidden");
+
+                // Tambahkan border merah
+                emailInput.classList.remove("border-[#DDDDDD]");
+                emailInput.classList.add("border-red-500");
+
+                passwordInput.classList.remove("border-[#DDDDDD]");
+                passwordInput.classList.add("border-red-500");
+
                 return;
             }
 
