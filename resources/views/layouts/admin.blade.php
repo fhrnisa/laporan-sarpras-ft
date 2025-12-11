@@ -160,15 +160,16 @@
         </nav>
 
         <!-- LOGOUT -->
-        <div class="mt-auto">
-            <a href="#"
-               class="sidebar-item flex items-center gap-3 p-3 rounded-lg text-white hover:bg-white/20">
+        <form class="mt-auto" id="logoutForm">
+            <button type="submit"
+                    class="sidebar-item flex items-center gap-3 p-3 rounded-lg text-white hover:bg-white/20 w-full text-left">
                 <img src="{{ asset('icon/logout-icon.svg') }}"
-                     class="sidebar-icon h-6 w-6"
-                     alt="Logout">
+                    class="sidebar-icon h-6 w-6"
+                    alt="Logout">
                 <span class="sidebar-text">Logout</span>
-            </a>
-        </div>
+            </button>
+        </form>
+
 
     </aside>
 
@@ -179,6 +180,69 @@
     </main>
 
 </div>
+
+<!-- MODAL KONFIRMASI LOGOUT -->
+<div id="logoutConfirmModal"
+     class="hidden fixed inset-0 z-50 justify-center items-center bg-black/50 backdrop-blur-sm">
+    <div class="bg-white p-6 rounded-2xl text-center max-w-md mx-4 space-y-4">
+        <h2 class="text-[#002D56] font-bold text-xl">
+            Konfirmasi Logout
+        </h2>
+
+        <p class="text-[#002D56]">
+            Apakah Anda yakin ingin <span class="text-red-600 font-semibold">logout</span>?
+        </p>
+
+        <div class="grid grid-cols-2 gap-3">
+            <button id="cancelLogout"
+                    class="py-2 rounded-lg bg-gray-300 text-[#002D56] font-semibold">
+                Batal
+            </button>
+
+            <button id="confirmLogout"
+                    class="py-2 rounded-lg bg-red-600 text-white font-semibold">
+                Logout
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL LOGOUT SUKSES -->
+<div id="logoutSuccessModal"
+     class="hidden fixed inset-0 z-50 justify-center items-center bg-black/50 backdrop-blur-sm">
+    <div class="bg-white p-6 rounded-2xl text-center max-w-md mx-4 space-y-4">
+        <h2 class="text-green-700 font-bold text-xl">
+            Logout Berhasil
+        </h2>
+
+        <p class="text-[#002D56]">Anda akan diarahkan ke halaman utama.</p>
+
+        <button id="closeSuccessModal"
+                class="w-full py-3 rounded-lg bg-green-600 text-white font-semibold">
+            Oke
+        </button>
+    </div>
+</div>
+
+<!-- MODAL LOGOUT GAGAL -->
+<div id="logoutFailedModal"
+     class="hidden fixed inset-0 z-50 justify-center items-center bg-black/50 backdrop-blur-sm">
+    <div class="bg-white p-6 rounded-2xl text-center max-w-md mx-4 space-y-4">
+        <h2 class="text-red-600 font-bold text-xl">
+            Logout Gagal
+        </h2>
+
+        <p class="text-[#002D56]">
+            Terjadi kesalahan saat memproses logout. Coba lagi nanti.
+        </p>
+
+        <button id="closeFailedModal"
+                class="w-full py-3 rounded-lg bg-red-600 text-white font-semibold">
+            Tutup
+        </button>
+    </div>
+</div>
+
 
 <!-- SCRIPT COLLAPSE -->
 <script>
@@ -277,6 +341,78 @@ document.addEventListener('DOMContentLoaded', () => {
     handleResize();
     window.addEventListener('resize', handleResize);
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+
+    const logoutForm = document.getElementById('logoutForm');
+
+    const confirmModal = document.getElementById('logoutConfirmModal');
+    const successModal = document.getElementById('logoutSuccessModal');
+    const failedModal = document.getElementById('logoutFailedModal');
+
+    const cancelLogout = document.getElementById('cancelLogout');
+    const confirmLogout = document.getElementById('confirmLogout');
+    const closeSuccessModal = document.getElementById('closeSuccessModal');
+    const closeFailedModal = document.getElementById('closeFailedModal');
+
+    // === 1. Saat tombol logout di sidebar diklik → buka modal konfirmasi ===
+    logoutForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        confirmModal.classList.remove('hidden');
+        confirmModal.classList.add('flex');
+    });
+
+    // === 2. Batal logout ===
+    cancelLogout.addEventListener('click', function() {
+        confirmModal.classList.add('hidden');
+        confirmModal.classList.remove('flex');
+    });
+
+    // === 3. Konfirmasi logout ===
+    confirmLogout.addEventListener('click', async function() {
+        confirmModal.classList.add('hidden');
+        confirmModal.classList.remove('flex');
+
+        const token = localStorage.getItem('token');
+
+        try {
+            const response = await fetch("http://localhost:8001/api/logout", {
+                method: "POST",
+                headers: {
+                    "Authorization": "Bearer " + token,
+                    "Accept": "application/json"
+                }
+            });
+
+            if (response.ok) {
+                successModal.classList.remove('hidden');
+                successModal.classList.add('flex');
+            } else {
+                failedModal.classList.remove('hidden');
+                failedModal.classList.add('flex');
+            }
+
+        } catch (err) {
+            console.error(err);
+
+            failedModal.classList.remove('hidden');
+            failedModal.classList.add('flex');
+        }
+    });
+
+    // === 4. Tutup modal sukses → redirect ke HOME ===
+    closeSuccessModal.addEventListener('click', function() {
+        window.location.href = "{{ route('home') }}";
+    });
+
+    // === 5. Tutup modal gagal ===
+    closeFailedModal.addEventListener('click', function() {
+        failedModal.classList.add('hidden');
+        failedModal.classList.remove('flex');
+    });
+
+});
+
 </script>
 
 </body>

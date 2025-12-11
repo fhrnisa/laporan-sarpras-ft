@@ -96,7 +96,6 @@
 
 
 <!-- MODAL LIMIT ACCESS -->
-<!-- MODAL LIMIT ACCESS -->
 <div id="limitModal" class="hidden fixed inset-0 justify-center items-center bg-black/50 backdrop-blur-sm">
     <div class="bg-white p-6 rounded-2xl text-center max-w-md mx-4 space-y-4">
         <h2 class="text-[#002D56] font-bold text-lg lg:text-2xl">
