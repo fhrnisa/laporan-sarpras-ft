@@ -27,55 +27,59 @@
 </head>
 
 <body class="bg-white">
-    
+
 <div class="flex min-h-screen">
 
     <!-- SIDEBAR -->
     <aside id="sidebar"
         class="fixed top-0 left-0 h-screen bg-[#002C5F] text-white p-4 flex flex-col transition-all duration-300 w-64">
-        
+
         <!-- HEADER SIDEBAR -->
-        <div class="relative mb-8 pt-4 px-2">
+        <div class="mb-6 mt-2">
 
             <!-- Logo Expanded (visible saat sidebar expanded) -->
             <div id="logo-expanded" class="flex items-center justify-between transition-opacity duration-300">
-                <img src="{{ asset('img/unnes-horizontal-white.webp') }}" 
+                <img src="{{ asset('img/unnes-horizontal-white.webp') }}"
                      class="h-10"
                      alt="Logo Unnes">
-                
+
                 <!-- Collapse Button -->
                 <button id="btn-collapse" class="p-1 hover:bg-white/10 rounded-full">
-                    <img src="{{ asset('icon/arrow-circle-left.svg') }}" 
-                         class="h-8 w-8" 
-                         alt="Collapse">
+                <svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19.9999 3.33337C10.8166 3.33337 3.33325 10.8167 3.33325 20C3.33325 29.1834 10.8166 36.6667 19.9999 36.6667C29.1833 36.6667 36.6666 29.1834 36.6666 20C36.6666 10.8167 29.1833 3.33337 19.9999 3.33337ZM22.9833 25C23.4666 25.4834 23.4666 26.2834 22.9833 26.7667C22.7333 27.0167 22.4166 27.1334 22.0999 27.1334C21.7833 27.1334 21.4666 27.0167 21.2166 26.7667L15.3333 20.8834C14.8499 20.4 14.8499 19.6 15.3333 19.1167L21.2166 13.2334C21.6999 12.75 22.4999 12.75 22.9833 13.2334C23.4666 13.7167 23.4666 14.5167 22.9833 15L17.9833 20L22.9833 25Z" fill="#FED43E"/>
+                </svg>
                 </button>
             </div>
 
             <!-- Logo Collapsed (hidden saat expanded) -->
             <div id="logo-collapsed" class="hidden items-center justify-center">
-                <img src="{{ asset('img/unnes-logo-white.webp') }}" 
-                     class="h-10" 
-                     alt="Logo Unnes">
-                
-                <!-- Expand Button -->
-                <button id="btn-expand" class="absolute right-2 p-1 hover:bg-white/10 rounded-full hidden">
-                    <img src="{{ asset('icon/arrow-circle-right.svg') }}" 
-                         class="h-8 w-8" 
-                         alt="Expand">
-                </button>
+                <div class="relative flex items-center justify-center w-full">
+                    <!-- Logo collapsed centered -->
+                    <img src="{{ asset('img/unnes-logo-white.webp') }}"
+                         class="h-10"
+                         alt="Logo Unnes">
+
+                    <!-- Expand Button - positioned absolutely to the right -->
+                    <button id="btn-expand" class="absolute -right-8 hover:bg-white/10 rounded-full hidden">
+                    <svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 0C8.98 0 0 8.98 0 20C0 31.02 8.98 40 20 40C31.02 40 40 31.02 40 20C40 8.98 31.02 0 20 0ZM25.58 21.06L18.52 28.12C18.22 28.42 17.84 28.56 17.46 28.56C17.08 28.56 16.7 28.42 16.4 28.12C15.82 27.54 15.82 26.58 16.4 26L22.4 20L16.4 14C15.82 13.42 15.82 12.46 16.4 11.88C16.98 11.3 17.94 11.3 18.52 11.88L25.58 18.94C26.18 19.52 26.18 20.48 25.58 21.06Z" fill="#FED43E"/>
+                    <path d="M18.5201 28.1199L25.5801 21.0599C26.1801 20.4799 26.1801 19.5199 25.5801 18.9399L18.5201 11.8799C17.9401 11.2999 16.9801 11.2999 16.4001 11.8799C15.8201 12.4599 15.8201 13.4199 16.4001 13.9999L22.4001 19.9999L16.4001 25.9999C15.8201 26.5799 15.8201 27.5399 16.4001 28.1199C16.7001 28.4199 17.0801 28.5599 17.4601 28.5599C17.8401 28.5599 18.2201 28.4199 18.5201 28.1199Z" fill="white"/>
+                    </svg>
+                    </button>
+                </div>
             </div>
         </div>
 
         <!-- MENU NAVIGATION -->
-        <nav class="flex-1 flex flex-col gap-2 px-2">
+        <nav class="flex-1 flex flex-col gap-2">
             <!-- Dashboard -->
             @php $active  = request()->routeIs('admin.dashboard'); @endphp
-            <a href="{{ route('admin.dashboard') }}" 
+            <a href="{{ route('admin.dashboard') }}"
                class="sidebar-item flex items-center gap-3 p-3 rounded-lg transition-all
                {{ $active ? 'bg-white text-[#002C5F]' : 'text-white hover:bg-white/20' }}">
                     <!-- Icon -->
-                    <svg class="sidebar-icon h-6 w-6 
-                        {{ $active ? 'stroke-[#002C5F]' : 'stroke-white' }}" 
+                    <svg class="sidebar-icon h-6 w-6
+                        {{ $active ? 'stroke-[#002C5F]' : 'stroke-white' }}"
                         fill="none" stroke-width="1.5" viewBox="0 0 24 24">
                         <path d="M12 18V15" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M10.0698 2.82L3.13978 8.37C2.35978 8.99 1.85978 10.3 2.02978 11.28L3.35978 19.24C3.59978 20.66 4.95978 21.81 6.39978 21.81H17.5998C19.0298 21.81 20.3998 20.65 20.6398 19.24L21.9698 11.28C22.1298 10.3 21.6298 8.99 20.8598 8.37L13.9298 2.83C12.8598 1.97 11.1298 1.97 10.0698 2.82Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
@@ -86,16 +90,16 @@
 
             <!-- Laporan -->
             @php $active  = request()->routeIs('admin.laporan'); @endphp
-            <a href="{{ route('admin.laporan') }}" 
+            <a href="{{ route('admin.laporan') }}"
                class="sidebar-item flex items-center gap-3 p-3 rounded-lg transition-all
                {{ $active ? 'bg-white text-[#002C5F]' : 'text-white hover:bg-white/20' }}">
                     <!-- Icon -->
                     <svg class="sidebar-icon h-6 w-6
-                        {{ $active ? 'stroke-[#002C5F]' : 'stroke-white' }}" 
+                        {{ $active ? 'stroke-[#002C5F]' : 'stroke-white' }}"
                         fill="currentColor" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M19.77 11.25H15.73C13.72 11.25 12.75 10.36 12.75 8.52V3.98C12.75 2.14 13.73 1.25 15.73 1.25H19.77C21.78 1.25 22.75 2.14 22.75 3.98V8.51C22.75 10.36 21.77 11.25 19.77 11.25ZM15.73 2.75C14.39 2.75 14.25 3.13 14.25 3.98V8.51C14.25 9.37 14.39 9.74 15.73 9.74H19.77C21.11 9.74 21.25 9.36 21.25 8.51V3.98C21.25 3.12 21.11 2.75 19.77 2.75H15.73Z" 
+                        <path d="M19.77 11.25H15.73C13.72 11.25 12.75 10.36 12.75 8.52V3.98C12.75 2.14 13.73 1.25 15.73 1.25H19.77C21.78 1.25 22.75 2.14 22.75 3.98V8.51C22.75 10.36 21.77 11.25 19.77 11.25ZM15.73 2.75C14.39 2.75 14.25 3.13 14.25 3.98V8.51C14.25 9.37 14.39 9.74 15.73 9.74H19.77C21.11 9.74 21.25 9.36 21.25 8.51V3.98C21.25 3.12 21.11 2.75 19.77 2.75H15.73Z"
                             stroke="none" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M19.77 22.75H15.73C13.72 22.75 12.75 21.77 12.75 19.77V15.73C12.75 13.72 13.73 12.75 15.73 12.75H19.77C21.78 12.75 22.75 13.73 22.75 15.73V19.77C22.75 21.77 21.77 22.75 19.77 22.75ZM15.73 14.25C14.55 14.25 14.25 14.55 14.25 15.73V19.77C14.25 20.95 14.55 21.25 15.73 21.25H19.77C20.95 21.25 21.25 20.95 21.25 19.77V15.73C21.25 14.55 20.95 14.25 19.77 14.25H15.73Z" 
+                        <path d="M19.77 22.75H15.73C13.72 22.75 12.75 21.77 12.75 19.77V15.73C12.75 13.72 13.73 12.75 15.73 12.75H19.77C21.78 12.75 22.75 13.73 22.75 15.73V19.77C22.75 21.77 21.77 22.75 19.77 22.75ZM15.73 14.25C14.55 14.25 14.25 14.55 14.25 15.73V19.77C14.25 20.95 14.55 21.25 15.73 21.25H19.77C20.95 21.25 21.25 20.95 21.25 19.77V15.73C21.25 14.55 20.95 14.25 19.77 14.25H15.73Z"
                             stroke="none" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M8.27 11.25H4.23C2.22 11.25 1.25 10.36 1.25 8.52V3.98C1.25 2.14 2.23 1.25 4.23 1.25H8.27C10.28 1.25 11.25 2.14 11.25 3.98V8.51C11.25 10.36 10.27 11.25 8.27 11.25ZM4.23 2.75C2.89 2.75 2.75 3.13 2.75 3.98V8.51C2.75 9.37 2.89 9.74 4.23 9.74H8.27C9.61 9.74 9.75 9.36 9.75 8.51V3.98C9.75 3.12 9.61 2.75 8.27 2.75H4.23Z"
                             stroke="none" stroke-linecap="round" stroke-linejoin="round"/>
@@ -108,14 +112,14 @@
 
             <!-- Kontrol Admin -->
             @php $active  = request()->routeIs('admin.kontrol-admin'); @endphp
-            <a href="{{ route('admin.kontrol-admin') }}" 
+            <a href="{{ route('admin.kontrol-admin') }}"
                 class="sidebar-item flex items-center gap-3 p-3 rounded-lg transition-all
                 {{ $active ? 'bg-white text-[#002C5F]' : 'text-white hover:bg-white/20' }}">
 
                 <svg class="sidebar-icon h-6 w-6
-                    {{ $active ? 'stroke-[#002C5F]' : 'stroke-white' }}" 
+                    {{ $active ? 'stroke-[#002C5F]' : 'stroke-white' }}"
                     fill="currentColor" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M17.9998 7.91002C17.9698 7.91002 17.9498 7.91002 17.9198 7.91002H17.8698C15.9798 7.85002 14.5698 6.39001 14.5698 4.59001C14.5698 2.75001 16.0698 1.26001 17.8998 1.26001C19.7298 1.26001 21.2298 2.76001 21.2298 4.59001C21.2198 6.40001 19.8098 7.86001 18.0098 7.92001C18.0098 7.91001 18.0098 7.91002 17.9998 7.91002ZM17.8998 2.75002C16.8898 2.75002 16.0698 3.57002 16.0698 4.58002C16.0698 5.57002 16.8398 6.37002 17.8298 6.41002C17.8398 6.40002 17.9198 6.40002 18.0098 6.41002C18.9798 6.36002 19.7298 5.56002 19.7398 4.58002C19.7398 3.57002 18.9198 2.75002 17.8998 2.75002Z" 
+                    <path d="M17.9998 7.91002C17.9698 7.91002 17.9498 7.91002 17.9198 7.91002H17.8698C15.9798 7.85002 14.5698 6.39001 14.5698 4.59001C14.5698 2.75001 16.0698 1.26001 17.8998 1.26001C19.7298 1.26001 21.2298 2.76001 21.2298 4.59001C21.2198 6.40001 19.8098 7.86001 18.0098 7.92001C18.0098 7.91001 18.0098 7.91002 17.9998 7.91002ZM17.8998 2.75002C16.8898 2.75002 16.0698 3.57002 16.0698 4.58002C16.0698 5.57002 16.8398 6.37002 17.8298 6.41002C17.8398 6.40002 17.9198 6.40002 18.0098 6.41002C18.9798 6.36002 19.7298 5.56002 19.7398 4.58002C19.7398 3.57002 18.9198 2.75002 17.8998 2.75002Z"
                             stroke="none" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M18.01 15.28C17.62 15.28 17.23 15.25 16.84 15.18C16.43 15.11 16.16 14.72 16.23 14.31C16.3 13.9 16.69 13.63 17.1 13.7C18.33 13.91 19.63 13.68 20.5 13.1C20.97 12.79 21.22 12.4 21.22 12.01C21.22 11.62 20.96 11.24 20.5 10.93C19.63 10.35 18.31 10.12 17.07 10.34C16.66 10.42 16.27 10.14 16.2 9.73002C16.13 9.32002 16.4 8.93003 16.81 8.86003C18.44 8.57003 20.13 8.88002 21.33 9.68002C22.21 10.27 22.72 11.11 22.72 12.01C22.72 12.9 22.22 13.75 21.33 14.35C20.42 14.95 19.24 15.28 18.01 15.28Z"
                             stroke="none" stroke-linecap="round" stroke-linejoin="round"/>
@@ -134,12 +138,12 @@
 
             <!-- Arsip -->
             @php $active  = request()->routeIs('admin.arsip'); @endphp
-            <a href="{{ route('admin.arsip') }}" 
+            <a href="{{ route('admin.arsip') }}"
                class="sidebar-item flex items-center gap-3 p-3 rounded-lg transition-all
                 {{ $active ? 'bg-white text-[#002C5F]' : 'text-white hover:bg-white/20' }}">
 
                 <svg class="sidebar-icon h-6 w-6
-                    {{ $active ? 'stroke-[#002C5F]' : 'stroke-white' }}" 
+                    {{ $active ? 'stroke-[#002C5F]' : 'stroke-white' }}"
                     fill="currentColor" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M16 22.75H8C4.35 22.75 2.25 20.65 2.25 17V7C2.25 3.35 4.35 1.25 8 1.25H16C19.65 1.25 21.75 3.35 21.75 7V17C21.75 20.65 19.65 22.75 16 22.75ZM8 2.75C5.14 2.75 3.75 4.14 3.75 7V17C3.75 19.86 5.14 21.25 8 21.25H16C18.86 21.25 20.25 19.86 20.25 17V7C20.25 4.14 18.86 2.75 16 2.75H8Z"
                             stroke="none" stroke-linecap="round" stroke-linejoin="round"/>
@@ -156,11 +160,11 @@
         </nav>
 
         <!-- LOGOUT -->
-        <div class="mt-auto px-2 py-4">
-            <a href="#" 
+        <div class="mt-auto">
+            <a href="#"
                class="sidebar-item flex items-center gap-3 p-3 rounded-lg text-white hover:bg-white/20">
-                <img src="{{ asset('icon/logout-icon.svg') }}" 
-                     class="sidebar-icon h-6 w-6" 
+                <img src="{{ asset('icon/logout-icon.svg') }}"
+                     class="sidebar-icon h-6 w-6"
                      alt="Logout">
                 <span class="sidebar-text">Logout</span>
             </a>
@@ -173,7 +177,7 @@
         @include('admin.components.topbar')
         @yield('content')
     </main>
-    
+
 </div>
 
 <!-- SCRIPT COLLAPSE -->
@@ -241,7 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function collapseSidebar(save = true) {
         isCollapsed = true;
         applyCollapsedUI();
-        
+
         // Simpan state jika collapse manual
         if (save) localStorage.setItem('sidebarCollapsed', 'true');
     }
@@ -274,7 +278,6 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', handleResize);
 });
 </script>
-
 
 </body>
 </html>
