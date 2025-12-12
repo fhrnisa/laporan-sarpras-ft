@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\DashboardController;
 
 Route::view('/', 'index')->name('home');
 
@@ -10,9 +11,8 @@ Route::get('/auth/login', function () {
 })->name('auth.login');
 
 // Route admin dashboard
-Route::get('/admin/dashboard', function () {
-    return view('admin.dashboard');
-})->name('admin.dashboard');
+Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+Route::get('/admin/dashboard/filter', [DashboardController::class, 'dashboardFilter'])->name('admin.dashboard.filter');
 
 // Menuju Halaman Laporan Admin
 Route::get('/admin/laporan', function () {

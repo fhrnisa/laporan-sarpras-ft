@@ -3,10 +3,8 @@
 @section('title', 'Dashboard')
 
 @section('content')
-
     <!-- SUMMARY CARDS -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-7">
-
         <!-- Card Laporan Masuk -->
         <div class="bg-[#C5CAFF] p-4 rounded-lg">
             <svg width="41" height="41" viewBox="0 0 41 41" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -17,10 +15,9 @@
                 <path d="M13.5 20.5V16.5C13.5 14.49 13.5 12.83 16.5 12.54" stroke="#002C55" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M27.5 20.5V16.5C27.5 14.49 27.5 12.83 24.5 12.54" stroke="#002C55" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-
             <h2 class="font-semibold text-lg text-[#002C55] mt-3">Laporan Masuk</h2>
             <div class="flex items-center gap-2 mt-2">
-                <p class="text-5xl font-bold text-[#002C55]">32</p>
+                <p class="text-5xl font-bold text-[#002C55]">{{ $totalLaporan }}</p>
                 <span class="text-lg text-[#002C55] mt-1">Laporan</span>
             </div>
         </div>
@@ -32,10 +29,9 @@
                 <path d="M30.5 20.5C30.5 26.02 26.02 30.5 20.5 30.5C14.98 30.5 10.5 26.02 10.5 20.5C10.5 14.98 14.98 10.5 20.5 10.5C26.02 10.5 30.5 14.98 30.5 20.5Z" stroke="#002C55" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M24.2099 23.68L21.1099 21.83C20.5699 21.51 20.1299 20.74 20.1299 20.11V16.01" stroke="#002C55" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-
             <h2 class="font-semibold text-lg text-[#002C55] mt-3">Laporan Menunggu</h2>
             <div class="flex items-center gap-2 mt-2">
-                <p class="text-5xl font-bold text-[#002C55]">12</p>
+                <p class="text-5xl font-bold text-[#002C55]">{{ $laporanMenunggu }}</p>
                 <span class="text-lg text-[#002C55] mt-1">Laporan</span>
             </div>
         </div>
@@ -49,10 +45,9 @@
                 <path d="M20.4951 25.068V23.8045" stroke="#002C55" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M11.25 16.9741V20.3595C13.168 21.5947 15.466 22.4598 17.988 22.8026C18.29 21.7275 19.283 20.9395 20.49 20.9395C21.678 20.9395 22.691 21.7275 22.973 22.8123C25.505 22.4696 27.812 21.6045 29.74 20.3595V16.9741C29.74 15.32 28.377 13.9882 26.683 13.9882H14.317C12.623 13.9882 11.25 15.32 11.25 16.9741Z" stroke="#002C55" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-
             <h2 class="font-semibold text-lg text-[#002C55] mt-3">Laporan Diproses</h2>
             <div class="flex items-center gap-2 mt-2">
-                <p class="text-5xl font-bold text-[#002C55]">9</p>
+                <p class="text-5xl font-bold text-[#002C55]">{{ $laporanDiproses }}</p>
                 <span class="text-lg text-[#002C55] mt-1">Laporan</span>
             </div>
         </div>
@@ -63,86 +58,75 @@
                 <rect x="0.5" y="0.5" width="40" height="40" rx="20" stroke="#002C55"/>
                 <path d="M28.5 14.5L17.5 25.5L12.5 20.5" stroke="#002C55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-
             <h2 class="font-semibold text-lg text-[#002C55] mt-3">Laporan Terselesaikan</h2>
             <div class="flex items-center gap-2 mt-2">
-                <p class="text-5xl font-bold text-[#002C55]">11</p>
+                <p class="text-5xl font-bold text-[#002C55]">{{ $laporanSelesai }}</p>
                 <span class="text-lg text-[#002C55] mt-1">Laporan</span>
             </div>
         </div>
-
     </div>
 
+    <!-- GRAFIK LAPORAN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <div class="bg-white border border-[#DDDDDD] rounded-xl p-6 w-full mb-8">
+        <h2 class="text-2xl text-[#002C55] font-semibold mb-6">Grafik Laporan</h2>
 
- <!-- GRAFIK LAPORAN -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<div class="bg-white border border-[#DDDDDD] rounded-xl p-6 w-full mb-8">
-    <h2 class="text-2xl text-[#002C55] font-semibold mb-6">Grafik Laporan</h2>
-
-    <!-- Filter Section -->
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-3">
-        <!-- Filter Status -->
-        <div class="flex items-center gap-3">
-            <span class="text-[#002C55]">Status</span>
-            <select id="filterStatus" class="border border-[#DDDDDD] rounded-lg text-sm text-[#002C55] py-2 px-3 w-40 focus:outline-none focus:ring-1 focus:ring-[#002C55] focus:border-[#002C55]">
-                <option value="all">Semua Status</option>
-                <option value="menunggu">Menunggu</option>
-                <option value="diproses">Diproses</option>
-                <option value="terselesaikan">Terselesaikan</option>
-                <option value="ditolak">Ditolak</option>
-            </select>
-        </div>
-
-        <!-- Filter Tanggal -->
-        <div class="flex items-center gap-3">
-            <span class="text-[#002C55]">Tanggal</span>
-            <select id="filterTanggal" class="border border-gray-300 rounded-lg text-sm py-2 px-3 w-40 focus:outline-none focus:ring-1 focus:ring-[#002C55] focus:border-[#002C55]">
-                <option value="7hari">7 Hari Terakhir</option>
-                <option value="30hari">30 Hari Terakhir</option>
-                <option value="bulan">Bulan Ini</option>
-            </select>
-        </div>
-
-        <div class="flex gap-5">
-            <div class="flex gap-2 items-center">
-                <div class="flex w-4 h-4 rounded-full bg-[#E1E7E9]"></div>
-                <span class="text-gray-800">Menunggu</span>
+        <!-- Filter Section -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-3">
+            <!-- Filter Status -->
+            <div class="flex items-center gap-3">
+                <span class="text-[#002C55]">Status</span>
+                <select id="filterStatus" class="border border-[#DDDDDD] rounded-lg text-sm text-[#002C55] py-2 px-3 w-40 focus:outline-none focus:ring-1 focus:ring-[#002C55] focus:border-[#002C55]">
+                    <option value="all">Semua Status</option>
+                    <option value="menunggu">Menunggu</option>
+                    <option value="diproses">Diproses</option>
+                    <option value="terselesaikan">Terselesaikan</option>
+                    <option value="ditolak">Ditolak</option>
+                </select>
             </div>
 
-            <div class="flex gap-2 items-center">
-                <div class="flex w-4 h-4 rounded-full bg-[#FEEF94]"></div>
-                <span class="text-gray-800">Diproses</span>
+            <!-- Filter Tanggal -->
+            <div class="flex items-center gap-3">
+                <span class="text-[#002C55]">Tanggal</span>
+                <select id="filterTanggal" class="border border-gray-300 rounded-lg text-sm py-2 px-3 w-40 focus:outline-none focus:ring-1 focus:ring-[#002C55] focus:border-[#002C55]">
+                    <option value="7hari">7 Hari Terakhir</option>
+                    <option value="30hari">30 Hari Terakhir</option>
+                    <option value="bulan">Bulan Ini</option>
+                </select>
             </div>
 
-            <div class="flex gap-2 items-center">
-                <div class="flex w-4 h-4 rounded-full bg-[#A0F1B5]"></div>
-                <span class="text-gray-800">Terselesaikan</span>
-            </div>
-
-            <div class="flex gap-2 items-center">
-                <div class="flex w-4 h-4 rounded-full bg-[#FF7A7E]"></div>
-                <span class="text-gray-800">Ditolak</span>
+            <div class="flex flex-wrap gap-5">
+                <div class="flex gap-2 items-center">
+                    <div class="flex w-4 h-4 rounded-full bg-[#E1E7E9]"></div>
+                    <span class="text-gray-800">Menunggu</span>
+                </div>
+                <div class="flex gap-2 items-center">
+                    <div class="flex w-4 h-4 rounded-full bg-[#FEEF94]"></div>
+                    <span class="text-gray-800">Diproses</span>
+                </div>
+                <div class="flex gap-2 items-center">
+                    <div class="flex w-4 h-4 rounded-full bg-[#A0F1B5]"></div>
+                    <span class="text-gray-800">Terselesaikan</span>
+                </div>
+                <div class="flex gap-2 items-center">
+                    <div class="flex w-4 h-4 rounded-full bg-[#FF7A7E]"></div>
+                    <span class="text-gray-800">Ditolak</span>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Chart Container -->
-    <div class="flex flex-col gap-8">
-
-        <!-- Chart -->
+        <!-- Chart Container -->
         <div class="w-full">
             <div class="relative h-[350px]">
                 <canvas id="statusChart"></canvas>
             </div>
         </div>
     </div>
-</div>
 
-    <!--  -->
+    <!-- BUG REPORT -->
     <div class="flex bg-[#FED43E] rounded-lg items-center justify-between p-6">
         <h2 class="text-2xl text-[#002C55] font-semibold">Menemukan bug?</h2>
-        <a href="#" class="bg-[#002C55] rounded-lg flex text-white py-2 px-4 gap-2">
+        <a href="#" class="bg-[#002C55] rounded-lg flex text-white py-2 px-4 gap-2 items-center">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M13.2633 5.43908L5.05327 14.1291C4.74327 14.4591 4.44327 15.1091 4.38327 15.5591L4.01327 18.7991C3.88327 19.9691 4.72327 20.7691 5.88327 20.5691L9.10327 20.0191C9.55327 19.9391 10.1833 19.6091 10.4933 19.2691L18.7033 10.5791C20.1233 9.07908 20.7633 7.36908 18.5533 5.27908C16.3533 3.20908 14.6833 3.93908 13.2633 5.43908Z" stroke="white" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M11.8931 6.8891C12.3231 9.6491 14.5631 11.7591 17.3431 12.0391" stroke="white" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
@@ -152,70 +136,60 @@
     </div>
 
 <script>
-
-const token = localStorage.getItem("token");
-
-const response = await fetch("http://localhost:8001/api/laporan", {
-    headers: {
-        "Authorization": "Bearer " + token,
-        "Accept": "application/json"
-    }
-});
-
 document.addEventListener("DOMContentLoaded", function () {
     const ctx = document.getElementById('statusChart').getContext('2d');
 
-    // Data dummy sesuai gambar
+    // Data dari controller (dari API BE)
     const chartData = {
-        labels: ['30 Nov', '1 Des', '2 Des', '3 Des', '4 Des', '5 Des'],
+        labels: @json($chartData['labels']),
         datasets: [
             {
                 label: 'Menunggu',
-                data: [6, 3, 10, 5, 4, 6],
+                data: @json($chartData['menunggu']),
                 backgroundColor: '#E1E7E9',
-                borderRadius: 4,
-                borderSkipped: false,
-                categoryPercentage: 0.7,
-                barPercentage: 0.9
+                borderColor: '#E1E7E9',
+                borderWidth: 1,
+                barPercentage: 0.8,
+                categoryPercentage: 0.8
             },
             {
                 label: 'Diproses',
-                data: [16, 10, 7, 20, 17, 18],
+                data: @json($chartData['diproses']),
                 backgroundColor: '#FEEF94',
-                borderRadius: 4,
-                borderSkipped: false,
-                categoryPercentage: 0.7,
-                barPercentage: 0.9
+                borderColor: '#FEEF94',
+                borderWidth: 1,
+                barPercentage: 0.8,
+                categoryPercentage: 0.8
             },
             {
                 label: 'Terselesaikan',
-                data: [11, 15, 17, 20, 15, 11],
+                data: @json($chartData['terselesaikan']),
                 backgroundColor: '#A0F1B5',
-                borderRadius: 4,
-                borderSkipped: false,
-                categoryPercentage: 0.7,
-                barPercentage: 0.9
+                borderColor: '#A0F1B5',
+                borderWidth: 1,
+                barPercentage: 0.8,
+                categoryPercentage: 0.8
             },
             {
                 label: 'Ditolak',
-                data: [0, 3, 8, 5, 7, 1],
+                data: @json($chartData['ditolak']),
                 backgroundColor: '#FF7A7E',
-                borderRadius: 4,
-                borderSkipped: false,
-                categoryPercentage: 0.7,
-                barPercentage: 0.9
+                borderColor: '#FF7A7E',
+                borderWidth: 1,
+                barPercentage: 0.8,
+                categoryPercentage: 0.8
             }
         ]
     };
 
-    // Inisialisasi Chart
+    // Inisialisasi Chart dengan konfigurasi lengkap
     const laporanChart = new Chart(ctx, {
         type: 'bar',
         data: chartData,
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            devicePixelRatio: window.devicePixelRatio,
+            devicePixelRatio: window.devicePixelRatio || 1,
             interaction: {
                 intersect: false,
                 mode: 'index',
@@ -231,7 +205,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         font: {
                             size: 12
                         }
-                    }
+                    },
+                    stacked: false
                 },
                 y: {
                     beginAtZero: true,
@@ -241,7 +216,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     },
                     ticks: {
                         color: '#666',
-                        stepSize: 5,
+                        stepSize: 1,
                         callback: function(value) {
                             return value;
                         },
@@ -260,25 +235,23 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 tooltip: {
                     backgroundColor: '#FFFFFF',
-                    titleColor: '#022C55',
-                    bodyColor: '#022C55',
+                    titleColor: '#002C55',
+                    bodyColor: '#002C55',
                     borderColor: '#DDDDDD',
                     borderWidth: 1,
                     padding: 12,
                     cornerRadius: 6,
-
                     displayColors: true,
                     usePointStyle: true,
                     pointStyle: 'circle',
-                     boxWidth: 10,
+                    boxWidth: 10,
                     boxHeight: 10,
-
                     titleFont: {
-                        size: 16,
+                        size: 14,
                         weight: '600'
                     },
                     bodyFont: {
-                        size: 14,
+                        size: 13,
                         weight: '500',
                     },
                     callbacks: {
@@ -290,7 +263,16 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             layout: {
                 padding: {
-                    top: 20
+                    top: 20,
+                    right: 10,
+                    bottom: 10,
+                    left: 10
+                }
+            },
+            elements: {
+                bar: {
+                    borderRadius: 4,
+                    borderSkipped: false,
                 }
             }
         }
@@ -311,16 +293,16 @@ document.addEventListener("DOMContentLoaded", function () {
             totals[status] = dataset.data.reduce((a, b) => a + b, 0);
         });
 
-        // Update HTML
-        document.querySelectorAll('.status-legend').forEach(legend => {
-            const status = legend.dataset.status;
-            const countSpan = legend.querySelector('.ml-auto');
-            countSpan.textContent = totals[status];
-        });
-
         // Update total laporan
         const totalAll = Object.values(totals).reduce((a, b) => a + b, 0);
-        document.querySelector('.text-2xl.font-bold.text-\\[\\#002C55\\]').textContent = totalAll;
+
+        // Jika ada data dari API, update summary cards
+        if (totalAll > 0) {
+            document.querySelector('.bg-\\[\\#C5CAFF\\] .text-5xl').textContent = totalAll;
+            document.querySelector('.bg-\\[\\#E1E7E9\\] .text-5xl').textContent = totals.menunggu;
+            document.querySelector('.bg-\\[\\#FEEF94\\] .text-5xl').textContent = totals.diproses;
+            document.querySelector('.bg-\\[\\#A0F1B5\\] .text-5xl').textContent = totals.terselesaikan;
+        }
     }
 
     // Inisialisasi total
@@ -328,84 +310,73 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Event Listeners untuk Filter
     document.getElementById('filterStatus').addEventListener('change', function(e) {
-        console.log('Filter Status:', e.target.value);
-        // Implement filter logic here
-        // For demo, we'll just show a message
-        if (e.target.value !== 'all') {
-            alert(`Filter status "${e.target.value}" diterapkan. (Fitur filter akan diimplementasikan dengan data real)`);
-        }
+        filterChart();
     });
 
     document.getElementById('filterTanggal').addEventListener('change', function(e) {
-        console.log('Filter Tanggal:', e.target.value);
-        // Implement date filter logic here
-        // For demo, we'll just show a message
-        alert(`Filter tanggal "${e.target.value}" diterapkan. (Fitur filter akan diimplementasikan dengan data real)`);
+        filterChart();
     });
 
-    document.getElementById('filterBulan').addEventListener('change', function(e) {
-        console.log('Filter Bulan:', e.target.value);
+    function filterChart() {
+        const status = document.getElementById('filterStatus').value;
+        const tanggal = document.getElementById('filterTanggal').value;
 
-        // Simulasi perubahan data berdasarkan bulan
-        const monthData = {
-            'nov': {
-                labels: ['24 Nov', '25 Nov', '26 Nov', '27 Nov', '28 Nov', '29 Nov', '30 Nov'],
-                menunggu: [5, 4, 6, 3, 7, 5, 6],
-                diproses: [12, 15, 10, 14, 11, 13, 16],
-                terselesaikan: [10, 12, 9, 11, 13, 10, 11],
-                ditolak: [1, 2, 1, 0, 2, 1, 0]
-            },
-            'des': {
-                labels: ['30 Nov', '1 Des', '2 Des', '3 Des', '4 Des', '5 Des'],
-                menunggu: [6, 3, 10, 5, 4, 6],
-                diproses: [16, 10, 7, 20, 17, 18],
-                terselesaikan: [11, 15, 17, 20, 15, 11],
-                ditolak: [0, 3, 8, 5, 7, 1]
-            },
-            'jan': {
-                labels: ['1 Jan', '2 Jan', '3 Jan', '4 Jan', '5 Jan', '6 Jan', '7 Jan'],
-                menunggu: [4, 5, 3, 6, 4, 5, 3],
-                diproses: [14, 12, 15, 11, 13, 14, 12],
-                terselesaikan: [12, 10, 13, 11, 14, 12, 13],
-                ditolak: [2, 1, 0, 2, 1, 0, 2]
-            }
-        };
+        // Kirim request AJAX untuk filter
+        fetch(`/admin/dashboard/filter?status=${status}&tanggal=${tanggal}`)
+            .then(response => response.json())
+            .then(data => {
+                // Update chart data
+                laporanChart.data.labels = data.labels;
+                laporanChart.data.datasets[0].data = data.datasets.menunggu;
+                laporanChart.data.datasets[1].data = data.datasets.diproses;
+                laporanChart.data.datasets[2].data = data.datasets.terselesaikan;
+                laporanChart.data.datasets[3].data = data.datasets.ditolak;
 
-        const selectedMonth = e.target.value;
-        const data = monthData[selectedMonth];
-
-        if (data) {
-            // Update chart data
-            laporanChart.data.labels = data.labels;
-            laporanChart.data.datasets[0].data = data.menunggu;
-            laporanChart.data.datasets[1].data = data.diproses;
-            laporanChart.data.datasets[2].data = data.terselesaikan;
-            laporanChart.data.datasets[3].data = data.ditolak;
-
-            // Update chart
-            laporanChart.update();
-
-            // Update totals
-            updateStatusTotals();
-        }
-    });
-
-    // Event Listeners untuk Legend (toggle visibility dataset)
-    document.querySelectorAll('.status-legend').forEach(legend => {
-        legend.addEventListener('click', function() {
-            const status = this.dataset.status;
-            const datasetIndex = chartData.datasets.findIndex(ds => ds.label.toLowerCase() === status);
-
-            if (datasetIndex !== -1) {
-                const meta = laporanChart.getDatasetMeta(datasetIndex);
-                meta.hidden = meta.hidden === null ? true : !meta.hidden;
                 laporanChart.update();
 
-                // Toggle visual state legend
-                this.classList.toggle('opacity-50');
-                this.classList.toggle('bg-gray-100');
-            }
+                // Update summary cards jika ada data baru
+                if (data.summary) {
+                    document.querySelector('.bg-\\[\\#C5CAFF\\] .text-5xl').textContent = data.summary.total;
+                    document.querySelector('.bg-\\[\\#E1E7E9\\] .text-5xl').textContent = data.summary.menunggu;
+                    document.querySelector('.bg-\\[\\#FEEF94\\] .text-5xl').textContent = data.summary.diproses;
+                    document.querySelector('.bg-\\[\\#A0F1B5\\] .text-5xl').textContent = data.summary.selesai;
+                }
+
+                // Update chartData untuk perhitungan totals
+                chartData.labels = data.labels;
+                chartData.datasets[0].data = data.datasets.menunggu;
+                chartData.datasets[1].data = data.datasets.diproses;
+                chartData.datasets[2].data = data.datasets.terselesaikan;
+                chartData.datasets[3].data = data.datasets.ditolak;
+
+                updateStatusTotals();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan saat memfilter data.');
+            });
+    }
+
+    // Event Listeners untuk Legend (toggle visibility dataset)
+    document.querySelectorAll('.flex.gap-2.items-center').forEach((legend, index) => {
+        legend.addEventListener('click', function() {
+            const datasetIndex = index;
+
+            const meta = laporanChart.getDatasetMeta(datasetIndex);
+            meta.hidden = meta.hidden === null ? true : !meta.hidden;
+            laporanChart.update();
+
+            // Toggle visual state legend
+            this.classList.toggle('opacity-50');
+            this.classList.toggle('bg-gray-100');
+
+            updateStatusTotals();
         });
+    });
+
+    // Responsive chart
+    window.addEventListener('resize', function() {
+        laporanChart.resize();
     });
 });
 </script>
@@ -414,12 +385,7 @@ document.addEventListener("DOMContentLoaded", function () {
 /* Custom styles untuk chart */
 #statusChart {
     width: 100% !important;
-    height: auto !important;
-}
-
-.status-legend.active {
-    background-color: #f3f4f6;
-    border-color: #3b82f6;
+    height: 100% !important;
 }
 
 /* Responsive adjustments */
@@ -427,6 +393,27 @@ document.addEventListener("DOMContentLoaded", function () {
     #statusChart {
         height: 250px !important;
     }
+
+    .flex-wrap.gap-5 {
+        gap: 10px !important;
+        flex-wrap: wrap !important;
+    }
+}
+
+/* Legend hover effect */
+.flex.gap-2.items-center {
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.flex.gap-2.items-center:hover {
+    background-color: #f3f4f6;
+}
+
+.flex.gap-2.items-center.opacity-50 {
+    opacity: 0.5;
 }
 </style>
 @endsection

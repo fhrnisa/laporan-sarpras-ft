@@ -48,7 +48,7 @@
                     <div>
                         <label class="block text-sm md:text-base font-semibold text-[#002D56] mb-1">Nama Pengusul</label>
                         <input type="text"
-                               name="pengusul"
+                               name="nama_pengusul"
                                placeholder="Gunakan nama lengkap"
                                class="w-full rounded-lg border border-[#DDDDDD] text-sm md:text-base px-3 py-3 focus:outline-none focus:ring-1 focus:ring-[#002D56]">
                     </div>
@@ -60,7 +60,7 @@
                         <div class="flex items-center rounded-lg border border-[#DDDDDD] overflow-hidden">
                             <span class="px-3 py-3 bg-gray-100 text-gray-700">+62</span>
                             <input type="text"
-                                   name="whatsapp"
+                                   name="nomor_telepon"
                                    placeholder="Contoh: 8123456789"
                                    class="flex-1 px-3 py-3 text-sm md:text-base focus:ring-[#002D56]">
                         </div>
@@ -70,7 +70,7 @@
                     <div>
                         <label class="block text-sm md:text-base font-semibold text-[#002D56] mb-1">Lokasi Kerusakan</label>
                         <input type="text"
-                               name="lokasi"
+                               name="lokasi_kerusakan"
                                placeholder="Deskripsi lokasi kerusakan"
                                class="w-full rounded-lg border border-[#DDDDDD] text-sm md:text-base px-3 py-3 focus:outline-none focus:ring-1 focus:ring-[#002D56]">
                     </div>
@@ -79,7 +79,7 @@
                     <div>
                         <label class="block text-sm md:text-base font-semibold text-[#002D56] mb-1">Kerusakan yang Dilaporkan</label>
                         <input type="text"
-                               name="kerusakan"
+                               name="deskripsi_kerusakan"
                                placeholder="Deskripsi kerusakan"
                                class="w-full rounded-lg border border-[#DDDDDD] text-sm md:text-base px-3 py-3 focus:outline-none focus:ring-1 focus:ring-[#002D56]">
                     </div>
@@ -98,10 +98,13 @@
                             <!-- Hidden Input -->
                             <input
                                 type="file"
-                                name="foto"
+                                name="foto_kerusakan"
                                 class="hidden"
                                 accept="image/*">
                         </label>
+
+                        <!-- PREVIEW -->
+                        <img id="previewImage" class="mt-3 rounded-lg hidden max-h-48 border" />
                     </div>
 
                     <!-- Submit Button -->
@@ -126,11 +129,17 @@
 document.getElementById('laporanForm').addEventListener('submit', async function(e) {
     e.preventDefault();
 
-    const formData = new FormData(this);
+    const formData = new FormData();
 
-    const fileInput = document.querySelector('input[name="foto"]');
-    if (fileInput.files.length > 0) {
-        formData.append('foto_kerusakan', fileInput.files[0]);
+    formData.append('nama_pengusul', document.querySelector("input[name='nama_pengusul']").value);
+    formData.append('email', document.querySelector("input[name='email']").value);
+    formData.append('nomor_telepon', document.querySelector("input[name='nomor_telepon']").value);
+    formData.append('lokasi_kerusakan', document.querySelector("input[name='lokasi_kerusakan']").value);
+    formData.append('deskripsi_kerusakan', document.querySelector("input[name='deskripsi_kerusakan']").value);
+
+    const file = document.querySelector("input[name='foto_kerusakan']").files[0];
+    if (file) {
+        formData.append('foto_kerusakan', file);
     }
 
     try {
@@ -153,5 +162,28 @@ document.getElementById('laporanForm').addEventListener('submit', async function
         alert("Terjadi error: " + err.message);
     }
 });
+
+document.getElementById("fotoInput").addEventListener("change", function(event) {
+    const file = event.target.files[0];
+    const preview = document.getElementById("previewImage");
+    const label = document.getElementById("fileLabel");
+
+    if (file) {
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.classList.remove("hidden");
+        };
+
+        reader.readAsDataURL(file);
+
+        label.textContent = file.name;
+    } else {
+        preview.classList.add("hidden");
+        label.textContent = "Tambahkan foto";
+    }
+});
+
 </script>
 @endsection

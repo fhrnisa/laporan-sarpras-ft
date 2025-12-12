@@ -42,7 +42,7 @@
             </button>
 
             <!-- Hidden buttons -->
-            <div id="manageOptions" class="hidden flex gap-2 items-center ml-2">
+            <div id="manageOptions" class="hidden gap-2 items-center ml-2">
                 <button class="px-4 py-2 bg-[#ED3237] text-white rounded-lg flex gap-2">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M21.0002 6.72998C20.9802 6.72998 20.9502 6.72998 20.9202 6.72998C15.6302 6.19998 10.3502 5.99998 5.12016 6.52998L3.08016 6.72998C2.66016 6.76998 2.29016 6.46998 2.25016 6.04998C2.21016 5.62998 2.51016 5.26998 2.92016 5.22998L4.96016 5.02998C10.2802 4.48998 15.6702 4.69998 21.0702 5.22998C21.4802 5.26998 21.7802 5.63998 21.7402 6.04998C21.7102 6.43998 21.3802 6.72998 21.0002 6.72998Z" fill="white"/>
