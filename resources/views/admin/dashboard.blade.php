@@ -152,6 +152,16 @@
     </div>
 
 <script>
+
+const token = localStorage.getItem("token");
+
+const response = await fetch("http://localhost:8001/api/laporan", {
+    headers: {
+        "Authorization": "Bearer " + token,
+        "Accept": "application/json"
+    }
+});
+
 document.addEventListener("DOMContentLoaded", function () {
     const ctx = document.getElementById('statusChart').getContext('2d');
 
