@@ -13,6 +13,7 @@ Route::get('/auth/login', function () {
 // Route admin dashboard
 Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 Route::get('/admin/dashboard/filter', [DashboardController::class, 'dashboardFilter'])->name('admin.dashboard.filter');
+Route::get('/admin/dashboard/filter', [DashboardController::class, 'filter'])->name('admin.dashboard.filter');
 
 // Menuju Halaman Laporan Admin
 Route::get('/admin/laporan', function () {
@@ -28,3 +29,4 @@ Route::get('/admin/kontrol-admin', function () {
 Route::get('/admin/arsip', function () {
     return view('admin.arsip');
 })->name('admin.arsip');
+

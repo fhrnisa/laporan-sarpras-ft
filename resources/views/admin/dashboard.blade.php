@@ -3,7 +3,7 @@
 @section('title', 'Dashboard')
 
 @section('content')
-    <!-- SUMMARY CARDS -->
+    <!-- SUMMARY CARDS (TOTAL AKUMULASI SEMUA LAPORAN) -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-7">
         <!-- Card Laporan Masuk -->
         <div class="bg-[#C5CAFF] p-4 rounded-lg">
@@ -17,7 +17,7 @@
             </svg>
             <h2 class="font-semibold text-lg text-[#002C55] mt-3">Laporan Masuk</h2>
             <div class="flex items-center gap-2 mt-2">
-                <p class="text-5xl font-bold text-[#002C55]">{{ $totalLaporan }}</p>
+                <p id="totalLaporan" class="text-5xl font-bold text-[#002C55]">{{ $totalLaporan }}</p>
                 <span class="text-lg text-[#002C55] mt-1">Laporan</span>
             </div>
         </div>
@@ -31,7 +31,7 @@
             </svg>
             <h2 class="font-semibold text-lg text-[#002C55] mt-3">Laporan Menunggu</h2>
             <div class="flex items-center gap-2 mt-2">
-                <p class="text-5xl font-bold text-[#002C55]">{{ $laporanMenunggu }}</p>
+                <p id="laporanMenunggu" class="text-5xl font-bold text-[#002C55]">{{ $laporanMenunggu }}</p>
                 <span class="text-lg text-[#002C55] mt-1">Laporan</span>
             </div>
         </div>
@@ -47,7 +47,7 @@
             </svg>
             <h2 class="font-semibold text-lg text-[#002C55] mt-3">Laporan Diproses</h2>
             <div class="flex items-center gap-2 mt-2">
-                <p class="text-5xl font-bold text-[#002C55]">{{ $laporanDiproses }}</p>
+                <p id="laporanDiproses" class="text-5xl font-bold text-[#002C55]">{{ $laporanDiproses }}</p>
                 <span class="text-lg text-[#002C55] mt-1">Laporan</span>
             </div>
         </div>
@@ -60,18 +60,26 @@
             </svg>
             <h2 class="font-semibold text-lg text-[#002C55] mt-3">Laporan Terselesaikan</h2>
             <div class="flex items-center gap-2 mt-2">
-                <p class="text-5xl font-bold text-[#002C55]">{{ $laporanSelesai }}</p>
+                <p id="laporanSelesai" class="text-5xl font-bold text-[#002C55]">{{ $laporanSelesai }}</p>
                 <span class="text-lg text-[#002C55] mt-1">Laporan</span>
             </div>
         </div>
     </div>
 
-    <!-- GRAFIK LAPORAN -->
+    <!-- INFO PANEL -->
+    <div class="bg-blue-50 p-4 rounded-lg mb-4">
+        <h3 class="font-bold text-blue-800 mb-2">📊 Informasi Dashboard</h3>
+        <p class="text-blue-700"><strong>4 Cards di atas:</strong> Menampilkan total akumulasi <strong>semua laporan</strong> dari awal sistem sampai sekarang.</p>
+        <p class="text-blue-700"><strong>Grafik di bawah:</strong> Menampilkan data dalam <strong>rentang waktu yang dipilih</strong> (7 hari, 30 hari, atau bulan ini).</p>
+        <p class="text-sm text-blue-600 mt-1">Gunakan filter di bawah untuk mengubah periode tampilan grafik.</p>
+    </div>
+
+    <!-- GRAFIK LAPORAN (HANYA RENTANG WAKTU TERTENTU) -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <div class="bg-white border border-[#DDDDDD] rounded-xl p-6 w-full mb-8">
         <h2 class="text-2xl text-[#002C55] font-semibold mb-6">Grafik Laporan</h2>
 
-        <!-- Filter Section -->
+        <!-- Filter Section (HANYA UNTUK CHART) -->
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-3">
             <!-- Filter Status -->
             <div class="flex items-center gap-3">
@@ -87,7 +95,7 @@
 
             <!-- Filter Tanggal -->
             <div class="flex items-center gap-3">
-                <span class="text-[#002C55]">Tanggal</span>
+                <span class="text-[#002C55]">Periode</span>
                 <select id="filterTanggal" class="border border-gray-300 rounded-lg text-sm py-2 px-3 w-40 focus:outline-none focus:ring-1 focus:ring-[#002C55] focus:border-[#002C55]">
                     <option value="7hari">7 Hari Terakhir</option>
                     <option value="30hari">30 Hari Terakhir</option>
@@ -95,6 +103,7 @@
                 </select>
             </div>
 
+            <!-- Legenda (TIDAK BISA DIKLIK) -->
             <div class="flex flex-wrap gap-5">
                 <div class="flex gap-2 items-center">
                     <div class="flex w-4 h-4 rounded-full bg-[#E1E7E9]"></div>
@@ -182,7 +191,7 @@ document.addEventListener("DOMContentLoaded", function () {
         ]
     };
 
-    // Inisialisasi Chart dengan konfigurasi lengkap
+    // Inisialisasi Chart
     const laporanChart = new Chart(ctx, {
         type: 'bar',
         data: chartData,
@@ -205,8 +214,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         font: {
                             size: 12
                         }
-                    },
-                    stacked: false
+                    }
                 },
                 y: {
                     beginAtZero: true,
@@ -278,37 +286,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Fungsi untuk update total status
-    function updateStatusTotals() {
-        const totals = {
-            'menunggu': 0,
-            'diproses': 0,
-            'terselesaikan': 0,
-            'ditolak': 0
-        };
-
-        // Hitung total dari data chart
-        chartData.datasets.forEach((dataset, index) => {
-            const status = dataset.label.toLowerCase();
-            totals[status] = dataset.data.reduce((a, b) => a + b, 0);
-        });
-
-        // Update total laporan
-        const totalAll = Object.values(totals).reduce((a, b) => a + b, 0);
-
-        // Jika ada data dari API, update summary cards
-        if (totalAll > 0) {
-            document.querySelector('.bg-\\[\\#C5CAFF\\] .text-5xl').textContent = totalAll;
-            document.querySelector('.bg-\\[\\#E1E7E9\\] .text-5xl').textContent = totals.menunggu;
-            document.querySelector('.bg-\\[\\#FEEF94\\] .text-5xl').textContent = totals.diproses;
-            document.querySelector('.bg-\\[\\#A0F1B5\\] .text-5xl').textContent = totals.terselesaikan;
-        }
-    }
-
-    // Inisialisasi total
-    updateStatusTotals();
-
-    // Event Listeners untuk Filter
+    // Event Listeners untuk Filter (HANYA UNTUK CHART)
     document.getElementById('filterStatus').addEventListener('change', function(e) {
         filterChart();
     });
@@ -317,62 +295,50 @@ document.addEventListener("DOMContentLoaded", function () {
         filterChart();
     });
 
-    function filterChart() {
-        const status = document.getElementById('filterStatus').value;
-        const tanggal = document.getElementById('filterTanggal').value;
+function filterChart() {
+    const status = document.getElementById('filterStatus').value;
+    const tanggal = document.getElementById('filterTanggal').value;
 
-        // Kirim request AJAX untuk filter
-        fetch(`/admin/dashboard/filter?status=${status}&tanggal=${tanggal}`)
-            .then(response => response.json())
-            .then(data => {
-                // Update chart data
-                laporanChart.data.labels = data.labels;
-                laporanChart.data.datasets[0].data = data.datasets.menunggu;
-                laporanChart.data.datasets[1].data = data.datasets.diproses;
-                laporanChart.data.datasets[2].data = data.datasets.terselesaikan;
-                laporanChart.data.datasets[3].data = data.datasets.ditolak;
+    // Show loading state
+    const chartContainer = document.querySelector('#statusChart').parentElement;
+    chartContainer.classList.add('opacity-50');
 
-                laporanChart.update();
+    // Kirim request AJAX untuk filter
+    fetch(`/admin/dashboard/filter?status=${status}&tanggal=${tanggal}`, {
+        headers: {
+            'Accept': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Update chart data
+        if (data.labels && data.datasets) {
+            laporanChart.data.labels = data.labels;
+            laporanChart.data.datasets[0].data = data.datasets.menunggu;
+            laporanChart.data.datasets[1].data = data.datasets.diproses;
+            laporanChart.data.datasets[2].data = data.datasets.terselesaikan;
+            laporanChart.data.datasets[3].data = data.datasets.ditolak;
 
-                // Update summary cards jika ada data baru
-                if (data.summary) {
-                    document.querySelector('.bg-\\[\\#C5CAFF\\] .text-5xl').textContent = data.summary.total;
-                    document.querySelector('.bg-\\[\\#E1E7E9\\] .text-5xl').textContent = data.summary.menunggu;
-                    document.querySelector('.bg-\\[\\#FEEF94\\] .text-5xl').textContent = data.summary.diproses;
-                    document.querySelector('.bg-\\[\\#A0F1B5\\] .text-5xl').textContent = data.summary.selesai;
-                }
-
-                // Update chartData untuk perhitungan totals
-                chartData.labels = data.labels;
-                chartData.datasets[0].data = data.datasets.menunggu;
-                chartData.datasets[1].data = data.datasets.diproses;
-                chartData.datasets[2].data = data.datasets.terselesaikan;
-                chartData.datasets[3].data = data.datasets.ditolak;
-
-                updateStatusTotals();
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Terjadi kesalahan saat memfilter data.');
-            });
-    }
-
-    // Event Listeners untuk Legend (toggle visibility dataset)
-    document.querySelectorAll('.flex.gap-2.items-center').forEach((legend, index) => {
-        legend.addEventListener('click', function() {
-            const datasetIndex = index;
-
-            const meta = laporanChart.getDatasetMeta(datasetIndex);
-            meta.hidden = meta.hidden === null ? true : !meta.hidden;
             laporanChart.update();
-
-            // Toggle visual state legend
-            this.classList.toggle('opacity-50');
-            this.classList.toggle('bg-gray-100');
-
-            updateStatusTotals();
-        });
+        } else {
+            console.error('Invalid data structure:', data);
+            alert('Data format tidak valid.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Terjadi kesalahan saat memfilter data grafik. Silakan coba lagi.');
+    })
+    .finally(() => {
+        chartContainer.classList.remove('opacity-50');
     });
+}
 
     // Responsive chart
     window.addEventListener('resize', function() {
@@ -398,22 +364,6 @@ document.addEventListener("DOMContentLoaded", function () {
         gap: 10px !important;
         flex-wrap: wrap !important;
     }
-}
-
-/* Legend hover effect */
-.flex.gap-2.items-center {
-    cursor: pointer;
-    padding: 4px 8px;
-    border-radius: 6px;
-    transition: all 0.2s ease;
-}
-
-.flex.gap-2.items-center:hover {
-    background-color: #f3f4f6;
-}
-
-.flex.gap-2.items-center.opacity-50 {
-    opacity: 0.5;
 }
 </style>
 @endsection

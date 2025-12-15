@@ -129,8 +129,13 @@
 document.getElementById('laporanForm').addEventListener('submit', async function(e) {
     e.preventDefault();
 
-    const formData = new FormData();
+    // Show loading
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Mengirim...';
+    submitBtn.disabled = true;
 
+    const formData = new FormData();
     formData.append('nama_pengusul', document.querySelector("input[name='nama_pengusul']").value);
     formData.append('email', document.querySelector("input[name='email']").value);
     formData.append('nomor_telepon', document.querySelector("input[name='nomor_telepon']").value);
@@ -143,28 +148,43 @@ document.getElementById('laporanForm').addEventListener('submit', async function
     }
 
     try {
+        console.log('Sending request to BE API...');
+
         const response = await fetch("http://localhost:8001/api/laporan", {
             method: "POST",
-            body: formData
-            // Tidak perlu headers untuk FormData
+            body: formData,
+            mode: 'cors',
+            credentials: 'omit'
         });
 
-        const data = await response.json();
-        console.log('Response:', data);
+        console.log('Response status:', response.status);
+
+        let data;
+        try {
+            data = await response.json();
+            console.log('Response data:', data);
+        } catch (jsonError) {
+            console.error('JSON parse error:', jsonError);
+            throw new Error('Invalid response from server');
+        }
 
         if (response.ok) {
-            alert("Laporan berhasil dikirim!");
+            alert("✅ Laporan berhasil dikirim!");
             this.reset();
-            // Reset preview image
+            // Reset preview
             document.getElementById('previewImage').classList.add('hidden');
             document.querySelector("label.flex.items-center span").textContent = "Tambahkan foto";
         } else {
-            alert("Gagal mengirim laporan: " + (data.message || 'Unknown error'));
+            alert("❌ Gagal mengirim laporan: " + (data.message || 'Unknown error'));
         }
 
     } catch (err) {
-        console.error('Error:', err);
-        alert("Terjadi error: " + err.message);
+        console.error('Fetch error:', err);
+        alert("⚠️ Terjadi error: " + err.message + "\n\nCoba lagi atau hubungi admin.");
+    } finally {
+        // Reset button
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
     }
 });
 
@@ -175,13 +195,26 @@ document.querySelector("input[name='foto_kerusakan']").addEventListener("change"
     const placeholder = document.querySelector("label.flex.items-center span");
 
     if (file) {
-        const reader = new FileReader();
+        // Validasi ukuran file (max 2MB)
+        if (file.size > 2 * 1024 * 1024) {
+            alert('Ukuran file maksimal 2MB');
+            this.value = '';
+            return;
+        }
 
+        // Validasi tipe file
+        const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'];
+        if (!validTypes.includes(file.type)) {
+            alert('Format file harus JPEG, PNG, JPG, atau GIF');
+            this.value = '';
+            return;
+        }
+
+        const reader = new FileReader();
         reader.onload = function(e) {
             preview.src = e.target.result;
             preview.classList.remove("hidden");
         };
-
         reader.readAsDataURL(file);
 
         if (placeholder) {
