@@ -175,7 +175,11 @@
 
     <!-- CONTENT -->
     <main id="main-content" class="flex-1 ml-64 p-6 bg-white overflow-auto">
-        @include('admin.components.topbar')
+        @include('admin.components.topbar', [
+            'showSearch' => View::hasSection('showSearch')
+                ? trim($__env->yieldContent('showSearch')) !== 'false'
+                : true
+        ])
         @yield('content')
     </main>
 </div>

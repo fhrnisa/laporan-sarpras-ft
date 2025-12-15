@@ -2,6 +2,8 @@
 
 @section('title', 'Dashboard')
 
+@section('showSearch', 'false')
+
 @section('content')
     <!-- SUMMARY CARDS (TOTAL AKUMULASI SEMUA LAPORAN) -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-7">
