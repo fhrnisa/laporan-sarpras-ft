@@ -9,7 +9,20 @@
 
     <!-- FILTER SECTION -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-        <div class="flex flex-col md:flex-row gap-4">
+        <div class="flex flex-col md:flex-row gap-4 w-full">
+
+            <!-- Search Bar -->
+            <div class="relative w-full md:w-64">
+                <input type="text"
+                       id="searchInput"
+                       placeholder="Cari nama, email, atau lokasi..."
+                       class="w-full border border-[#DDDDDD] rounded-lg text-sm text-[#002C55] py-2 px-4 pl-10 focus:outline-none focus:ring-1 focus:ring-[#002C55] focus:border-[#002C55]">
+                <div class="absolute left-3 top-1/2 transform -translate-y-1/2">
+                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+            </div>
 
             <!-- Filter Status -->      
             <div class="flex items-center gap-3">
@@ -22,7 +35,7 @@
                     <option value="ditolak">Ditolak</option>
                 </select>
             </div>
-            
+
             <!-- Filter Tanggal -->
             <div class="flex items-center gap-3">
                 <span class="text-[#002C55] font-medium">Tanggal</span>
@@ -72,14 +85,18 @@
             </div>
         </div>
     </div>
-    
+
+    <!-- INFO MESSAGE -->
+    @if(isset($error))
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+        {{ $error }}
+    </div>
+    @endif
 
     <!-- TABLE SECTION -->
     <div class="bg-white border border-[#DDDDDD] rounded-xl overflow-hidden">
-  
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
-
                 <!-- HEADER -->
                 <thead class="bg-gray-50">
                     <tr>
@@ -89,10 +106,10 @@
                         <th class="px-6 py-3 text-left text-base font-medium text-gray-500 tracking-wider">Tanggal</th>
                         <th class="px-6 py-3 text-left text-base font-medium text-gray-500 tracking-wider">Lokasi Kerusakan</th>
                         <th class="px-6 py-3 text-left text-base font-medium text-gray-500 tracking-wider">Status</th>
-                        
+
                         <!-- Aksi -->
                         <th class="action-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    
+
                         </th>
 
                         <!-- Checkbox Column (Hidden by default) -->
@@ -103,113 +120,8 @@
                 </thead>
 
                 <!-- BODY -->
-                <tbody class="bg-white divide-y divide-gray-200">
-                    @php
-                    // Data dummy sesuai gambar
-                    $reports = [
-                        [
-                            'id' => 1,
-                            'nama' => 'Sang Bimo Raharjoning Leksono',
-                            'no_wa' => '+628123456789',
-                            'tanggal' => '05 Des 2025',
-                            'lokasi' => '10 Lampu pojok belakang E12 R1',
-                            'status' => 'ditolak',
-                            'status_text' => 'Ditolak'
-                        ],
-                        [
-                            'id' => 2,
-                            'nama' => 'Fahrunnisa Kusumawardani',
-                            'no_wa' => '+628123456789',
-                            'tanggal' => '05 Des 2025',
-                            'lokasi' => 'Kursi dekanat FT lantai 2',
-                            'status' => 'diproses',
-                            'status_text' => 'Diproses'
-                        ],
-                        [
-                            'id' => 3,
-                            'nama' => 'Saiful Jamil',
-                            'no_wa' => '+628123456789',
-                            'tanggal' => '04 Des 2025',
-                            'lokasi' => 'Tempat tidur UKS',
-                            'status' => 'menunggu',
-                            'status_text' => 'Menunggu'
-                        ],
-                        [
-                            'id' => 4,
-                            'nama' => 'Jablay',
-                            'no_wa' => '+628123456789',
-                            'tanggal' => '04 Des 2025',
-                            'lokasi' => 'WC E6 yang pojok bawah dekanat...',
-                            'status' => 'terselesaikan',
-                            'status_text' => 'Terselesaikan'
-                        ],
-                        [
-                            'id' => 5,
-                            'nama' => 'Wriothesley',
-                            'no_wa' => '+628123456789',
-                            'tanggal' => '04 Des 2025',
-                            'lokasi' => 'Meja kelas banyak yang rusak...',
-                            'status' => 'terselesaikan',
-                            'status_text' => 'Terselesaikan'
-                        ],
-                        [
-                            'id' => 6,
-                            'nama' => 'Jule',
-                            'no_wa' => '+628123456789',
-                            'tanggal' => '03 Des 2025',
-                            'lokasi' => 'Piring buat makan jule di kantin...',
-                            'status' => 'diproses',
-                            'status_text' => 'Diproses'
-                        ],
-                        [
-                            'id' => 7,
-                            'nama' => 'Sang Bimo Raha...',
-                            'no_wa' => '+628123456789',
-                            'tanggal' => '03 Des 2025',
-                            'lokasi' => '10 Lampu pojok belakang E12 R1',
-                            'status' => 'ditolak',
-                            'status_text' => 'Ditolak'
-                        ],
-                        [
-                            'id' => 8,
-                            'nama' => 'Sang Bimo Raha...',
-                            'no_wa' => '+628123456789',
-                            'tanggal' => '02 Des 2025',
-                            'lokasi' => '10 Lampu pojok belakang E12 R1',
-                            'status' => 'ditolak',
-                            'status_text' => 'Ditolak'
-                        ],
-                        [
-                            'id' => 9,
-                            'nama' => 'Sang Bimo Raha...',
-                            'no_wa' => '+628123456789',
-                            'tanggal' => '02 Des 2025',
-                            'lokasi' => '10 Lampu pojok belakang E12 R1',
-                            'status' => 'ditolak',
-                            'status_text' => 'Ditolak'
-                        ],
-                        [
-                            'id' => 10,
-                            'nama' => 'Sang Bimo Raha...',
-                            'no_wa' => '+628123456789',
-                            'tanggal' => '01 Des 2025',
-                            'lokasi' => '10 Lampu pojok belakang E12 R1',
-                            'status' => 'ditolak',
-                            'status_text' => 'Ditolak'
-                        ],
-                        [
-                            'id' => 11,
-                            'nama' => 'Sang Bimo Raha...',
-                            'no_wa' => '+628123456789',
-                            'tanggal' => '01 Des 2025',
-                            'lokasi' => '10 Lampu pojok belakang E12 R1',
-                            'status' => 'ditolak',
-                            'status_text' => 'Ditolak'
-                        ],
-                    ];
-                    @endphp
-
-                    @foreach($reports as $report)
+                <tbody class="bg-white divide-y divide-gray-200" id="laporanTableBody">
+                    @forelse($laporan as $report)
                     <tr class="hover:bg-gray-50 transition-colors report-row" data-id="{{ $report['id'] }}">
 
                         <!-- ID -->
@@ -219,44 +131,64 @@
 
                         <!-- Nama -->
                         <td class="max-w-[200px] px-6 py-4 text-base text-[#002C55]">
-                            {{ $report['nama'] }}
+                            {{ $report['nama_pengusul'] ?? 'N/A' }}
                         </td>
 
                         <!-- Nomor WhatsApp -->
                         <td class="px-6 py-4 whitespace-nowrap text-base text-[#002C55]">
-                            {{ $report['no_wa'] }}
+                            {{ $report['nomor_telepon'] ?? 'N/A' }}
                         </td>
 
                         <!-- Tanggal -->
                         <td class="px-6 py-4 whitespace-nowrap text-base text-[#002C55]">
-                            {{ $report['tanggal'] }}
+                            @if(isset($report['created_at']))
+                                {{ \Carbon\Carbon::parse($report['created_at'])->format('d M Y') }}
+                            @else
+                                N/A
+                            @endif
                         </td>
 
                         <!-- Lokasi -->
                         <td class="max-w-[200px] px-6 py-4">
-                            <div class="text-sm text-[#002C55] max-w-xs truncate" title="{{ $report['lokasi'] }}">
-                                {{ $report['lokasi'] }}
+                            <div class="text-sm text-[#002C55] max-w-xs truncate" title="{{ $report['lokasi_kerusakan'] ?? '' }}">
+                                {{ $report['lokasi_kerusakan'] ?? 'N/A' }}
                             </div>
                         </td>
 
                         <!-- Status -->
                         <td class="px-6 py-4 whitespace-nowrap">
                             @php
+                                $status = $report['status_laporan'] ?? 'menunggu';
                                 $statusColors = [
-                                    'menunggu' => 'px-4 py-2 bg-[#E1E7E9] rounded-sm text-[#022C55]',
-                                    'diproses' => 'px-4 py-2 bg-[#FEEF94] rounded-sm text-[#022C55]',
-                                    'terselesaikan' => 'px-4 py-2 bg-[#A0F1B5] rounded-sm text-[#022C55]',
-                                    'ditolak' => 'px-4 py-2 bg-[#FF7A7E] rounded-sm text-[#022C55]'
+                                    'menunggu' => 'bg-[#E1E7E9] text-[#022C55]',
+                                    'diproses' => 'bg-[#FEEF94] text-[#022C55]',
+                                    'terselesaikan' => 'bg-[#A0F1B5] text-[#022C55]',
+                                    'ditolak' => 'bg-[#FF7A7E] text-[#022C55]'
+                                ];
+                                $statusText = [
+                                    'menunggu' => 'Menunggu',
+                                    'diproses' => 'Diproses',
+                                    'terselesaikan' => 'Terselesaikan',
+                                    'ditolak' => 'Ditolak'
                                 ];
                             @endphp
-                            <span class="px-3 py-1 text-xs font-medium rounded-full {{ $statusColors[$report['status']] }}">
-                                {{ $report['status_text'] }}
+                            <span class="px-3 py-1 text-xs font-medium rounded-full {{ $statusColors[$status] ?? 'bg-gray-200' }}">
+                                {{ $statusText[$status] ?? 'Unknown' }}
                             </span>
                         </td>
 
                         <!-- ACTION CELL -->
                         <td class="text-center action-cell">
-                            <button class="aksiBtn" data-id="#">
+                            <button class="aksiBtn"
+                                    data-id="{{ $report['id'] }}"
+                                    data-nama="{{ $report['nama_pengusul'] ?? '' }}"
+                                    data-email="{{ $report['email'] ?? '' }}"
+                                    data-telp="{{ $report['nomor_telepon'] ?? '' }}"
+                                    data-lokasi="{{ $report['lokasi_kerusakan'] ?? '' }}"
+                                    data-deskripsi="{{ $report['deskripsi_kerusakan'] ?? '' }}"
+                                    data-status="{{ $status }}"
+                                    data-tanggal="{{ isset($report['created_at']) ? \Carbon\Carbon::parse($report['created_at'])->format('d F Y') : '' }}"
+                                    data-foto="{{ $report['foto_kerusakan'] ? 'http://localhost:8001/storage/' . $report['foto_kerusakan'] : '' }}">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M19 13C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11C18.4477 11 18 11.4477 18 12C18 12.5523 18.4477 13 19 13Z" stroke="#002C55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     <path d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z" stroke="#002C55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -267,17 +199,34 @@
 
                         <!-- Checkbox muncul saat mode kelola -->
                         <td class="checkbox-cell hidden px-6 py-4">
-                            <input type="checkbox" class="report-checkbox">
+                            <input type="checkbox" class="report-checkbox" value="{{ $report['id'] }}">
                         </td>
                     </tr>
-                    @endforeach
+                    @empty
+                    <tr>
+                        <td colspan="8" class="px-6 py-8 text-center text-gray-500">
+                            @if(isset($error))
+                                {{ $error }}
+                            @else
+                                Tidak ada data laporan
+                            @endif
+                        </td>
+                    </tr>
+                    @endforelse
                 </tbody>
-
             </table>
+        </div>
+
+        <!-- Pagination/Info -->
+        <div class="px-6 py-4 border-t border-gray-200">
+            <div class="flex justify-between items-center">
+                <div class="text-sm text-gray-700">
+                    Menampilkan <span class="font-medium">{{ count($laporan) }}</span> dari <span class="font-medium">{{ $total }}</span> laporan
+                </div>
+            </div>
         </div>
     </div>
 </div>
-
 
 <!-- === MODAL DETAIL LAPORAN === -->
 <div id="detailOverlay" class="hidden fixed inset-0 bg-black/40 z-50">
@@ -286,164 +235,353 @@
         <!-- Header -->
         <div class="flex justify-between items-start p-5 border-b">
             <div>
-                <h2 id="detailTitle" class="text-xl font-semibold text-gray-800">Laporan #1</h2>
-                <p id="detailDate" class="text-sm text-gray-500">05 Desember 2025</p>
+                <h2 id="detailTitle" class="text-xl font-semibold text-gray-800">Detail Laporan</h2>
+                <p id="detailDate" class="text-sm text-gray-500">-</p>
             </div>
-            <button id="closeDetail" class="text-gray-500 hover:text-gray-700">
+            <button id="closeDetail" class="text-gray-500 hover:text-gray-700 text-2xl">
                 ✕
             </button>
         </div>
 
-        <!-- Badge Status -->
-        <div class="px-5 mt-4">
-            <span id="detailStatus" class="px-3 py-1 text-sm rounded-md font-medium bg-red-100 text-red-600">
-                Ditolak
-            </span>
+        <!-- Loading -->
+        <div id="detailLoading" class="hidden p-8 text-center">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
+            <p class="mt-4 text-gray-600">Memuat detail laporan...</p>
         </div>
 
         <!-- Content -->
-        <div class="p-5 space-y-4 text-sm text-gray-700">
+        <div id="detailContent" class="hidden p-5 space-y-4 text-sm text-gray-700">
 
+            <!-- Badge Status -->
             <div>
-                <p class="font-semibold">Nama Pengusul:</p>
-                <p id="detailNama">–</p>
+                <span id="detailStatus" class="px-3 py-1 text-sm rounded-md font-medium">
+                    -
+                </span>
             </div>
 
             <div>
-                <p class="font-semibold">Email:</p>
-                <p id="detailEmail">–</p>
+                <p class="font-semibold text-gray-800">Nama Pengusul:</p>
+                <p id="detailNama" class="mt-1 text-gray-600">-</p>
             </div>
 
             <div>
-                <p class="font-semibold">Nomor Telp:</p>
-                <p id="detailTelp">–</p>
+                <p class="font-semibold text-gray-800">Email:</p>
+                <p id="detailEmail" class="mt-1 text-gray-600">-</p>
             </div>
 
             <div>
-                <p class="font-semibold">Lokasi Kerusakan:</p>
-                <p id="detailLokasi">–</p>
+                <p class="font-semibold text-gray-800">Nomor Telepon:</p>
+                <p id="detailTelp" class="mt-1 text-gray-600">-</p>
             </div>
 
             <div>
-                <p class="font-semibold">Foto Kerusakan:</p>
-                <img id="detailFoto" class="w-full h-auto rounded-md mt-2" src="" alt="">
+                <p class="font-semibold text-gray-800">Lokasi Kerusakan:</p>
+                <p id="detailLokasi" class="mt-1 text-gray-600">-</p>
             </div>
 
             <div>
-                <p class="font-semibold">Laporan Kerusakan:</p>
-                <p id="detailDeskripsi">–</p>
+                <p class="font-semibold text-gray-800">Deskripsi Kerusakan:</p>
+                <p id="detailDeskripsi" class="mt-1 text-gray-600 whitespace-pre-line">-</p>
             </div>
 
             <div>
-                <p class="font-semibold">Alasan Ditolak:</p>
-                <p id="detailAlasan">–</p>
+                <p class="font-semibold text-gray-800">Foto Kerusakan:</p>
+                <div id="detailFotoContainer" class="mt-2">
+                    <img id="detailFoto" class="w-full h-auto rounded-md border border-gray-300"
+                         src="" alt="Foto kerusakan"
+                         onerror="this.onerror=null; this.src='https://via.placeholder.com/400x300?text=Tidak+ada+foto';">
+                </div>
+                <p id="noFotoMessage" class="text-gray-500 italic mt-2 hidden">Tidak ada foto</p>
             </div>
 
-            <div>
-                <p class="font-semibold">Waktu Ditolak:</p>
-                <p id="detailWaktu">–</p>
+            <!-- Additional Info for Rejected Reports -->
+            <div id="rejectedInfo" class="hidden mt-4 p-4 bg-red-50 rounded-lg">
+                <h3 class="font-semibold text-red-800 mb-2">Informasi Penolakan</h3>
+                <div class="space-y-2">
+                    <div>
+                        <p class="font-medium text-red-700">Alasan Ditolak:</p>
+                        <p id="detailAlasan" class="text-red-600">-</p>
+                    </div>
+                    <div>
+                        <p class="font-medium text-red-700">Waktu Ditolak:</p>
+                        <p id="detailWaktuDitolak" class="text-red-600">-</p>
+                    </div>
+                    <div>
+                        <p class="font-medium text-red-700">Ditolak oleh:</p>
+                        <p id="detailAdmin" class="text-red-600">-</p>
+                    </div>
+                </div>
             </div>
 
-            <div>
-                <p class="font-semibold">Ditolak oleh:</p>
-                <p id="detailAdmin">–</p>
+            <!-- Timestamps -->
+            <div class="pt-4 border-t border-gray-200">
+                <div class="grid grid-cols-2 gap-4 text-xs text-gray-500">
+                    <div>
+                        <p class="font-medium">Dibuat:</p>
+                        <p id="detailCreatedAt">-</p>
+                    </div>
+                    <div>
+                        <p class="font-medium">Diperbarui:</p>
+                        <p id="detailUpdatedAt">-</p>
+                    </div>
+                </div>
             </div>
 
         </div>
 
-        <!-- Footer -->
-        <div class="p-5">
-            <button class="w-full py-2 bg-[#002C5F] text-white rounded-md hover:bg-[#01408C]">
-                Update
+        <!-- Error Message -->
+        <div id="detailError" class="hidden p-8 text-center">
+            <div class="text-red-500 mb-4">
+                <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+            </div>
+            <p class="text-gray-700" id="errorMessage">Gagal memuat detail laporan</p>
+            <button onclick="closeDetailModal()" class="mt-4 px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300">
+                Tutup
             </button>
+        </div>
+
+        <!-- Footer Actions -->
+        <div id="detailActions" class="hidden p-5 border-t border-gray-200">
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="updateStatus('diproses')" class="py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">
+                    Set Diproses
+                </button>
+                <button onclick="updateStatus('terselesaikan')" class="py-2 bg-green-500 text-white rounded-md hover:bg-green-600">
+                    Set Selesai
+                </button>
+                <button onclick="updateStatus('ditolak')" class="py-2 bg-red-500 text-white rounded-md hover:bg-red-600 col-span-2">
+                    Tolak Laporan
+                </button>
+            </div>
         </div>
 
     </div>
 </div>
-@endsection
 
+<!-- Toast Notification -->
+<div id="toast" class="hidden fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50">
+    <div class="flex items-center gap-2">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+        <span id="toastMessage"></span>
+    </div>
+</div>
+@endsection
 
 @push('styles')
 <style>
     .checkbox-cell { width: 60px; }
     .action-cell { width: 100px; }
+
+    /* Status colors */
+    .status-menunggu { background-color: #E1E7E9; color: #022C55; }
+    .status-diproses { background-color: #FEEF94; color: #022C55; }
+    .status-terselesaikan { background-color: #A0F1B5; color: #022C55; }
+    .status-ditolak { background-color: #FF7A7E; color: #022C55; }
 </style>
 @endpush
-
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     const kelolaBtn = document.getElementById("kelolaBtn");
     const batalBtn = document.getElementById("batalBtn");
     const manageOptions = document.getElementById("manageOptions");
-
     const actionCells = document.querySelectorAll(".action-cell");
     const checkboxCells = document.querySelectorAll(".checkbox-cell");
     const reportCheckboxes = document.querySelectorAll(".report-checkbox");
     const selectAll = document.getElementById("select-all");
-
-const overlay = document.getElementById("detailOverlay");
+    const overlay = document.getElementById("detailOverlay");
     const closeBtn = document.getElementById("closeDetail");
+    const filterStatus = document.getElementById("filterStatus");
+    const filterTanggal = document.getElementById("filterTanggal");
+    const searchInput = document.getElementById("searchInput");
 
-    // Tombol titik tiga (aksi)
+    // Set initial filter values from URL params
+    const urlParams = new URLSearchParams(window.location.search);
+    const statusParam = urlParams.get('status');
+    const tanggalParam = urlParams.get('tanggal');
+    const searchParam = urlParams.get('search');
+
+    if (statusParam) filterStatus.value = statusParam;
+    if (tanggalParam) filterTanggal.value = tanggalParam;
+    if (searchParam) searchInput.value = searchParam;
+
+    // Filter change event
+    filterStatus.addEventListener('change', applyFilters);
+    filterTanggal.addEventListener('change', applyFilters);
+
+    // Search with debounce
+    let searchTimeout;
+    searchInput.addEventListener('input', function() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(applyFilters, 500);
+    });
+
+    function applyFilters() {
+        const params = new URLSearchParams();
+
+        if (filterStatus.value !== 'all') {
+            params.append('status', filterStatus.value);
+        }
+
+        if (filterTanggal.value !== '7hari') {
+            params.append('tanggal', filterTanggal.value);
+        }
+
+        if (searchInput.value.trim()) {
+            params.append('search', searchInput.value.trim());
+        }
+
+        const queryString = params.toString();
+        window.location.href = `/admin/laporan${queryString ? '?' + queryString : ''}`;
+    }
+
+    // Detail modal functions
+    function showToast(message, type = 'success') {
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+
+        toastMessage.textContent = message;
+        toast.className = `fixed top-4 right-4 px-4 py-2 rounded-lg shadow-lg z-50 flex items-center gap-2 ${type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white`;
+        toast.classList.remove('hidden');
+
+        setTimeout(() => {
+            toast.classList.add('hidden');
+        }, 3000);
+    }
+
+    async function loadReportDetail(id) {
+        try {
+            document.getElementById('detailLoading').classList.remove('hidden');
+            document.getElementById('detailContent').classList.add('hidden');
+            document.getElementById('detailError').classList.add('hidden');
+            document.getElementById('detailActions').classList.add('hidden');
+
+            const response = await fetch(`http://localhost:8001/api/admin/laporan/${id}`);
+            const data = await response.json();
+
+            if (data.success) {
+                const report = data.data;
+                displayReportDetail(report);
+            } else {
+                throw new Error(data.message || 'Gagal memuat detail');
+            }
+        } catch (error) {
+            console.error('Error loading report detail:', error);
+            document.getElementById('detailLoading').classList.add('hidden');
+            document.getElementById('detailError').classList.remove('hidden');
+            document.getElementById('errorMessage').textContent = error.message;
+        }
+    }
+
+    function displayReportDetail(report) {
+        document.getElementById('detailLoading').classList.add('hidden');
+        document.getElementById('detailContent').classList.remove('hidden');
+        document.getElementById('detailActions').classList.remove('hidden');
+
+        // Set basic info
+        document.getElementById('detailTitle').textContent = `Laporan #${report.id}`;
+        document.getElementById('detailDate').textContent = report.created_at ?
+            new Date(report.created_at).toLocaleDateString('id-ID', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            }) : '-';
+
+        document.getElementById('detailNama').textContent = report.nama_pengusul || '-';
+        document.getElementById('detailEmail').textContent = report.email || '-';
+        document.getElementById('detailTelp').textContent = report.nomor_telepon || '-';
+        document.getElementById('detailLokasi').textContent = report.lokasi_kerusakan || '-';
+        document.getElementById('detailDeskripsi').textContent = report.deskripsi_kerusakan || '-';
+
+        // Set status
+        const statusElement = document.getElementById('detailStatus');
+        const status = report.status_laporan || 'menunggu';
+        statusElement.textContent = getStatusText(status);
+        statusElement.className = `px-3 py-1 text-sm rounded-md font-medium status-${status}`;
+
+        // Set foto
+        const fotoElement = document.getElementById('detailFoto');
+        const noFotoMessage = document.getElementById('noFotoMessage');
+
+        if (report.foto_kerusakan && report.foto_kerusakan !== 'default.jpg') {
+            fotoElement.src = `http://localhost:8001/storage/${report.foto_kerusakan}`;
+            fotoElement.classList.remove('hidden');
+            noFotoMessage.classList.add('hidden');
+        } else {
+            fotoElement.classList.add('hidden');
+            noFotoMessage.classList.remove('hidden');
+        }
+
+        // Set timestamps
+        document.getElementById('detailCreatedAt').textContent = report.created_at ?
+            new Date(report.created_at).toLocaleString('id-ID') : '-';
+        document.getElementById('detailUpdatedAt').textContent = report.updated_at ?
+            new Date(report.updated_at).toLocaleString('id-ID') : '-';
+
+        // Show rejected info if status is ditolak
+        const rejectedInfo = document.getElementById('rejectedInfo');
+        if (status === 'ditolak') {
+            rejectedInfo.classList.remove('hidden');
+            // You can add more rejected info fields if needed
+        } else {
+            rejectedInfo.classList.add('hidden');
+        }
+    }
+
+    function getStatusText(status) {
+        const statusMap = {
+            'menunggu': 'Menunggu',
+            'diproses': 'Diproses',
+            'terselesaikan': 'Terselesaikan',
+            'ditolak': 'Ditolak'
+        };
+        return statusMap[status] || status;
+    }
+
+    function closeDetailModal() {
+        overlay.classList.add('hidden');
+    }
+
+    function openDetailModal() {
+        overlay.classList.remove('hidden');
+    }
+
+    // Event listeners for detail buttons
     document.querySelectorAll(".aksiBtn").forEach(btn => {
-        btn.addEventListener("click", function () {
-
-            // Ambil data dari atribut tombol
-            const data = this.dataset;
-
-            document.getElementById("detailTitle").textContent = "Laporan #" + data.id;
-            document.getElementById("detailDate").textContent = data.tanggal;
-            document.getElementById("detailStatus").textContent = data.status;
-            document.getElementById("detailNama").textContent = data.nama;
-            document.getElementById("detailEmail").textContent = data.email;
-            document.getElementById("detailTelp").textContent = data.telp;
-            document.getElementById("detailLokasi").textContent = data.lokasi;
-            document.getElementById("detailDeskripsi").textContent = data.deskripsi;
-            document.getElementById("detailAlasan").textContent = data.alasan;
-            document.getElementById("detailWaktu").textContent = data.waktu;
-            document.getElementById("detailAdmin").textContent = data.admin;
-            document.getElementById("detailFoto").src = data.foto;
-
-            overlay.classList.remove("hidden");
+        btn.addEventListener("click", function() {
+            const id = this.dataset.id;
+            openDetailModal();
+            loadReportDetail(id);
         });
     });
 
-    // Tutup modal
-    closeBtn.addEventListener("click", () => {
-        overlay.classList.add("hidden");
-    });
+    // Close modal
+    closeBtn.addEventListener("click", closeDetailModal);
 
-    // Klik di luar panel → tutup
+    // Click outside to close
     overlay.addEventListener("click", (e) => {
-        if (e.target === overlay) overlay.classList.add("hidden");
+        if (e.target === overlay) closeDetailModal();
     });
 
     // MODE KELOLA
     kelolaBtn.addEventListener("click", () => {
         kelolaBtn.classList.add("hidden");
         manageOptions.classList.remove("hidden");
-
-        // Sembunyikan tombol titik tiga
         actionCells.forEach(btn => btn.classList.add("hidden"));
-
-        // Tampilkan kolom checkbox
         checkboxCells.forEach(cell => cell.classList.remove("hidden"));
-
     });
 
     // BATAL MODE KELOLA
     batalBtn.addEventListener("click", () => {
         kelolaBtn.classList.remove("hidden");
         manageOptions.classList.add("hidden");
-
-        // Sembunyikan kolom checkbox
         checkboxCells.forEach(cell => cell.classList.add("hidden"));
-
-        // Tampilkan tombol titik tiga
         actionCells.forEach(btn => btn.classList.remove("hidden"));
-
-        // Reset checkbox
         reportCheckboxes.forEach(ch => ch.checked = false);
         selectAll.checked = false;
     });
@@ -452,5 +590,16 @@ const overlay = document.getElementById("detailOverlay");
     selectAll.addEventListener("change", function() {
         reportCheckboxes.forEach(ch => ch.checked = selectAll.checked);
     });
+
+    // Update status function (for demo)
+    function updateStatus(status) {
+        showToast(`Status laporan berhasil diubah menjadi ${getStatusText(status)}`);
+        // In real implementation, you would make an API call here
+        fetch(`/api/admin/laporan/${currentReportId}/status`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status: status })
+        })
+    }
 });
 </script>

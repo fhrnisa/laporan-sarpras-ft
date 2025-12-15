@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\LaporanController;
 
 Route::view('/', 'index')->name('home');
 
@@ -12,13 +13,10 @@ Route::get('/auth/login', function () {
 
 // Route admin dashboard
 Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-Route::get('/admin/dashboard/filter', [DashboardController::class, 'dashboardFilter'])->name('admin.dashboard.filter');
 Route::get('/admin/dashboard/filter', [DashboardController::class, 'filter'])->name('admin.dashboard.filter');
 
-// Menuju Halaman Laporan Admin
-Route::get('/admin/laporan', function () {
-    return view('admin.laporan');
-})->name('admin.laporan');
+// Route admin laporan
+Route::get('/admin/laporan', [LaporanController::class, 'index'])->name('admin.laporan');
 
 // Menuju Halaman Kontrol Admin
 Route::get('/admin/kontrol-admin', function () {
@@ -29,4 +27,3 @@ Route::get('/admin/kontrol-admin', function () {
 Route::get('/admin/arsip', function () {
     return view('admin.arsip');
 })->name('admin.arsip');
-
