@@ -7,7 +7,7 @@
     <title>@yield('title', 'UNNES Sarpras')</title>
 
     <!-- Favicon (opsional) -->
-    <link rel="icon" type="image/png" href="{{ asset('img/unnes-logo.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('icon/unnes-logo.png') }}">
 
     <!-- Font Fira Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

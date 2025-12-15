@@ -243,10 +243,10 @@
                         <td class="px-6 py-4 whitespace-nowrap">
                             @php
                                 $statusColors = [
-                                    'menunggu' => 'text-lg bg-[#E1E7E9] rounded-sm text-[#022C55]',
-                                    'diproses' => 'bg-[#FEEF94] rounded-sm text-[#022C55]',
-                                    'terselesaikan' => 'bg-[#A0F1B5] rounded-sm text-[#022C55]',
-                                    'ditolak' => 'bg-[#FF7A7E] rounded-sm text-[#022C55]'
+                                    'menunggu' => 'px-4 py-2 bg-[#E1E7E9] rounded-sm text-[#022C55]',
+                                    'diproses' => 'px-4 py-2 bg-[#FEEF94] rounded-sm text-[#022C55]',
+                                    'terselesaikan' => 'px-4 py-2 bg-[#A0F1B5] rounded-sm text-[#022C55]',
+                                    'ditolak' => 'px-4 py-2 bg-[#FF7A7E] rounded-sm text-[#022C55]'
                                 ];
                             @endphp
                             <span class="px-3 py-1 text-xs font-medium rounded-full {{ $statusColors[$report['status']] }}">
