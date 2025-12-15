@@ -6,10 +6,10 @@
 
         <!-- Search Bar -->
         <div class="relative w-full">
-            <input 
+            <input
                 type="text"
-                placeholder="Cari Laporan" 
-                class="w-full pl-4 pr-12 py-2 rounded-lg border border-[#DDDDDD] 
+                placeholder="Cari Laporan"
+                class="w-full pl-4 pr-12 py-2 rounded-lg border border-[#DDDDDD]
                     focus:ring-1 focus:ring-[#002C55]"
             >
 
@@ -21,17 +21,66 @@
             </button>
         </div>
 
-        <!-- Notification Button -->
-        <button id="openNotification" class="p-2 border border-[#DDDDDD] rounded-lg hover:bg-gray-100">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12.0201 2.91C8.71009 2.91 6.02009 5.6 6.02009 8.91V11.8C6.02009 12.41 5.76009 13.34 5.45009 13.86L4.30009 15.77C3.59009 16.95 4.08009 18.26 5.38009 18.7C9.69009 20.14 14.3401 20.14 18.6501 18.7C19.8601 18.3 20.3901 16.87 19.7301 15.77L18.5801 13.86C18.2801 13.34 18.0201 12.41 18.0201 11.8V8.91C18.0201 5.61 15.3201 2.91 12.0201 2.91Z" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
-                <path d="M13.8699 3.2C13.5599 3.11 13.2399 3.04 12.9099 3C11.9499 2.88 11.0299 2.95 10.1699 3.2C10.4599 2.46 11.1799 1.94 12.0199 1.94C12.8599 1.94 13.5799 2.46 13.8699 3.2Z" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M15.02 19.06C15.02 20.71 13.67 22.06 12.02 22.06C11.2 22.06 10.44 21.72 9.90002 21.18C9.36002 20.64 9.02002 19.88 9.02002 19.06" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"/>
-            </svg>
+<!-- Notification Panel (tambahkan jika belum ada) -->
+<div id="notificationPanel" class="hidden fixed inset-0 z-50 bg-black/50">
+    <div class="absolute right-4 top-16 bg-white rounded-lg shadow-lg w-80">
+        <div class="p-4 border-b">
+            <div class="flex justify-between items-center">
+                <h3 class="font-semibold">Notifikasi</h3>
+                <button id="closeNotification" class="text-gray-500 hover:text-gray-700">
+                    ✕
+                </button>
+            </div>
+        </div>
+        <div class="p-4">
+            <p class="text-gray-500">Tidak ada notifikasi</p>
+        </div>
+    </div>
+</div>
 
-        </button>
+<!-- Notification Button (update dengan id yang benar) -->
+<button id="openNotification" class="p-2 border border-[#DDDDDD] rounded-lg hover:bg-gray-100">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12.0201 2.91C8.71009 2.91 6.02009 5.6 6.02009 8.91V11.8C6.02009 12.41 5.76009 13.34 5.45009 13.86L4.30009 15.77C3.59009 16.95 4.08009 18.26 5.38009 18.7C9.69009 20.14 14.3401 20.14 18.6501 18.7C19.8601 18.3 20.3901 16.87 19.7301 15.77L18.5801 13.86C18.2801 13.34 18.0201 12.41 18.0201 11.8V8.91C18.0201 5.61 15.3201 2.91 12.0201 2.91Z" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
+        <path d="M13.8699 3.2C13.5599 3.11 13.2399 3.04 12.9099 3C11.9499 2.88 11.0299 2.95 10.1699 3.2C10.4599 2.46 11.1799 1.94 12.0199 1.94C12.8599 1.94 13.5799 2.46 13.8699 3.2Z" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M15.02 19.06C15.02 20.71 13.67 22.06 12.02 22.06C11.2 22.06 10.44 21.72 9.90002 21.18C9.36002 20.64 9.02002 19.88 9.02002 19.06" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"/>
+    </svg>
+</button>
 
     </div>
 </header>
 
-    <script src="{{ asset('js/admin-notification.js') }}"></script>
+<header>
+     <!-- Top Search -->
+    <div class="flex justify-between items-center mb-6 gap-5">
+        <!-- ... existing code ... -->
+    </div>
+</header>
+
+<!-- Pindahkan script ke inline: -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const openBtn = document.getElementById("openNotification");
+    const closeBtn = document.getElementById("closeNotification");
+    const panel = document.getElementById("notificationPanel");
+
+    if (!openBtn || !closeBtn || !panel) return;
+
+    // Buka panel
+    openBtn.addEventListener("click", () => {
+        panel.classList.remove("hidden");
+    });
+
+    // Tutup panel via tombol ×
+    closeBtn.addEventListener("click", () => {
+        panel.classList.add("hidden");
+    });
+
+    // Klik area hitam = tutup panel
+    panel.addEventListener("click", (e) => {
+        if (e.target === panel) {
+            panel.classList.add("hidden");
+        }
+    });
+});
+</script>

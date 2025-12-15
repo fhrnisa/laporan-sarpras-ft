@@ -137,36 +137,42 @@ document.getElementById('laporanForm').addEventListener('submit', async function
     formData.append('lokasi_kerusakan', document.querySelector("input[name='lokasi_kerusakan']").value);
     formData.append('deskripsi_kerusakan', document.querySelector("input[name='deskripsi_kerusakan']").value);
 
-    const file = document.querySelector("input[name='foto_kerusakan']").files[0];
-    if (file) {
-        formData.append('foto_kerusakan', file);
+    const fileInput = document.querySelector("input[name='foto_kerusakan']");
+    if (fileInput.files[0]) {
+        formData.append('foto_kerusakan', fileInput.files[0]);
     }
 
     try {
         const response = await fetch("http://localhost:8001/api/laporan", {
             method: "POST",
             body: formData
+            // Tidak perlu headers untuk FormData
         });
 
         const data = await response.json();
+        console.log('Response:', data);
 
         if (response.ok) {
             alert("Laporan berhasil dikirim!");
             this.reset();
+            // Reset preview image
+            document.getElementById('previewImage').classList.add('hidden');
+            document.querySelector("label.flex.items-center span").textContent = "Tambahkan foto";
         } else {
-            alert("Gagal mengirim laporan");
-            console.error(data);
+            alert("Gagal mengirim laporan: " + (data.message || 'Unknown error'));
         }
 
     } catch (err) {
+        console.error('Error:', err);
         alert("Terjadi error: " + err.message);
     }
 });
 
-document.getElementById("fotoInput").addEventListener("change", function(event) {
+// Event listener untuk preview image
+document.querySelector("input[name='foto_kerusakan']").addEventListener("change", function(event) {
     const file = event.target.files[0];
     const preview = document.getElementById("previewImage");
-    const label = document.getElementById("fileLabel");
+    const placeholder = document.querySelector("label.flex.items-center span");
 
     if (file) {
         const reader = new FileReader();
@@ -178,12 +184,15 @@ document.getElementById("fotoInput").addEventListener("change", function(event) 
 
         reader.readAsDataURL(file);
 
-        label.textContent = file.name;
+        if (placeholder) {
+            placeholder.textContent = file.name;
+        }
     } else {
         preview.classList.add("hidden");
-        label.textContent = "Tambahkan foto";
+        if (placeholder) {
+            placeholder.textContent = "Tambahkan foto";
+        }
     }
 });
-
 </script>
 @endsection

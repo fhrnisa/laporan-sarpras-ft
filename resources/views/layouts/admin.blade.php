@@ -178,8 +178,6 @@
         @include('admin.components.topbar')
         @yield('content')
     </main>
-
-        <script src="{{ asset('js/admin-notif.js') }}"></script>
 </div>
 
 <!-- MODAL KONFIRMASI LOGOUT -->
