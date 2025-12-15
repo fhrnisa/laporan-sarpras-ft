@@ -23,11 +23,11 @@ Website ini dirancang untuk mempermudah proses pelaporan kerusakan sarpras, memp
 ---
 
 ## 🛠️ **Teknologi yang Digunakan**
-
+* **UI/UX:** Figma
 * **Frontend:** HTML, CSS, JavaScript
 * **Backend:** PHP / Laravel
 * **Database:** MySQL
-* **Tools:** Git, GitHub, XAMPP
+* **Tools:** Git, GitHub, Laragon
 
 ---
 
@@ -40,7 +40,7 @@ Proyek ini dikerjakan oleh dua siswa SMK peserta PKL di FT UNNES:
 
 ---
 
-## 📁 **Struktur Folder (Ringkas)**
+## 📁 **Struktur Folder**
 
 ```
 /
