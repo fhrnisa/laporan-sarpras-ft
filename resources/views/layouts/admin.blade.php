@@ -173,12 +173,18 @@
 
     </aside>
 
-    <!-- CONTENT -->
+    <!-- GANTI INI DI BAGIAN TOPBAR INCLUDE -->
     <main id="main-content" class="flex-1 ml-64 p-6 bg-white overflow-auto">
         @include('admin.components.topbar', [
             'showSearch' => View::hasSection('showSearch')
                 ? trim($__env->yieldContent('showSearch')) !== 'false'
-                : true
+                : false,
+            'searchPlaceholder' => View::hasSection('search-placeholder')
+                ? trim($__env->yieldContent('search-placeholder'))
+                : 'Search...',
+            'searchMode' => View::hasSection('search-mode')
+                ? trim($__env->yieldContent('search-mode'))
+                : 'default'
         ])
         @yield('content')
     </main>

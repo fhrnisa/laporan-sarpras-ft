@@ -45,7 +45,7 @@ class LaporanController extends Controller
             return view('admin.laporan', [
                 'laporan' => [],
                 'total' => 0,
-                'error' => 'Koneksi ke server gagal'
+                'error' => 'Koneksi ke server gagal: ' . $e->getMessage()
             ]);
         }
     }

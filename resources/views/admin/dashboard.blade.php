@@ -1,8 +1,8 @@
 @extends('layouts.admin')
 
 @section('title', 'Dashboard')
-
-@section('showSearch', 'false')
+@section('page-title', 'Dashboard')
+@section('showSearch', 'false')  <!-- DISABLE SEARCH BAR -->
 
 @section('content')
     <!-- SUMMARY CARDS (TOTAL AKUMULASI SEMUA LAPORAN) -->
