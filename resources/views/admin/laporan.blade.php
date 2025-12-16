@@ -3,6 +3,10 @@
 @section('title', 'Laporan')
 
 @section('page-title', 'Laporan')
+@section('showSearch', true)
+
+@section('search-placeholder', 'Cari nama, email, atau lokasi laporan')
+@section('search-mode', 'laporan')
 
 @section('content')
 <div class="space-y-6">
@@ -11,20 +15,7 @@
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
         <div class="flex flex-col md:flex-row gap-4 w-full">
 
-            <!-- Search Bar -->
-            <div class="relative w-full md:w-64">
-                <input type="text"
-                       id="searchInput"
-                       placeholder="Cari nama, email, atau lokasi..."
-                       class="w-full border border-[#DDDDDD] rounded-lg text-sm text-[#002C55] py-2 px-4 pl-10 focus:outline-none focus:ring-1 focus:ring-[#002C55] focus:border-[#002C55]">
-                <div class="absolute left-3 top-1/2 transform -translate-y-1/2">
-                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                    </svg>
-                </div>
-            </div>
-
-            <!-- Filter Status -->      
+            <!-- Filter Status -->
             <div class="flex items-center gap-3">
                 <span class="text-[#002C55] font-medium">Status</span>
                 <select id="filterStatus" class="border border-[#DDDDDD] rounded-lg text-sm text-[#002C55] max-w-[140px] py-2 px-3 w-40 focus:outline-none focus:ring-1 focus:ring-[#002C55] focus:border-[#002C55]">
@@ -172,7 +163,7 @@
                                     'ditolak' => 'Ditolak'
                                 ];
                             @endphp
-                            <span class="px-3 py-1 text-xs font-medium rounded-full {{ $statusColors[$status] ?? 'bg-gray-200' }}">
+                            <span class="px-4 py-2 text-sm font-medium rounded-sm {{ $statusColors[$status] ?? 'bg-gray-200' }}">
                                 {{ $statusText[$status] ?? 'Unknown' }}
                             </span>
                         </td>

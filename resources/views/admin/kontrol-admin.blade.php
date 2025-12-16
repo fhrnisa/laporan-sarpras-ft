@@ -20,7 +20,7 @@
                     <option value="diproses">Tidak Aktif</option>
                 </select>
             </div>
-            
+
             <!-- Filter Tanggal -->
             <div class="flex items-center gap-3">
                 <span class="text-[#002C55] font-medium">Tanggal</span>
@@ -59,11 +59,11 @@
             </button>
         </div>
     </div>
-    
+
 
     <!-- TABLE SECTION -->
     <div class="bg-white border border-[#DDDDDD] rounded-xl overflow-hidden">
-  
+
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
 
@@ -77,10 +77,10 @@
                         <th class="px-6 py-3 text-left text-base font-medium text-gray-500 tracking-wider">Dibuat</th>
                         <th class="px-6 py-3 text-left text-base font-medium text-gray-500 tracking-wider">Status</th>
                         <th class="px-6 py-3 text-left text-base font-medium text-gray-500 tracking-wider">Waktu Aktif</th>
-                        
+
                         <!-- Aksi -->
                         <th class="action-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    
+
                         </th>
 
                         <!-- Checkbox Column (Hidden by default) -->

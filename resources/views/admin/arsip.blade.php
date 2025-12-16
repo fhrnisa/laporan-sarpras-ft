@@ -4,6 +4,8 @@
 
 @section('page-title', 'Arsip')
 
+@section('showSearch', 'false')
+
 @section('content')
 <div class="space-y-6">
 
@@ -24,7 +26,7 @@
                 </div>
             </div>
 
-            <!-- Filter Status -->      
+            <!-- Filter Status -->
             <div class="flex items-center gap-3">
                 <span class="text-[#002C55] font-medium">Status</span>
                 <select id="filterStatus" class="border border-[#DDDDDD] rounded-lg text-sm text-[#002C55] max-w-[140px] py-2 px-3 w-40 focus:outline-none focus:ring-1 focus:ring-[#002C55] focus:border-[#002C55]">
@@ -69,7 +71,7 @@
                     </svg>
                     Hapus Permanen
                 </button>
-                <button class="px-4 py-2 bg-[#FED43E] text-white rounded-lg flex gap-2">
+                <button class="px-4 py-2 bg-[#FED43E] text-white rounded-lg gap-5 flex">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M22 12C22 17.52 17.52 22 12 22C6.48 22 3.11 16.44 3.11 16.44M3.11 16.44H7.63M3.11 16.44V21.44M2 12C2 6.48 6.44 2 12 2C18.67 2 22 7.56 22 7.56M22 7.56V2.56M22 7.56H17.56" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>

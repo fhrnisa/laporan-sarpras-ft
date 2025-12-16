@@ -10,9 +10,12 @@
         <div class="relative w-full">
             <input
                 type="text"
-                placeholder="Cari Laporan"
+                id="topbarSearch"
+                placeholder="@yield('search-placeholder', 'Cari Laporan')"
+                data-search-mode="@yield('search-mode', 'default')"
                 class="w-full pl-4 pr-12 py-2 rounded-lg border border-[#DDDDDD]
                     focus:ring-1 focus:ring-[#002C55]">
+
 
             <button class="absolute right-3 top-1/2 -translate-y-1/2">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -22,7 +25,7 @@
             </button>
         </div>
         @endif
-        
+
         <!-- Notification Panel (tambahkan jika belum ada) -->
         <div id="notificationPanel" class="hidden fixed inset-0 z-50 bg-black/50">
             <div class="absolute right-4 top-16 bg-white rounded-lg shadow-lg w-80">
@@ -39,7 +42,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Notification Button (update dengan id yang benar) -->
         <button id="openNotification" class="p-2 border border-[#DDDDDD] rounded-lg hover:bg-gray-100">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

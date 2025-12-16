@@ -25,5 +25,8 @@ Route::get('/admin/kontrol-admin', function () {
 
 // Menuju Halaman Arsip
 Route::get('/admin/arsip', function () {
-    return view('admin.arsip');
+    return view('admin.arsip', [
+        'laporan' => [],
+        'total' => 0
+    ]);
 })->name('admin.arsip');
