@@ -3,8 +3,10 @@
 @section('title', 'Arsip')
 
 @section('page-title', 'Arsip')
+@section('showSearch', true)
 
-@section('showSearch', 'false')
+@section('search-placeholder', 'Cari data di arsip')
+@section('search-mode', 'arsip')
 
 @section('content')
 <div class="space-y-6">
@@ -12,19 +14,6 @@
     <!-- FILTER SECTION -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
         <div class="flex flex-col md:flex-row gap-4 w-full">
-
-            <!-- Search Bar -->
-            <div class="relative w-full md:w-64">
-                <input type="text"
-                       id="searchInput"
-                       placeholder="Cari nama, email, atau lokasi..."
-                       class="w-full border border-[#DDDDDD] rounded-lg text-sm text-[#002C55] py-2 px-4 pl-10 focus:outline-none focus:ring-1 focus:ring-[#002C55] focus:border-[#002C55]">
-                <div class="absolute left-3 top-1/2 transform -translate-y-1/2">
-                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                    </svg>
-                </div>
-            </div>
 
             <!-- Filter Status -->
             <div class="flex items-center gap-3">
@@ -51,8 +40,8 @@
 
         <!-- BUTTONS -->
         <div class="flex gap-3 items-center">
-            <button id="kelolaBtn"
-                    class="bg-[#022C55] text-white text-base rounded-lg py-2 px-4">
+            <button id="pulihkanBtn"
+                    class="bg-[#022C55] text-white text-base rounded-lg py-2 px-4 flex gap-2">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M22 12C22 17.52 17.52 22 12 22C6.48 22 3.11 16.44 3.11 16.44M3.11 16.44H7.63M3.11 16.44V21.44M2 12C2 6.48 6.44 2 12 2C18.67 2 22 7.56 22 7.56M22 7.56V2.56M22 7.56H17.56" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
@@ -71,7 +60,7 @@
                     </svg>
                     Hapus Permanen
                 </button>
-                <button class="px-4 py-2 bg-[#FED43E] text-white rounded-lg gap-5 flex">
+                <button class="px-4 py-2 bg-[#FED43E] text-white rounded-lg flex gap-2">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M22 12C22 17.52 17.52 22 12 22C6.48 22 3.11 16.44 3.11 16.44M3.11 16.44H7.63M3.11 16.44V21.44M2 12C2 6.48 6.44 2 12 2C18.67 2 22 7.56 22 7.56M22 7.56V2.56M22 7.56H17.56" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>

@@ -3,6 +3,10 @@
 @section('title', 'Kontrol Admin')
 
 @section('page-title', 'Kontrol Admin')
+@section('showSearch', true)
+
+@section('search-placeholder', 'Cari admin')
+@section('search-mode', 'admin')
 
 @section('content')
 <div class="space-y-6">
