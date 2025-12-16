@@ -38,19 +38,26 @@
             </div>
         </div>
 
-        <!-- BUTTONS -->
+        <!-- Di bagian BUTTONS, ganti dengan: -->
         <div class="flex gap-3 items-center">
-            <button id="pulihkanBtn"
-                    class="bg-[#022C55] text-white text-base rounded-lg py-2 px-4 flex gap-2">
+            <button id="kelolaBtn"
+                    class="bg-[#022C55] text-white text-base rounded-lg py-2 px-4 flex gap-2 items-center hover:bg-[#01408C] transition-colors">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M22 12C22 17.52 17.52 22 12 22C6.48 22 3.11 16.44 3.11 16.44M3.11 16.44H7.63M3.11 16.44V21.44M2 12C2 6.48 6.44 2 12 2C18.67 2 22 7.56 22 7.56M22 7.56V2.56M22 7.56H17.56" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                Pulihkan
+                        <path d="M13.2633 5.43908L5.05327 14.1291C4.74327 14.4591 4.44327 15.1091 4.38327 15.5591L4.01327 18.7991C3.88327 19.9691 4.72327 20.7691 5.88327 20.5691L9.10327 20.0191C9.55327 19.9391 10.1833 19.6091 10.4933 19.2691L18.7033 10.5791C20.1233 9.07908 20.7633 7.36908 18.5533 5.27908C16.3533 3.20908 14.6833 3.93908 13.2633 5.43908Z" stroke="white" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M11.8926 6.88916C12.3226 9.64916 14.5626 11.7592 17.3426 12.0392" stroke="white" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Kelola Data
             </button>
 
             <!-- Hidden buttons -->
             <div id="manageOptions" class="hidden gap-2 items-center ml-2">
-                <button class="px-4 py-2 bg-[#ED3237] text-white rounded-lg flex gap-2">
+                <button id="pulihkanBtn" class="px-4 py-2 bg-[#022C55] text-white rounded-lg flex gap-2 items-center">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M22 12C22 17.52 17.52 22 12 22C6.48 22 3.11 16.44 3.11 16.44M3.11 16.44H7.63M3.11 16.44V21.44M2 12C2 6.48 6.44 2 12 2C18.67 2 22 7.56 22 7.56M22 7.56V2.56M22 7.56H17.56" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Pulihkan
+                </button>
+                <button id="hapusPermanenBtn" class="px-4 py-2 bg-[#ED3237] text-white rounded-lg flex gap-2 items-center">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M21.0002 6.72998C20.9802 6.72998 20.9502 6.72998 20.9202 6.72998C15.6302 6.19998 10.3502 5.99998 5.12016 6.52998L3.08016 6.72998C2.66016 6.76998 2.29016 6.46998 2.25016 6.04998C2.21016 5.62998 2.51016 5.26998 2.92016 5.22998L4.96016 5.02998C10.2802 4.48998 15.6702 4.69998 21.0702 5.22998C21.4802 5.26998 21.7802 5.63998 21.7402 6.04998C21.7102 6.43998 21.3802 6.72998 21.0002 6.72998Z" fill="white"/>
                         <path d="M8.49977 5.72C8.45977 5.72 8.41977 5.72 8.36977 5.71C7.96977 5.64 7.68977 5.25 7.75977 4.85L7.97977 3.54C8.13977 2.58 8.35977 1.25 10.6898 1.25H13.3098C15.6498 1.25 15.8698 2.63 16.0198 3.55L16.2398 4.85C16.3098 5.26 16.0298 5.65 15.6298 5.71C15.2198 5.78 14.8298 5.5 14.7698 5.1L14.5498 3.8C14.4098 2.93 14.3798 2.76 13.3198 2.76H10.6998C9.63977 2.76 9.61977 2.9 9.46977 3.79L9.23977 5.09C9.17977 5.46 8.85977 5.72 8.49977 5.72Z" fill="white"/>
@@ -60,13 +67,7 @@
                     </svg>
                     Hapus Permanen
                 </button>
-                <button class="px-4 py-2 bg-[#FED43E] text-white rounded-lg flex gap-2">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M22 12C22 17.52 17.52 22 12 22C6.48 22 3.11 16.44 3.11 16.44M3.11 16.44H7.63M3.11 16.44V21.44M2 12C2 6.48 6.44 2 12 2C18.67 2 22 7.56 22 7.56M22 7.56V2.56M22 7.56H17.56" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                Pulihkan
-                </button>
-                <button id="batalBtn" class="px-4 py-2 bg-gray-600 text-white rounded flex gap-2">
+                <button id="batalBtn" class="px-4 py-2 bg-gray-600 text-white rounded-lg flex gap-2 items-center">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M5.00098 5L19 18.9991" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M4.99996 18.9991L18.999 5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -593,4 +594,78 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     }
 });
+
+// Function untuk memulihkan data
+async function restoreReports() {
+    const selectedIds = Array.from(document.querySelectorAll('.report-checkbox:checked'))
+        .map(checkbox => checkbox.value);
+
+    if (selectedIds.length === 0) {
+        showToast('Pilih laporan yang akan dipulihkan', 'error');
+        return;
+    }
+
+    if (!confirm(`Pulihkan ${selectedIds.length} laporan dari arsip?`)) return;
+
+    try {
+        const response = await fetch('/admin/arsip/restore', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({ ids: selectedIds })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            showToast(data.message);
+            setTimeout(() => location.reload(), 1500);
+        } else {
+            showToast(data.message, 'error');
+        }
+    } catch (error) {
+        showToast('Terjadi kesalahan: ' + error.message, 'error');
+    }
+}
+
+// Function untuk menghapus permanen
+async function deletePermanent() {
+    const selectedIds = Array.from(document.querySelectorAll('.report-checkbox:checked'))
+        .map(checkbox => checkbox.value);
+
+    if (selectedIds.length === 0) {
+        showToast('Pilih laporan yang akan dihapus permanen', 'error');
+        return;
+    }
+
+    if (!confirm(`Hapus permanen ${selectedIds.length} laporan? Tindakan ini tidak dapat dibatalkan!`)) return;
+
+    try {
+        const response = await fetch('/admin/arsip/destroy', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({ ids: selectedIds })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            showToast(data.message);
+            setTimeout(() => location.reload(), 1500);
+        } else {
+            showToast(data.message, 'error');
+        }
+    } catch (error) {
+        showToast('Terjadi kesalahan: ' + error.message, 'error');
+    }
+}
+
+// Tambahkan event listeners
+document.getElementById('pulihkanBtn')?.addEventListener('click', restoreReports);
+document.getElementById('hapusPermanenBtn')?.addEventListener('click', deletePermanent);
 </script>

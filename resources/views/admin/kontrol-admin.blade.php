@@ -69,7 +69,7 @@
             </button>
 
             <!-- Manage Options (Hidden by default) -->
-            <div id="manageOptions" class="hidden flex gap-3 items-center">
+            <div id="manageOptions" class="hidden gap-3 items-center">
                 <button id="batalBtn"
                         class="bg-white border border-gray-400 text-gray-600 text-base rounded-lg py-2 px-4 hover:bg-gray-50 transition-colors">
                     Batal
