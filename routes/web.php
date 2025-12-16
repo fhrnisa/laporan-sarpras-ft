@@ -29,4 +29,3 @@ Route::get('/admin/arsip', function () {
         'laporan' => []
     ]);
 })->name('admin.arsip');
-
