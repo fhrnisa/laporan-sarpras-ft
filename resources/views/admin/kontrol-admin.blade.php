@@ -377,7 +377,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const kelolaBtn = document.getElementById("kelolaBtn");
     const batalBtn = document.getElementById("batalBtn");
     const manageOptions = document.getElementById("manageOptions");
-    const hapusBtn = document.getElementById("hapusBtn");
+    const hapusBtn = document.querySelector("#manageOptions button:first-child"); // Tombol hapus pertama
 
     const actionCells = document.querySelectorAll(".action-cell");
     const checkboxCells = document.querySelectorAll(".checkbox-cell");
@@ -390,89 +390,138 @@ document.addEventListener("DOMContentLoaded", () => {
     const successToast = document.getElementById("successToast");
 
     // Filter elements
-    const searchInput = document.getElementById("searchInput");
+    const searchInput = document.getElementById("searchInput") || document.querySelector('input[name="search"]');
     const filterStatus = document.getElementById("filterStatus");
     const filterTanggal = document.getElementById("filterTanggal");
 
-    // Variables for modal actions
-    let currentAction = null;
-    let currentAdminId = null;
-
     // === EVENT LISTENERS ===
 
-    // Search input with debounce
-    let searchTimeout;
-    searchInput.addEventListener('input', function() {
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(() => {
-            loadAdmins();
-        }, 500);
-    });
+    // Search input dengan debounce
+    if (searchInput) {
+        let searchTimeout;
+        searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                loadAdmins();
+            }, 500);
+        });
+    }
 
-    // Filter change
-    filterStatus.addEventListener('change', loadAdmins);
-    filterTanggal.addEventListener('change', loadAdmins);
+    // Filter change - reload page dengan filter baru
+    if (filterStatus) {
+        filterStatus.addEventListener('change', function() {
+            applyFilters();
+        });
+    }
 
-    // MODE KELOLA
-    kelolaBtn.addEventListener("click", () => {
-        kelolaBtn.classList.add("hidden");
-        manageOptions.classList.remove("hidden");
-        actionCells.forEach(btn => btn.classList.add("hidden"));
-        checkboxCells.forEach(cell => cell.classList.remove("hidden"));
-    });
+    if (filterTanggal) {
+        filterTanggal.addEventListener('change', function() {
+            applyFilters();
+        });
+    }
 
-    // BATAL MODE KELOLA
-    batalBtn.addEventListener("click", () => {
-        kelolaBtn.classList.remove("hidden");
-        manageOptions.classList.add("hidden");
-        checkboxCells.forEach(cell => cell.classList.add("hidden"));
-        actionCells.forEach(btn => btn.classList.remove("hidden"));
-        adminCheckboxes.forEach(ch => ch.checked = false);
-        selectAll.checked = false;
-    });
+    function applyFilters() {
+        const params = new URLSearchParams();
 
-    // Select All checkbox
-    selectAll.addEventListener("change", function() {
-        adminCheckboxes.forEach(ch => ch.checked = selectAll.checked);
-    });
+        // Get search value
+        const searchValue = searchInput ? searchInput.value.trim() : '';
 
-    // Tambah Admin button
-    addAdminBtn.addEventListener("click", () => {
-        openAdminModal('add');
-    });
-
-    // Close modal buttons
-    document.getElementById("closeModal").addEventListener("click", () => adminModal.classList.add("hidden"));
-    document.getElementById("cancelBtn").addEventListener("click", () => adminModal.classList.add("hidden"));
-
-    // Submit form
-    document.getElementById("submitBtn").addEventListener("click", submitAdminForm);
-
-    // Confirm modal buttons
-    document.getElementById("cancelConfirm").addEventListener("click", () => confirmModal.classList.add("hidden"));
-
-    // Hapus multiple
-    hapusMultipleBtn.addEventListener("click", () => {
-        const selectedIds = getSelectedAdminIds();
-        if (selectedIds.length === 0) {
-            showToast('Pilih admin terlebih dahulu', 'error');
-            return;
+        // Add filters
+        if (filterStatus && filterStatus.value !== 'all') {
+            params.append('status', filterStatus.value);
         }
 
-        showConfirmModal(
-            'Hapus Admin Terpilih',
-            `Apakah Anda yakin ingin menghapus ${selectedIds.length} admin terpilih?`,
-            () => deleteMultipleAdmins(selectedIds)
-        );
-    });
+        if (filterTanggal && filterTanggal.value !== 'semua') {
+            params.append('tanggal', filterTanggal.value);
+        }
+
+        if (searchValue) {
+            params.append('search', searchValue);
+        }
+
+        const queryString = params.toString();
+        window.location.href = `/admin/kontrol-admin${queryString ? '?' + queryString : ''}`;
+    }
+
+    // MODE KELOLA
+    if (kelolaBtn) {
+        kelolaBtn.addEventListener("click", () => {
+            kelolaBtn.classList.add("hidden");
+            if (manageOptions) manageOptions.classList.remove("hidden");
+            actionCells.forEach(btn => btn.classList.add("hidden"));
+            checkboxCells.forEach(cell => cell.classList.remove("hidden"));
+        });
+    }
+
+    // BATAL MODE KELOLA
+    if (batalBtn) {
+        batalBtn.addEventListener("click", () => {
+            if (kelolaBtn) kelolaBtn.classList.remove("hidden");
+            if (manageOptions) manageOptions.classList.add("hidden");
+            checkboxCells.forEach(cell => cell.classList.add("hidden"));
+            actionCells.forEach(btn => btn.classList.remove("hidden"));
+            adminCheckboxes.forEach(ch => ch.checked = false);
+            if (selectAll) selectAll.checked = false;
+        });
+    }
+
+    // Select All checkbox
+    if (selectAll) {
+        selectAll.addEventListener("change", function() {
+            adminCheckboxes.forEach(ch => ch.checked = selectAll.checked);
+        });
+    }
+
+    // Tambah Admin button
+    if (addAdminBtn) {
+        addAdminBtn.addEventListener("click", () => {
+            openAdminModal('add');
+        });
+    }
+
+    // Close modal buttons
+    if (document.getElementById("closeModal")) {
+        document.getElementById("closeModal").addEventListener("click", () => adminModal.classList.add("hidden"));
+    }
+    if (document.getElementById("cancelBtn")) {
+        document.getElementById("cancelBtn").addEventListener("click", () => adminModal.classList.add("hidden"));
+    }
+
+    // Submit form
+    if (document.getElementById("submitBtn")) {
+        document.getElementById("submitBtn").addEventListener("click", submitAdminForm);
+    }
+
+    // Confirm modal buttons
+    if (document.getElementById("cancelConfirm")) {
+        document.getElementById("cancelConfirm").addEventListener("click", () => confirmModal.classList.add("hidden"));
+    }
+
+    // Hapus multiple (tombol hapus di mode kelola)
+    if (hapusBtn) {
+        hapusBtn.addEventListener("click", () => {
+            const selectedIds = getSelectedAdminIds();
+            if (selectedIds.length === 0) {
+                showToast('Pilih admin terlebih dahulu', 'error');
+                return;
+            }
+
+            showConfirmModal(
+                'Hapus Admin Terpilih',
+                `Apakah Anda yakin ingin menghapus ${selectedIds.length} admin terpilih?`,
+                () => deleteMultipleAdmins(selectedIds)
+            );
+        });
+    }
 
     // === FUNCTIONS ===
 
+    // Function untuk load admins dari API (jika menggunakan AJAX)
     function loadAdmins() {
         const params = new URLSearchParams({
-            status: filterStatus.value,
-            tanggal: filterTanggal.value,
-            search: searchInput.value
+            status: filterStatus ? filterStatus.value : 'all',
+            tanggal: filterTanggal ? filterTanggal.value : 'semua',
+            search: searchInput ? searchInput.value : ''
         });
 
         fetch(`${baseUrl}?${params}`)
@@ -488,121 +537,14 @@ document.addEventListener("DOMContentLoaded", () => {
             });
     }
 
+    // Function untuk update table dengan AJAX (opsional)
     function updateTable(admins) {
-        const tbody = document.getElementById('adminTableBody');
-        tbody.innerHTML = '';
-
-        if (admins.length === 0) {
-            tbody.innerHTML = `
-                <tr>
-                    <td colspan="9" class="px-6 py-12 text-center text-gray-500">
-                        Tidak ada data admin
-                    </td>
-                </tr>
-            `;
-            return;
-        }
-
-        admins.forEach(admin => {
-            const row = document.createElement('tr');
-            row.className = 'hover:bg-gray-50 transition-colors admin-row';
-            row.dataset.id = admin.id;
-
-            const createdDate = new Date(admin.created_at);
-            const lastActive = admin.last_active_at ? new Date(admin.last_active_at) : null;
-
-            const roleColors = {
-                'viewer': 'bg-[#DDDDDD] text-[#022C55]',
-                'admin': 'bg-[#A0F1B5] text-[#022C55]'
-            };
-
-            const statusColors = {
-                'aktif': 'bg-green-100 text-green-800',
-                'tidak_aktif': 'bg-red-100 text-red-800'
-            };
-
-            row.innerHTML = `
-                <td class="px-6 py-4 whitespace-nowrap text-base text-[#002C55]">
-                    ${admin.kode || '#' + admin.id}
-                </td>
-                <td class="max-w-[200px] px-6 py-4 text-base text-[#002C55]">
-                    ${admin.name}
-                </td>
-                <td class="max-w-[200px] px-6 py-4 text-base text-[#002C55]">
-                    ${admin.email}
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-base text-[#002C55]">
-                    ${admin.nomor_telepon}
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-base text-[#002C55]">
-                    ${formatDate(createdDate)}
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                    <span class="px-4 py-2 text-sm font-medium rounded-sm ${roleColors[admin.role] || 'bg-gray-200'}">
-                        ${admin.role.charAt(0).toUpperCase() + admin.role.slice(1)}
-                    </span>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                    <span class="px-4 py-2 text-sm font-medium rounded-sm ${statusColors[admin.status] || 'bg-gray-200'}">
-                        ${admin.status.charAt(0).toUpperCase() + admin.status.slice(1)}
-                    </span>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-base text-[#002C55]">
-                    ${lastActive ? formatDateTime(lastActive) : 'Belum pernah'}
-                </td>
-                <td class="text-center action-cell px-6 py-4">
-                    <div class="relative inline-block">
-                        <button class="aksiBtn p-1 hover:bg-gray-100 rounded">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M19 13C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11C18.4477 11 18 11.4477 18 12C18 12.5523 18.4477 13 19 13Z" stroke="#002C55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z" stroke="#002C55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M5 13C5.55228 13 6 12.5523 6 12C6 11.4477 5.55228 11 5 11C4.44772 11 4 11.4477 4 12C4 12.5523 4.44772 13 5 13Z" stroke="#002C55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </button>
-
-                        <div class="aksiDropdown absolute right-0 mt-1 w-48 bg-white rounded-md shadow-lg border z-10 hidden">
-                            <button class="editAdminBtn w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                    data-id="${admin.id}"
-                                    data-name="${admin.name}"
-                                    data-email="${admin.email}"
-                                    data-phone="${admin.nomor_telepon}"
-                                    data-role="${admin.role}"
-                                    data-status="${admin.status}">
-                                <svg class="inline w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                </svg>
-                                Edit Admin
-                            </button>
-                            <button class="changeStatusBtn w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                    data-id="${admin.id}"
-                                    data-status="${admin.status}">
-                                <svg class="inline w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>
-                                Ubah Status
-                            </button>
-                            <button class="deleteAdminBtn w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
-                                    data-id="${admin.id}">
-                                <svg class="inline w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                </svg>
-                                Hapus Admin
-                            </button>
-                        </div>
-                    </div>
-                </td>
-                <td class="checkbox-cell hidden px-6 py-4">
-                    <input type="checkbox" class="admin-checkbox" value="${admin.id}">
-                </td>
-            `;
-
-            tbody.appendChild(row);
-        });
-
-        // Attach event listeners to new rows
-        attachActionListeners();
+        // Implementasi jika ingin menggunakan AJAX untuk update table
+        // Tapi di sini kita sudah menggunakan server-side rendering
+        console.log('Admins loaded:', admins);
     }
 
+    // Function untuk attach action listeners ke baris tabel
     function attachActionListeners() {
         // Aksi dropdown
         document.querySelectorAll('.aksiBtn').forEach(btn => {
@@ -659,31 +601,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (action === 'add') {
             modalTitle.textContent = 'Tambah Admin Baru';
-            form.reset();
-            document.getElementById('adminId').value = '';
-            passwordFields.style.display = 'block';
-            document.getElementById('password').required = true;
-            document.getElementById('password_confirmation').required = true;
-        } else if (action === 'edit') {
+            if (form) form.reset();
+            if (document.getElementById('adminId')) document.getElementById('adminId').value = '';
+            if (passwordFields) passwordFields.style.display = 'block';
+            if (document.getElementById('password')) document.getElementById('password').required = true;
+            if (document.getElementById('password_confirmation')) document.getElementById('password_confirmation').required = true;
+        } else if (action === 'edit' && data) {
             modalTitle.textContent = 'Edit Admin';
-            document.getElementById('adminId').value = data.id;
-            document.getElementById('name').value = data.name;
-            document.getElementById('email').value = data.email;
-            document.getElementById('nomor_telepon').value = data.phone;
-            document.getElementById('role').value = data.role;
-            document.getElementById('status').value = data.status;
-            passwordFields.style.display = 'none';
-            document.getElementById('password').required = false;
-            document.getElementById('password_confirmation').required = false;
+            if (document.getElementById('adminId')) document.getElementById('adminId').value = data.id;
+            if (document.getElementById('name')) document.getElementById('name').value = data.name;
+            if (document.getElementById('email')) document.getElementById('email').value = data.email;
+            if (document.getElementById('nomor_telepon')) document.getElementById('nomor_telepon').value = data.phone;
+            if (document.getElementById('role')) document.getElementById('role').value = data.role;
+            if (document.getElementById('status')) document.getElementById('status').value = data.status;
+            if (passwordFields) passwordFields.style.display = 'none';
+            if (document.getElementById('password')) document.getElementById('password').required = false;
+            if (document.getElementById('password_confirmation')) document.getElementById('password_confirmation').required = false;
         }
 
-        adminModal.classList.remove('hidden');
+        if (adminModal) adminModal.classList.remove('hidden');
     }
 
     function submitAdminForm() {
         const form = document.getElementById('adminForm');
+        if (!form) return;
+
         const formData = new FormData(form);
-        const adminId = document.getElementById('adminId').value;
+        const adminId = document.getElementById('adminId') ? document.getElementById('adminId').value : '';
         const isEdit = !!adminId;
 
         const data = {
@@ -715,9 +659,10 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(response => response.json())
         .then(result => {
             if (result.success) {
-                adminModal.classList.add('hidden');
+                if (adminModal) adminModal.classList.add('hidden');
                 showToast(result.message || (isEdit ? 'Admin berhasil diperbarui' : 'Admin berhasil ditambahkan'));
-                loadAdmins();
+                // Reload page untuk update data
+                setTimeout(() => window.location.reload(), 1500);
             } else {
                 showFormErrors(result.errors || { message: result.message });
             }
@@ -741,9 +686,10 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(response => response.json())
         .then(result => {
             if (result.success) {
-                confirmModal.classList.add('hidden');
+                if (confirmModal) confirmModal.classList.add('hidden');
                 showToast(result.message || 'Status berhasil diperbarui');
-                loadAdmins();
+                // Reload page untuk update data
+                setTimeout(() => window.location.reload(), 1500);
             } else {
                 showToast(result.message || 'Gagal memperbarui status', 'error');
             }
@@ -765,9 +711,10 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(response => response.json())
         .then(result => {
             if (result.success) {
-                confirmModal.classList.add('hidden');
+                if (confirmModal) confirmModal.classList.add('hidden');
                 showToast(result.message || 'Admin berhasil dihapus');
-                loadAdmins();
+                // Reload page untuk update data
+                setTimeout(() => window.location.reload(), 1500);
             } else {
                 showToast(result.message || 'Gagal menghapus admin', 'error');
             }
@@ -791,11 +738,10 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(response => response.json())
         .then(result => {
             if (result.success) {
-                confirmModal.classList.add('hidden');
+                if (confirmModal) confirmModal.classList.add('hidden');
                 showToast(result.message || 'Admin berhasil dihapus');
-                loadAdmins();
-                // Exit manage mode
-                batalBtn.click();
+                // Reload page untuk update data dan keluar mode kelola
+                setTimeout(() => window.location.reload(), 1500);
             } else {
                 showToast(result.message || 'Gagal menghapus admin', 'error');
             }
@@ -812,16 +758,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function showConfirmModal(title, message, callback) {
-        document.getElementById('confirmTitle').textContent = title;
-        document.getElementById('confirmMessage').textContent = message;
-        confirmModal.classList.remove('hidden');
+        const confirmTitle = document.getElementById('confirmTitle');
+        const confirmMessage = document.getElementById('confirmMessage');
 
-        const confirmBtn = document.getElementById('confirmAction');
-        confirmBtn.onclick = callback;
+        if (confirmTitle) confirmTitle.textContent = title;
+        if (confirmMessage) confirmMessage.textContent = message;
+
+        if (confirmModal) {
+            confirmModal.classList.remove('hidden');
+
+            const confirmBtn = document.getElementById('confirmAction');
+            if (confirmBtn) {
+                confirmBtn.onclick = callback;
+            }
+        }
     }
 
     function showFormErrors(errors) {
         const errorDiv = document.getElementById('formErrors');
+        if (!errorDiv) return;
+
         if (typeof errors === 'object') {
             let html = '<ul class="list-disc pl-4">';
             Object.values(errors).forEach(error => {
@@ -839,6 +795,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const toast = document.getElementById('successToast');
         const toastMessage = document.getElementById('toastMessage');
 
+        if (!toast || !toastMessage) return;
+
         toastMessage.textContent = message;
 
         if (type === 'error') {
@@ -854,25 +812,6 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => {
             toast.classList.add('hidden');
         }, 3000);
-    }
-
-    function formatDate(date) {
-        return date.toLocaleDateString('id-ID', {
-            day: 'numeric',
-            month: 'short',
-            year: 'numeric'
-        });
-    }
-
-    function formatDateTime(date) {
-        return date.toLocaleDateString('id-ID', {
-            day: 'numeric',
-            month: 'short',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit'
-        });
     }
 
     // Initial attachment of event listeners
