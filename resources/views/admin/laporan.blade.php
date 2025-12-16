@@ -38,7 +38,7 @@
             </div>
         </div>
 
-        <!-- Di bagian BUTTONS, ganti ini: -->
+        <!-- BUTTONS SECTION -->
         <div class="flex gap-3 items-center">
             <button id="kelolaBtn"
                     class="bg-[#022C55] text-white text-base rounded-lg py-2 px-4 flex gap-2 items-center hover:bg-[#01408C] transition-colors">
@@ -49,22 +49,28 @@
                     Kelola Data
             </button>
 
-            <!-- Ganti bagian hidden buttons dengan: -->
+            <!-- Hidden buttons -->
             <div id="manageOptions" class="hidden gap-2 items-center">
-                <form id="archiveForm" method="POST" action="{{ route('admin.laporan.archive') }}">
-                    @csrf
-                    <input type="hidden" name="ids" id="archiveIds">
-                    <button type="button" onclick="submitArchive()"
-                            class="px-4 py-2 bg-[#FED43E] text-white rounded-lg flex gap-2 items-center hover:bg-yellow-600">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M16 22.75H8C4.35 22.75 2.25 20.65 2.25 17V7C2.25 3.35 4.35 1.25 8 1.25H16C19.65 1.25 21.75 3.35 21.75 7V17C21.75 20.65 19.65 22.75 16 22.75ZM8 2.75C5.14 2.75 3.75 4.14 3.75 7V17C3.75 19.86 5.14 21.25 8 21.25H16C18.86 21.25 20.25 19.86 20.25 17V7C20.25 4.14 18.86 2.75 16 2.75H8Z" fill="currentColor"/>
-                            <path d="M9 11.11C8.83 11.11 8.66 11.08 8.5 11.01C8.04 10.81 7.75 10.36 7.75 9.87V2C7.75 1.59 8.09 1.25 8.5 1.25H15.5C15.91 1.25 16.25 1.59 16.25 2V9.85999C16.25 10.36 15.96 10.81 15.5 11C15.05 11.2 14.52 11.11 14.15 10.77L12 8.79999L9.84998 10.78C9.60998 11 9.31 11.11 9 11.11ZM12 7.21002C12.3 7.21002 12.61 7.31998 12.85 7.53998L14.75 9.28998V2.75H9.25V9.28998L11.15 7.53998C11.39 7.31998 11.7 7.21002 12 7.21002Z" fill="currentColor"/>
-                            <path d="M17.5 14.75H13.25C12.84 14.75 12.5 14.41 12.5 14C12.5 13.59 12.84 13.25 13.25 13.25H17.5C17.91 13.25 18.25 13.59 18.25 14C18.25 14.41 17.91 14.75 17.5 14.75Z" fill="currentColor"/>
-                            <path d="M17.5 18.75H9C8.59 18.75 8.25 18.41 8.25 18C8.25 17.59 8.59 17.25 9 17.25H17.5C17.91 17.25 18.25 17.59 18.25 18C18.25 18.41 17.91 18.75 17.5 18.75Z" fill="currentColor"/>
-                        </svg>
-                        Arsipkan
-                    </button>
-                </form>
+                <button id="arsipBtn" class="px-4 py-2 bg-[#FED43E] text-white rounded-lg flex gap-2 items-center hover:bg-yellow-600">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16 22.75H8C4.35 22.75 2.25 20.65 2.25 17V7C2.25 3.35 4.35 1.25 8 1.25H16C19.65 1.25 21.75 3.35 21.75 7V17C21.75 20.65 19.65 22.75 16 22.75ZM8 2.75C5.14 2.75 3.75 4.14 3.75 7V17C3.75 19.86 5.14 21.25 8 21.25H16C18.86 21.25 20.25 19.86 20.25 17V7C20.25 4.14 18.86 2.75 16 2.75H8Z" fill="currentColor"/>
+                        <path d="M9 11.11C8.83 11.11 8.66 11.08 8.5 11.01C8.04 10.81 7.75 10.36 7.75 9.87V2C7.75 1.59 8.09 1.25 8.5 1.25H15.5C15.91 1.25 16.25 1.59 16.25 2V9.85999C16.25 10.36 15.96 10.81 15.5 11C15.05 11.2 14.52 11.11 14.15 10.77L12 8.79999L9.84998 10.78C9.60998 11 9.31 11.11 9 11.11ZM12 7.21002C12.3 7.21002 12.61 7.31998 12.85 7.53998L14.75 9.28998V2.75H9.25V9.28998L11.15 7.53998C11.39 7.31998 11.7 7.21002 12 7.21002Z" fill="currentColor"/>
+                        <path d="M17.5 14.75H13.25C12.84 14.75 12.5 14.41 12.5 14C12.5 13.59 12.84 13.25 13.25 13.25H17.5C17.91 13.25 18.25 13.59 18.25 14C18.25 14.41 17.91 14.75 17.5 14.75Z" fill="currentColor"/>
+                        <path d="M17.5 18.75H9C8.59 18.75 8.25 18.41 8.25 18C8.25 17.59 8.59 17.25 9 17.25H17.5C17.91 17.25 18.25 17.59 18.25 18C18.25 18.41 17.91 18.75 17.5 18.75Z" fill="currentColor"/>
+                    </svg>
+                    Arsipkan
+                </button>
+
+                <button id="hapusPermanenBtn" class="px-4 py-2 bg-[#ED3237] text-white rounded-lg flex gap-2 items-center hover:bg-red-600">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21.0002 6.72998C20.9802 6.72998 20.9502 6.72998 20.9202 6.72998C15.6302 6.19998 10.3502 5.99998 5.12016 6.52998L3.08016 6.72998C2.66016 6.76998 2.29016 6.46998 2.25016 6.04998C2.21016 5.62998 2.51016 5.26998 2.92016 5.22998L4.96016 5.02998C10.2802 4.48998 15.6702 4.69998 21.0702 5.22998C21.4802 5.26998 21.7802 5.63998 21.7402 6.04998C21.7102 6.43998 21.3802 6.72998 21.0002 6.72998Z" fill="white"/>
+                        <path d="M8.49977 5.72C8.45977 5.72 8.41977 5.72 8.36977 5.71C7.96977 5.64 7.68977 5.25 7.75977 4.85L7.97977 3.54C8.13977 2.58 8.35977 1.25 10.6898 1.25H13.3098C15.6498 1.25 15.8698 2.63 16.0198 3.55L16.2398 4.85C16.3098 5.26 16.0298 5.65 15.6298 5.71C15.2198 5.78 14.8298 5.5 14.7698 5.1L14.5498 3.8C14.4098 2.93 14.3798 2.76 13.3198 2.76H10.6998C9.63977 2.76 9.61977 2.9 9.46977 3.79L9.23977 5.09C9.17977 5.46 8.85977 5.72 8.49977 5.72Z" fill="white"/>
+                        <path d="M15.2099 22.75H8.7899C5.2999 22.75 5.1599 20.82 5.0499 19.26L4.3999 9.18995C4.3699 8.77995 4.6899 8.41995 5.0999 8.38995C5.5199 8.36995 5.8699 8.67995 5.8999 9.08995L6.5499 19.16C6.6599 20.68 6.6999 21.25 8.7899 21.25H15.2099C17.3099 21.25 17.3499 20.68 17.4499 19.16L18.0999 9.08995C18.1299 8.67995 18.4899 8.36995 18.8999 8.38995C19.3099 8.41995 19.6299 8.76995 19.5999 9.18995L18.9499 19.26C18.8399 20.82 18.6999 22.75 15.2099 22.75Z" fill="white"/>
+                        <path d="M13.6601 17.25H10.3301C9.92008 17.25 9.58008 16.91 9.58008 16.5C9.58008 16.09 9.92008 15.75 10.3301 15.75H13.6601C14.0701 15.75 14.4101 16.09 14.4101 16.5C14.4101 16.91 14.0701 17.25 13.6601 17.25Z" fill="white"/>
+                        <path d="M14.5 13.25H9.5C9.09 13.25 8.75 12.91 8.75 12.5C8.75 12.09 9.09 11.75 9.5 11.75H14.5C14.91 11.75 15.25 12.09 15.25 12.5C15.25 12.91 14.91 13.25 14.5 13.25Z" fill="white"/>
+                    </svg>
+                    Hapus Permanen
+                </button>
 
                 <button id="batalBtn" class="px-4 py-2 bg-gray-600 text-white rounded-lg flex gap-2 items-center hover:bg-gray-700">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -377,8 +383,11 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
+    // === ELEMEN UTAMA ===
     const kelolaBtn = document.getElementById("kelolaBtn");
     const batalBtn = document.getElementById("batalBtn");
+    const arsipBtn = document.getElementById("arsipBtn");
+    const hapusPermanenBtn = document.getElementById("hapusPermanenBtn");
     const manageOptions = document.getElementById("manageOptions");
     const actionCells = document.querySelectorAll(".action-cell");
     const checkboxCells = document.querySelectorAll(".checkbox-cell");
@@ -388,52 +397,54 @@ document.addEventListener("DOMContentLoaded", () => {
     const closeBtn = document.getElementById("closeDetail");
     const filterStatus = document.getElementById("filterStatus");
     const filterTanggal = document.getElementById("filterTanggal");
-    const searchInput = document.getElementById("searchInput");
 
+    // === FILTER FUNCTIONS ===
     // Set initial filter values from URL params
     const urlParams = new URLSearchParams(window.location.search);
     const statusParam = urlParams.get('status');
     const tanggalParam = urlParams.get('tanggal');
-    const searchParam = urlParams.get('search');
 
-    if (statusParam) filterStatus.value = statusParam;
-    if (tanggalParam) filterTanggal.value = tanggalParam;
-    if (searchParam) searchInput.value = searchParam;
+    if (statusParam && filterStatus) filterStatus.value = statusParam;
+    if (tanggalParam && filterTanggal) filterTanggal.value = tanggalParam;
 
-    // Filter change event
-    filterStatus.addEventListener('change', applyFilters);
-    filterTanggal.addEventListener('change', applyFilters);
-
-    // Search with debounce
-    let searchTimeout;
-    searchInput.addEventListener('input', function() {
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(applyFilters, 500);
-    });
+    // Filter change event - hanya jika elemen ada
+    if (filterStatus) {
+        filterStatus.addEventListener('change', applyFilters);
+    }
+    if (filterTanggal) {
+        filterTanggal.addEventListener('change', applyFilters);
+    }
 
     function applyFilters() {
         const params = new URLSearchParams();
 
-        if (filterStatus.value !== 'all') {
+        // Get search value from topbar search
+        const searchInput = document.getElementById('topbarSearch');
+        const searchValue = searchInput ? searchInput.value.trim() : '';
+
+        // Add filters
+        if (filterStatus && filterStatus.value !== 'all') {
             params.append('status', filterStatus.value);
         }
 
-        if (filterTanggal.value !== '7hari') {
+        if (filterTanggal && filterTanggal.value !== '7hari') {
             params.append('tanggal', filterTanggal.value);
         }
 
-        if (searchInput.value.trim()) {
-            params.append('search', searchInput.value.trim());
+        if (searchValue) {
+            params.append('search', searchValue);
         }
 
         const queryString = params.toString();
         window.location.href = `/admin/laporan${queryString ? '?' + queryString : ''}`;
     }
 
-    // Detail modal functions
+    // === TOAST FUNCTION ===
     function showToast(message, type = 'success') {
         const toast = document.getElementById('toast');
         const toastMessage = document.getElementById('toastMessage');
+
+        if (!toast || !toastMessage) return;
 
         toastMessage.textContent = message;
         toast.className = `fixed top-4 right-4 px-4 py-2 rounded-lg shadow-lg z-50 flex items-center gap-2 ${type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white`;
@@ -444,12 +455,18 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 3000);
     }
 
+    // === DETAIL MODAL FUNCTIONS ===
     async function loadReportDetail(id) {
         try {
-            document.getElementById('detailLoading').classList.remove('hidden');
-            document.getElementById('detailContent').classList.add('hidden');
-            document.getElementById('detailError').classList.add('hidden');
-            document.getElementById('detailActions').classList.add('hidden');
+            const detailLoading = document.getElementById('detailLoading');
+            const detailContent = document.getElementById('detailContent');
+            const detailError = document.getElementById('detailError');
+            const detailActions = document.getElementById('detailActions');
+
+            if (detailLoading) detailLoading.classList.remove('hidden');
+            if (detailContent) detailContent.classList.add('hidden');
+            if (detailError) detailError.classList.add('hidden');
+            if (detailActions) detailActions.classList.add('hidden');
 
             const response = await fetch(`http://localhost:8001/api/admin/laporan/${id}`);
             const data = await response.json();
@@ -462,65 +479,94 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         } catch (error) {
             console.error('Error loading report detail:', error);
-            document.getElementById('detailLoading').classList.add('hidden');
-            document.getElementById('detailError').classList.remove('hidden');
-            document.getElementById('errorMessage').textContent = error.message;
+            const detailLoading = document.getElementById('detailLoading');
+            const detailError = document.getElementById('detailError');
+            const errorMessage = document.getElementById('errorMessage');
+
+            if (detailLoading) detailLoading.classList.add('hidden');
+            if (detailError) detailError.classList.remove('hidden');
+            if (errorMessage) errorMessage.textContent = error.message;
         }
     }
 
     function displayReportDetail(report) {
-        document.getElementById('detailLoading').classList.add('hidden');
-        document.getElementById('detailContent').classList.remove('hidden');
-        document.getElementById('detailActions').classList.remove('hidden');
+        const detailLoading = document.getElementById('detailLoading');
+        const detailContent = document.getElementById('detailContent');
+        const detailActions = document.getElementById('detailActions');
+
+        if (detailLoading) detailLoading.classList.add('hidden');
+        if (detailContent) detailContent.classList.remove('hidden');
+        if (detailActions) detailActions.classList.remove('hidden');
 
         // Set basic info
-        document.getElementById('detailTitle').textContent = `Laporan #${report.id}`;
-        document.getElementById('detailDate').textContent = report.created_at ?
-            new Date(report.created_at).toLocaleDateString('id-ID', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            }) : '-';
+        const detailTitle = document.getElementById('detailTitle');
+        const detailDate = document.getElementById('detailDate');
+        const detailNama = document.getElementById('detailNama');
+        const detailEmail = document.getElementById('detailEmail');
+        const detailTelp = document.getElementById('detailTelp');
+        const detailLokasi = document.getElementById('detailLokasi');
+        const detailDeskripsi = document.getElementById('detailDeskripsi');
 
-        document.getElementById('detailNama').textContent = report.nama_pengusul || '-';
-        document.getElementById('detailEmail').textContent = report.email || '-';
-        document.getElementById('detailTelp').textContent = report.nomor_telepon || '-';
-        document.getElementById('detailLokasi').textContent = report.lokasi_kerusakan || '-';
-        document.getElementById('detailDeskripsi').textContent = report.deskripsi_kerusakan || '-';
+        if (detailTitle) detailTitle.textContent = `Laporan #${report.id}`;
+        if (detailDate) {
+            detailDate.textContent = report.created_at ?
+                new Date(report.created_at).toLocaleDateString('id-ID', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                }) : '-';
+        }
+        if (detailNama) detailNama.textContent = report.nama_pengusul || '-';
+        if (detailEmail) detailEmail.textContent = report.email || '-';
+        if (detailTelp) detailTelp.textContent = report.nomor_telepon || '-';
+        if (detailLokasi) detailLokasi.textContent = report.lokasi_kerusakan || '-';
+        if (detailDeskripsi) detailDeskripsi.textContent = report.deskripsi_kerusakan || '-';
 
         // Set status
         const statusElement = document.getElementById('detailStatus');
         const status = report.status_laporan || 'menunggu';
-        statusElement.textContent = getStatusText(status);
-        statusElement.className = `px-3 py-1 text-sm rounded-md font-medium status-${status}`;
+        if (statusElement) {
+            statusElement.textContent = getStatusText(status);
+            statusElement.className = `px-3 py-1 text-sm rounded-md font-medium status-${status}`;
+        }
 
         // Set foto
         const fotoElement = document.getElementById('detailFoto');
         const noFotoMessage = document.getElementById('noFotoMessage');
 
-        if (report.foto_kerusakan && report.foto_kerusakan !== 'default.jpg') {
-            fotoElement.src = `http://localhost:8001/storage/${report.foto_kerusakan}`;
-            fotoElement.classList.remove('hidden');
-            noFotoMessage.classList.add('hidden');
-        } else {
-            fotoElement.classList.add('hidden');
-            noFotoMessage.classList.remove('hidden');
+        if (fotoElement && noFotoMessage) {
+            if (report.foto_kerusakan && report.foto_kerusakan !== 'default.jpg') {
+                fotoElement.src = `http://localhost:8001/storage/${report.foto_kerusakan}`;
+                fotoElement.classList.remove('hidden');
+                noFotoMessage.classList.add('hidden');
+            } else {
+                fotoElement.classList.add('hidden');
+                noFotoMessage.classList.remove('hidden');
+            }
         }
 
         // Set timestamps
-        document.getElementById('detailCreatedAt').textContent = report.created_at ?
-            new Date(report.created_at).toLocaleString('id-ID') : '-';
-        document.getElementById('detailUpdatedAt').textContent = report.updated_at ?
-            new Date(report.updated_at).toLocaleString('id-ID') : '-';
+        const detailCreatedAt = document.getElementById('detailCreatedAt');
+        const detailUpdatedAt = document.getElementById('detailUpdatedAt');
+
+        if (detailCreatedAt) {
+            detailCreatedAt.textContent = report.created_at ?
+                new Date(report.created_at).toLocaleString('id-ID') : '-';
+        }
+        if (detailUpdatedAt) {
+            detailUpdatedAt.textContent = report.updated_at ?
+                new Date(report.updated_at).toLocaleString('id-ID') : '-';
+        }
 
         // Show rejected info if status is ditolak
         const rejectedInfo = document.getElementById('rejectedInfo');
-        if (status === 'ditolak') {
-            rejectedInfo.classList.remove('hidden');
-            // You can add more rejected info fields if needed
-        } else {
-            rejectedInfo.classList.add('hidden');
+        if (rejectedInfo) {
+            if (status === 'ditolak') {
+                rejectedInfo.classList.remove('hidden');
+            } else {
+                rejectedInfo.classList.add('hidden');
+            }
         }
     }
 
@@ -535,14 +581,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function closeDetailModal() {
-        overlay.classList.add('hidden');
+        if (overlay) overlay.classList.add('hidden');
     }
 
     function openDetailModal() {
-        overlay.classList.remove('hidden');
+        if (overlay) overlay.classList.remove('hidden');
     }
 
-    // Event listeners for detail buttons
+    // === EVENT LISTENERS FOR DETAIL BUTTONS ===
     document.querySelectorAll(".aksiBtn").forEach(btn => {
         btn.addEventListener("click", function() {
             const id = this.dataset.id;
@@ -552,144 +598,170 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Close modal
-    closeBtn.addEventListener("click", closeDetailModal);
+    if (closeBtn) {
+        closeBtn.addEventListener("click", closeDetailModal);
+    }
 
     // Click outside to close
-    overlay.addEventListener("click", (e) => {
-        if (e.target === overlay) closeDetailModal();
-    });
-
-    // Tambahkan ini di akhir
-    const kelolaBtn = document.getElementById('kelolaBtn');
-    if (kelolaBtn) {
-        kelolaBtn.addEventListener('click', () => {
-            kelolaBtn.classList.add('hidden');
-            document.getElementById('manageOptions')?.classList.remove('hidden');
-
-            // Tampilkan checkbox
-            document.querySelectorAll('.checkbox-cell').forEach(cell => {
-                cell.classList.remove('hidden');
-            });
-
-            // Sembunyikan action cell
-            document.querySelectorAll('.action-cell').forEach(cell => {
-                cell.classList.add('hidden');
-            });
+    if (overlay) {
+        overlay.addEventListener("click", (e) => {
+            if (e.target === overlay) closeDetailModal();
         });
     }
 
-    // Batal mode kelola
-    document.getElementById('batalBtn')?.addEventListener('click', () => {
-        kelolaBtn?.classList.remove('hidden');
-        document.getElementById('manageOptions')?.classList.add('hidden');
+    // === MODE KELOLA ===
+    if (kelolaBtn) {
+        kelolaBtn.addEventListener("click", () => {
+            kelolaBtn.classList.add("hidden");
+            if (manageOptions) manageOptions.classList.remove("hidden");
 
-        // Sembunyikan checkbox
-        document.querySelectorAll('.checkbox-cell').forEach(cell => {
-            cell.classList.add('hidden');
+            // Tampilkan checkbox, sembunyikan action cell
+            actionCells.forEach(cell => cell.classList.add("hidden"));
+            checkboxCells.forEach(cell => cell.classList.remove("hidden"));
         });
+    }
 
-        // Tampilkan action cell
-        document.querySelectorAll('.action-cell').forEach(cell => {
-            cell.classList.remove('hidden');
+    // === BATAL MODE KELOLA ===
+    if (batalBtn) {
+        batalBtn.addEventListener("click", () => {
+            if (kelolaBtn) kelolaBtn.classList.remove("hidden");
+            if (manageOptions) manageOptions.classList.add("hidden");
+
+            // Sembunyikan checkbox, tampilkan action cell
+            checkboxCells.forEach(cell => cell.classList.add("hidden"));
+            actionCells.forEach(cell => cell.classList.remove("hidden"));
+
+            // Uncheck semua checkbox
+            reportCheckboxes.forEach(ch => ch.checked = false);
+            if (selectAll) selectAll.checked = false;
         });
+    }
 
-        // Uncheck semua checkbox
-        document.querySelectorAll('.report-checkbox').forEach(checkbox => {
-            checkbox.checked = false;
+    // === SELECT ALL CHECKBOX ===
+    if (selectAll) {
+        selectAll.addEventListener("change", function() {
+            reportCheckboxes.forEach(ch => ch.checked = selectAll.checked);
         });
-        document.getElementById('select-all').checked = false;
-    });
-});
+    }
 
-    // Select All checkbox
-    selectAll.addEventListener("change", function() {
-        reportCheckboxes.forEach(ch => ch.checked = selectAll.checked);
-    });
+    // === ACTION FUNCTIONS ===
+    // Function untuk mengarsipkan laporan
+    async function archiveReports() {
+        const selectedIds = Array.from(document.querySelectorAll('.report-checkbox:checked'))
+            .map(checkbox => checkbox.value);
 
-    // Update status function (for demo)
+        if (selectedIds.length === 0) {
+            showToast('Pilih laporan yang akan diarsipkan', 'error');
+            return;
+        }
+
+        if (!confirm(`Arsipkan ${selectedIds.length} laporan?`)) return;
+
+        try {
+            const response = await fetch("{{ route('admin.laporan.archive') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({ ids: selectedIds })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                showToast(data.message);
+                setTimeout(() => location.reload(), 1500);
+            } else {
+                showToast(data.message, 'error');
+            }
+        } catch (error) {
+            showToast('Terjadi kesalahan: ' + error.message, 'error');
+        }
+    }
+
+    // Function untuk menghapus permanen (halaman laporan tidak ada hapus permanen, hanya arsip)
+    async function deletePermanent() {
+        const selectedIds = Array.from(document.querySelectorAll('.report-checkbox:checked'))
+            .map(checkbox => checkbox.value);
+
+        if (selectedIds.length === 0) {
+            showToast('Pilih laporan yang akan dihapus permanen', 'error');
+            return;
+        }
+
+        if (!confirm(`Hapus permanen ${selectedIds.length} laporan? Tindakan ini tidak dapat dibatalkan!`)) return;
+
+        try {
+            const response = await fetch("{{ route('admin.arsip.destroy') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({ ids: selectedIds })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                showToast(data.message);
+                setTimeout(() => location.reload(), 1500);
+            } else {
+                showToast(data.message, 'error');
+            }
+        } catch (error) {
+            showToast('Terjadi kesalahan: ' + error.message, 'error');
+        }
+    }
+
+    // === BUTTON EVENT LISTENERS ===
+    if (arsipBtn) {
+        arsipBtn.addEventListener('click', archiveReports);
+    }
+
+    if (hapusPermanenBtn) {
+        // Hanya tampilkan tombol hapus permanen di halaman arsip
+        // Di halaman laporan, tombol ini disembunyikan
+        hapusPermanenBtn.addEventListener('click', deletePermanent);
+    }
+
+    // === UPDATE STATUS FUNCTION (UNTUK MODAL) ===
     function updateStatus(status) {
+        const reportId = document.querySelector('.aksiBtn.active')?.dataset.id;
+        if (!reportId) {
+            showToast('Tidak ada laporan yang dipilih', 'error');
+            return;
+        }
+
         showToast(`Status laporan berhasil diubah menjadi ${getStatusText(status)}`);
+
         // In real implementation, you would make an API call here
-        fetch(`/api/admin/laporan/${currentReportId}/status`, {
+        fetch(`http://localhost:8001/api/admin/laporan/${reportId}/status`, {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
             body: JSON.stringify({ status: status })
         })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showToast(`Status laporan berhasil diubah menjadi ${getStatusText(status)}`);
+                closeDetailModal();
+                setTimeout(() => location.reload(), 1000);
+            } else {
+                showToast(data.message || 'Gagal mengubah status', 'error');
+            }
+        })
+        .catch(error => {
+            showToast('Terjadi kesalahan: ' + error.message, 'error');
+        });
     }
+
+    // Expose updateStatus ke global scope untuk modal
+    window.updateStatus = updateStatus;
+    window.closeDetailModal = closeDetailModal;
 });
-// Tambahkan function untuk arsipkan
-async function archiveReports() {
-    const selectedIds = Array.from(document.querySelectorAll('.report-checkbox:checked'))
-        .map(checkbox => checkbox.value);
-
-    if (selectedIds.length === 0) {
-        showToast('Pilih laporan yang akan diarsipkan', 'error');
-        return;
-    }
-
-    if (!confirm(`Arsipkan ${selectedIds.length} laporan?`)) return;
-
-    try {
-        const response = await fetch('/admin/laporan/arsip', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            body: JSON.stringify({ ids: selectedIds })
-        });
-
-        const data = await response.json();
-
-        if (data.success) {
-            showToast(data.message);
-            setTimeout(() => location.reload(), 1500);
-        } else {
-            showToast(data.message, 'error');
-        }
-    } catch (error) {
-        showToast('Terjadi kesalahan: ' + error.message, 'error');
-    }
-}
-
-// Function untuk mengarsipkan laporan
-async function submitArchive() {
-    const selectedIds = Array.from(document.querySelectorAll('.report-checkbox:checked'))
-        .map(checkbox => checkbox.value);
-
-    if (selectedIds.length === 0) {
-        showToast('Pilih laporan yang akan diarsipkan', 'error');
-        return;
-    }
-
-    if (!confirm(`Arsipkan ${selectedIds.length} laporan?`)) return;
-
-    try {
-        const form = document.getElementById('archiveForm');
-        document.getElementById('archiveIds').value = JSON.stringify(selectedIds);
-
-        const response = await fetch(form.action, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            body: JSON.stringify({ ids: selectedIds })
-        });
-
-        const data = await response.json();
-
-        if (data.success) {
-            showToast(data.message);
-            setTimeout(() => location.reload(), 1500);
-        } else {
-            showToast(data.message, 'error');
-        }
-    } catch (error) {
-        showToast('Terjadi kesalahan: ' + error.message, 'error');
-    }
-}
-
-// Tambahkan event listener untuk tombol arsip
-document.getElementById('arsipBtn')?.addEventListener('click', archiveReports);
 </script>
