@@ -58,4 +58,29 @@ class LaporanController extends Controller
             ]);
         }
     }
+
+    // Method untuk mengarsipkan laporan
+    public function archive(Request $request)
+    {
+        try {
+            $response = Http::post("{$this->apiUrl}/admin/laporan/arsip", [
+                'ids' => $request->ids
+            ]);
+
+            if ($response->successful()) {
+                $data = $response->json();
+                return response()->json($data);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Gagal mengarsipkan laporan'
+                ], 400);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+            ], 500);
+        }
+    }
 }

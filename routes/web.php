@@ -18,6 +18,7 @@ Route::get('/admin/dashboard/filter', [DashboardController::class, 'filter'])->n
 
 // Route admin laporan
 Route::get('/admin/laporan', [LaporanController::class, 'index'])->name('admin.laporan');
+Route::post('/admin/laporan/archive', [LaporanController::class, 'archive'])->name('admin.laporan.archive');
 
 // Route admin arsip
 Route::get('/admin/arsip', [ArsipController::class, 'index'])->name('admin.arsip');
