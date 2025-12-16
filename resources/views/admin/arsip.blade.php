@@ -40,18 +40,17 @@
 
         <!-- Di bagian BUTTONS, ganti dengan: -->
         <div class="flex gap-3 items-center">
-            <button id="kelolaBtn"
+            <button id="pulihkanBtn"
                     class="bg-[#022C55] text-white text-base rounded-lg py-2 px-4 flex gap-2 items-center hover:bg-[#01408C] transition-colors">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M13.2633 5.43908L5.05327 14.1291C4.74327 14.4591 4.44327 15.1091 4.38327 15.5591L4.01327 18.7991C3.88327 19.9691 4.72327 20.7691 5.88327 20.5691L9.10327 20.0191C9.55327 19.9391 10.1833 19.6091 10.4933 19.2691L18.7033 10.5791C20.1233 9.07908 20.7633 7.36908 18.5533 5.27908C16.3533 3.20908 14.6833 3.93908 13.2633 5.43908Z" stroke="white" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M11.8926 6.88916C12.3226 9.64916 14.5626 11.7592 17.3426 12.0392" stroke="white" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M22 12C22 17.52 17.52 22 12 22C6.48 22 3.11 16.44 3.11 16.44M3.11 16.44H7.63M3.11 16.44V21.44M2 12C2 6.48 6.44 2 12 2C18.67 2 22 7.56 22 7.56M22 7.56V2.56M22 7.56H17.56" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
-                    Kelola Data
+                    Pulihkan
             </button>
 
             <!-- Hidden buttons -->
             <div id="manageOptions" class="hidden gap-2 items-center ml-2">
-                <button id="pulihkanBtn" class="px-4 py-2 bg-[#022C55] text-white rounded-lg flex gap-2 items-center">
+                <button id="pulihkanSubmitBtn" class="px-4 py-2 bg-[#FED43E] text-white rounded-lg flex gap-2 items-center">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M22 12C22 17.52 17.52 22 12 22C6.48 22 3.11 16.44 3.11 16.44M3.11 16.44H7.63M3.11 16.44V21.44M2 12C2 6.48 6.44 2 12 2C18.67 2 22 7.56 22 7.56M22 7.56V2.56M22 7.56H17.56" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
@@ -378,7 +377,8 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-    const kelolaBtn = document.getElementById("kelolaBtn");
+    const pulihkanModeBtn = document.getElementById("pulihkanModeBtn");
+    const pulihkanSubmitBtn = document.getElementById("pulihkanSubmitBtn");
     const batalBtn = document.getElementById("batalBtn");
     const manageOptions = document.getElementById("manageOptions");
     const actionCells = document.querySelectorAll(".action-cell");
@@ -560,9 +560,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (e.target === overlay) closeDetailModal();
     });
 
-    // MODE KELOLA
-    kelolaBtn.addEventListener("click", () => {
-        kelolaBtn.classList.add("hidden");
+    // BUTTON PULIHKAN
+    pulihkanBtn.addEventListener("click", () => {
+        pulihkanBtn.classList.add("hidden");
         manageOptions.classList.remove("hidden");
         actionCells.forEach(btn => btn.classList.add("hidden"));
         checkboxCells.forEach(cell => cell.classList.remove("hidden"));
@@ -570,7 +570,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // BATAL MODE KELOLA
     batalBtn.addEventListener("click", () => {
-        kelolaBtn.classList.remove("hidden");
+        pulihkanBtn.classList.remove("hidden");
         manageOptions.classList.add("hidden");
         checkboxCells.forEach(cell => cell.classList.add("hidden"));
         actionCells.forEach(btn => btn.classList.remove("hidden"));
