@@ -38,9 +38,9 @@
             </div>
         </div>
 
-        <!-- Di bagian BUTTONS, ganti dengan: -->
+        <!-- Masuk Mode Kelola (Pulihkan) -->
         <div class="flex gap-3 items-center">
-            <button id="pulihkanBtn"
+            <button id="enterManageBtn"
                     class="bg-[#022C55] text-white text-base rounded-lg py-2 px-4 flex gap-2 items-center hover:bg-[#01408C] transition-colors">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M22 12C22 17.52 17.52 22 12 22C6.48 22 3.11 16.44 3.11 16.44M3.11 16.44H7.63M3.11 16.44V21.44M2 12C2 6.48 6.44 2 12 2C18.67 2 22 7.56 22 7.56M22 7.56V2.56M22 7.56H17.56" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -50,7 +50,7 @@
 
             <!-- Hidden buttons -->
             <div id="manageOptions" class="hidden gap-2 items-center ml-2">
-                <button id="pulihkanSubmitBtn" class="px-4 py-2 bg-[#FED43E] text-white rounded-lg flex gap-2 items-center">
+                <button id="restoreBtn" class="px-4 py-2 bg-[#FED43E] text-white rounded-lg flex gap-2 items-center">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M22 12C22 17.52 17.52 22 12 22C6.48 22 3.11 16.44 3.11 16.44M3.11 16.44H7.63M3.11 16.44V21.44M2 12C2 6.48 6.44 2 12 2C18.67 2 22 7.56 22 7.56M22 7.56V2.56M22 7.56H17.56" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
@@ -377,10 +377,11 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-    const pulihkanModeBtn = document.getElementById("pulihkanModeBtn");
-    const pulihkanSubmitBtn = document.getElementById("pulihkanSubmitBtn");
-    const batalBtn = document.getElementById("batalBtn");
+    const enterManageBtn = document.getElementById("enterManageBtn");
     const manageOptions = document.getElementById("manageOptions");
+    const batalBtn = document.getElementById("batalBtn");
+    const restoreBtn = document.getElementById("restoreBtn");
+
     const actionCells = document.querySelectorAll(".action-cell");
     const checkboxCells = document.querySelectorAll(".checkbox-cell");
     const reportCheckboxes = document.querySelectorAll(".report-checkbox");
@@ -561,19 +562,28 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // BUTTON PULIHKAN
-    pulihkanBtn.addEventListener("click", () => {
-        pulihkanBtn.classList.add("hidden");
+    enterManageBtn.addEventListener("click", () => {
+        enterManageBtn.classList.add("hidden");
         manageOptions.classList.remove("hidden");
+
         actionCells.forEach(btn => btn.classList.add("hidden"));
         checkboxCells.forEach(cell => cell.classList.remove("hidden"));
     });
 
+    // Event listener untuk button pulihkan yang muncul setelah mode kelola
+    restoreBtn.addEventListener("click", restoreReports);
+
+    // Event listener untuk button hapus permanen
+    document.getElementById('hapusPermanenBtn').addEventListener('click', deletePermanent);
+
     // BATAL MODE KELOLA
     batalBtn.addEventListener("click", () => {
-        pulihkanBtn.classList.remove("hidden");
+        enterManageBtn.classList.remove("hidden");
         manageOptions.classList.add("hidden");
+
         checkboxCells.forEach(cell => cell.classList.add("hidden"));
         actionCells.forEach(btn => btn.classList.remove("hidden"));
+        
         reportCheckboxes.forEach(ch => ch.checked = false);
         selectAll.checked = false;
     });
@@ -664,8 +674,4 @@ async function deletePermanent() {
         showToast('Terjadi kesalahan: ' + error.message, 'error');
     }
 }
-
-// Tambahkan event listeners
-document.getElementById('pulihkanBtn')?.addEventListener('click', restoreReports);
-document.getElementById('hapusPermanenBtn')?.addEventListener('click', deletePermanent);
 </script>
