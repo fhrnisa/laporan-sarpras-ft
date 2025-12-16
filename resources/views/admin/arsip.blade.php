@@ -279,8 +279,8 @@
                 <p class="font-semibold text-gray-800">Foto Kerusakan:</p>
                 <div id="detailFotoContainer" class="mt-2">
                     <img id="detailFoto" class="w-full h-auto rounded-md border border-gray-300"
-                         src="" alt="Foto kerusakan"
-                         onerror="this.onerror=null; this.src='https://via.placeholder.com/400x300?text=Tidak+ada+foto';">
+                        src="" alt="Foto kerusakan"
+                        onerror="this.onerror=null; this.src='#'; this.style.display='none';">
                 </div>
                 <p id="noFotoMessage" class="text-gray-500 italic mt-2 hidden">Tidak ada foto</p>
             </div>
