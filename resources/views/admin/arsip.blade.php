@@ -38,25 +38,27 @@
             </div>
         </div>
 
-        <!-- Masuk Mode Kelola (Pulihkan) -->
+        <!-- BUTTONS SECTION -->
         <div class="flex gap-3 items-center">
-            <button id="enterManageBtn"
+            <button id="kelolaBtn"
                     class="bg-[#022C55] text-white text-base rounded-lg py-2 px-4 flex gap-2 items-center hover:bg-[#01408C] transition-colors">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M22 12C22 17.52 17.52 22 12 22C6.48 22 3.11 16.44 3.11 16.44M3.11 16.44H7.63M3.11 16.44V21.44M2 12C2 6.48 6.44 2 12 2C18.67 2 22 7.56 22 7.56M22 7.56V2.56M22 7.56H17.56" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M13.2633 5.43908L5.05327 14.1291C4.74327 14.4591 4.44327 15.1091 4.38327 15.5591L4.01327 18.7991C3.88327 19.9691 4.72327 20.7691 5.88327 20.5691L9.10327 20.0191C9.55327 19.9391 10.1833 19.6091 10.4933 19.2691L18.7033 10.5791C20.1233 9.07908 20.7633 7.36908 18.5533 5.27908C16.3533 3.20908 14.6833 3.93908 13.2633 5.43908Z" stroke="white" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M11.8926 6.88916C12.3226 9.64916 14.5626 11.7592 17.3426 12.0392" stroke="white" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
-                    Pulihkan
+                    Kelola Data
             </button>
 
             <!-- Hidden buttons -->
-            <div id="manageOptions" class="hidden gap-2 items-center ml-2">
-                <button id="restoreBtn" class="px-4 py-2 bg-[#FED43E] text-white rounded-lg flex gap-2 items-center">
+            <div id="manageOptions" class="hidden gap-2 items-center">
+                <button id="pulihkanBtn" class="px-4 py-2 bg-[#FED43E] text-white rounded-lg flex gap-2 items-center hover:bg-yellow-600">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M22 12C22 17.52 17.52 22 12 22C6.48 22 3.11 16.44 3.11 16.44M3.11 16.44H7.63M3.11 16.44V21.44M2 12C2 6.48 6.44 2 12 2C18.67 2 22 7.56 22 7.56M22 7.56V2.56M22 7.56H17.56" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                     Pulihkan
                 </button>
-                <button id="hapusPermanenBtn" class="px-4 py-2 bg-[#ED3237] text-white rounded-lg flex gap-2 items-center">
+
+                <button id="hapusPermanenBtn" class="px-4 py-2 bg-[#ED3237] text-white rounded-lg flex gap-2 items-center hover:bg-red-600">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M21.0002 6.72998C20.9802 6.72998 20.9502 6.72998 20.9202 6.72998C15.6302 6.19998 10.3502 5.99998 5.12016 6.52998L3.08016 6.72998C2.66016 6.76998 2.29016 6.46998 2.25016 6.04998C2.21016 5.62998 2.51016 5.26998 2.92016 5.22998L4.96016 5.02998C10.2802 4.48998 15.6702 4.69998 21.0702 5.22998C21.4802 5.26998 21.7802 5.63998 21.7402 6.04998C21.7102 6.43998 21.3802 6.72998 21.0002 6.72998Z" fill="white"/>
                         <path d="M8.49977 5.72C8.45977 5.72 8.41977 5.72 8.36977 5.71C7.96977 5.64 7.68977 5.25 7.75977 4.85L7.97977 3.54C8.13977 2.58 8.35977 1.25 10.6898 1.25H13.3098C15.6498 1.25 15.8698 2.63 16.0198 3.55L16.2398 4.85C16.3098 5.26 16.0298 5.65 15.6298 5.71C15.2198 5.78 14.8298 5.5 14.7698 5.1L14.5498 3.8C14.4098 2.93 14.3798 2.76 13.3198 2.76H10.6998C9.63977 2.76 9.61977 2.9 9.46977 3.79L9.23977 5.09C9.17977 5.46 8.85977 5.72 8.49977 5.72Z" fill="white"/>
@@ -66,10 +68,11 @@
                     </svg>
                     Hapus Permanen
                 </button>
-                <button id="batalBtn" class="px-4 py-2 bg-gray-600 text-white rounded-lg flex gap-2 items-center">
+
+                <button id="batalBtn" class="px-4 py-2 bg-gray-600 text-white rounded-lg flex gap-2 items-center hover:bg-gray-700">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M5.00098 5L19 18.9991" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M4.99996 18.9991L18.999 5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M5.00098 5L19 18.9991" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M4.99996 18.9991L18.999 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                     Batal
                 </button>
@@ -377,11 +380,12 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-    const enterManageBtn = document.getElementById("enterManageBtn");
-    const manageOptions = document.getElementById("manageOptions");
+    // === ELEMEN UTAMA ===
+    const kelolaBtn = document.getElementById("kelolaBtn");
     const batalBtn = document.getElementById("batalBtn");
-    const restoreBtn = document.getElementById("restoreBtn");
-
+    const pulihkanBtn = document.getElementById("pulihkanBtn");
+    const hapusPermanenBtn = document.getElementById("hapusPermanenBtn");
+    const manageOptions = document.getElementById("manageOptions");
     const actionCells = document.querySelectorAll(".action-cell");
     const checkboxCells = document.querySelectorAll(".checkbox-cell");
     const reportCheckboxes = document.querySelectorAll(".report-checkbox");
@@ -390,52 +394,54 @@ document.addEventListener("DOMContentLoaded", () => {
     const closeBtn = document.getElementById("closeDetail");
     const filterStatus = document.getElementById("filterStatus");
     const filterTanggal = document.getElementById("filterTanggal");
-    const searchInput = document.getElementById("searchInput");
 
+    // === FILTER FUNCTIONS ===
     // Set initial filter values from URL params
     const urlParams = new URLSearchParams(window.location.search);
     const statusParam = urlParams.get('status');
     const tanggalParam = urlParams.get('tanggal');
-    const searchParam = urlParams.get('search');
 
-    if (statusParam) filterStatus.value = statusParam;
-    if (tanggalParam) filterTanggal.value = tanggalParam;
-    if (searchParam) searchInput.value = searchParam;
+    if (statusParam && filterStatus) filterStatus.value = statusParam;
+    if (tanggalParam && filterTanggal) filterTanggal.value = tanggalParam;
 
-    // Filter change event
-    filterStatus.addEventListener('change', applyFilters);
-    filterTanggal.addEventListener('change', applyFilters);
-
-    // Search with debounce
-    let searchTimeout;
-    searchInput.addEventListener('input', function() {
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(applyFilters, 500);
-    });
+    // Filter change event - hanya jika elemen ada
+    if (filterStatus) {
+        filterStatus.addEventListener('change', applyFilters);
+    }
+    if (filterTanggal) {
+        filterTanggal.addEventListener('change', applyFilters);
+    }
 
     function applyFilters() {
         const params = new URLSearchParams();
 
-        if (filterStatus.value !== 'all') {
+        // Get search value from topbar search (untuk arsip)
+        const searchInput = document.querySelector('input[name="search"]') || document.getElementById('topbarSearch');
+        const searchValue = searchInput ? searchInput.value.trim() : '';
+
+        // Add filters
+        if (filterStatus && filterStatus.value !== 'all') {
             params.append('status', filterStatus.value);
         }
 
-        if (filterTanggal.value !== '7hari') {
+        if (filterTanggal && filterTanggal.value !== '7hari') {
             params.append('tanggal', filterTanggal.value);
         }
 
-        if (searchInput.value.trim()) {
-            params.append('search', searchInput.value.trim());
+        if (searchValue) {
+            params.append('search', searchValue);
         }
 
         const queryString = params.toString();
-        window.location.href = `/admin/laporan${queryString ? '?' + queryString : ''}`;
+        window.location.href = `/admin/arsip${queryString ? '?' + queryString : ''}`;
     }
 
-    // Detail modal functions
+    // === TOAST FUNCTION ===
     function showToast(message, type = 'success') {
         const toast = document.getElementById('toast');
         const toastMessage = document.getElementById('toastMessage');
+
+        if (!toast || !toastMessage) return;
 
         toastMessage.textContent = message;
         toast.className = `fixed top-4 right-4 px-4 py-2 rounded-lg shadow-lg z-50 flex items-center gap-2 ${type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white`;
@@ -446,12 +452,18 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 3000);
     }
 
+    // === DETAIL MODAL FUNCTIONS ===
     async function loadReportDetail(id) {
         try {
-            document.getElementById('detailLoading').classList.remove('hidden');
-            document.getElementById('detailContent').classList.add('hidden');
-            document.getElementById('detailError').classList.add('hidden');
-            document.getElementById('detailActions').classList.add('hidden');
+            const detailLoading = document.getElementById('detailLoading');
+            const detailContent = document.getElementById('detailContent');
+            const detailError = document.getElementById('detailError');
+            const detailActions = document.getElementById('detailActions');
+
+            if (detailLoading) detailLoading.classList.remove('hidden');
+            if (detailContent) detailContent.classList.add('hidden');
+            if (detailError) detailError.classList.add('hidden');
+            if (detailActions) detailActions.classList.add('hidden');
 
             const response = await fetch(`http://localhost:8001/api/admin/laporan/${id}`);
             const data = await response.json();
@@ -464,65 +476,94 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         } catch (error) {
             console.error('Error loading report detail:', error);
-            document.getElementById('detailLoading').classList.add('hidden');
-            document.getElementById('detailError').classList.remove('hidden');
-            document.getElementById('errorMessage').textContent = error.message;
+            const detailLoading = document.getElementById('detailLoading');
+            const detailError = document.getElementById('detailError');
+            const errorMessage = document.getElementById('errorMessage');
+
+            if (detailLoading) detailLoading.classList.add('hidden');
+            if (detailError) detailError.classList.remove('hidden');
+            if (errorMessage) errorMessage.textContent = error.message;
         }
     }
 
     function displayReportDetail(report) {
-        document.getElementById('detailLoading').classList.add('hidden');
-        document.getElementById('detailContent').classList.remove('hidden');
-        document.getElementById('detailActions').classList.remove('hidden');
+        const detailLoading = document.getElementById('detailLoading');
+        const detailContent = document.getElementById('detailContent');
+        const detailActions = document.getElementById('detailActions');
+
+        if (detailLoading) detailLoading.classList.add('hidden');
+        if (detailContent) detailContent.classList.remove('hidden');
+        if (detailActions) detailActions.classList.remove('hidden');
 
         // Set basic info
-        document.getElementById('detailTitle').textContent = `Laporan #${report.id}`;
-        document.getElementById('detailDate').textContent = report.created_at ?
-            new Date(report.created_at).toLocaleDateString('id-ID', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            }) : '-';
+        const detailTitle = document.getElementById('detailTitle');
+        const detailDate = document.getElementById('detailDate');
+        const detailNama = document.getElementById('detailNama');
+        const detailEmail = document.getElementById('detailEmail');
+        const detailTelp = document.getElementById('detailTelp');
+        const detailLokasi = document.getElementById('detailLokasi');
+        const detailDeskripsi = document.getElementById('detailDeskripsi');
 
-        document.getElementById('detailNama').textContent = report.nama_pengusul || '-';
-        document.getElementById('detailEmail').textContent = report.email || '-';
-        document.getElementById('detailTelp').textContent = report.nomor_telepon || '-';
-        document.getElementById('detailLokasi').textContent = report.lokasi_kerusakan || '-';
-        document.getElementById('detailDeskripsi').textContent = report.deskripsi_kerusakan || '-';
+        if (detailTitle) detailTitle.textContent = `Laporan #${report.id}`;
+        if (detailDate) {
+            detailDate.textContent = report.created_at ?
+                new Date(report.created_at).toLocaleDateString('id-ID', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                }) : '-';
+        }
+        if (detailNama) detailNama.textContent = report.nama_pengusul || '-';
+        if (detailEmail) detailEmail.textContent = report.email || '-';
+        if (detailTelp) detailTelp.textContent = report.nomor_telepon || '-';
+        if (detailLokasi) detailLokasi.textContent = report.lokasi_kerusakan || '-';
+        if (detailDeskripsi) detailDeskripsi.textContent = report.deskripsi_kerusakan || '-';
 
         // Set status
         const statusElement = document.getElementById('detailStatus');
         const status = report.status_laporan || 'menunggu';
-        statusElement.textContent = getStatusText(status);
-        statusElement.className = `px-3 py-1 text-sm rounded-md font-medium status-${status}`;
+        if (statusElement) {
+            statusElement.textContent = getStatusText(status);
+            statusElement.className = `px-3 py-1 text-sm rounded-md font-medium status-${status}`;
+        }
 
         // Set foto
         const fotoElement = document.getElementById('detailFoto');
         const noFotoMessage = document.getElementById('noFotoMessage');
 
-        if (report.foto_kerusakan && report.foto_kerusakan !== 'default.jpg') {
-            fotoElement.src = `http://localhost:8001/storage/${report.foto_kerusakan}`;
-            fotoElement.classList.remove('hidden');
-            noFotoMessage.classList.add('hidden');
-        } else {
-            fotoElement.classList.add('hidden');
-            noFotoMessage.classList.remove('hidden');
+        if (fotoElement && noFotoMessage) {
+            if (report.foto_kerusakan && report.foto_kerusakan !== 'default.jpg') {
+                fotoElement.src = `http://localhost:8001/storage/${report.foto_kerusakan}`;
+                fotoElement.classList.remove('hidden');
+                noFotoMessage.classList.add('hidden');
+            } else {
+                fotoElement.classList.add('hidden');
+                noFotoMessage.classList.remove('hidden');
+            }
         }
 
         // Set timestamps
-        document.getElementById('detailCreatedAt').textContent = report.created_at ?
-            new Date(report.created_at).toLocaleString('id-ID') : '-';
-        document.getElementById('detailUpdatedAt').textContent = report.updated_at ?
-            new Date(report.updated_at).toLocaleString('id-ID') : '-';
+        const detailCreatedAt = document.getElementById('detailCreatedAt');
+        const detailUpdatedAt = document.getElementById('detailUpdatedAt');
+
+        if (detailCreatedAt) {
+            detailCreatedAt.textContent = report.created_at ?
+                new Date(report.created_at).toLocaleString('id-ID') : '-';
+        }
+        if (detailUpdatedAt) {
+            detailUpdatedAt.textContent = report.updated_at ?
+                new Date(report.updated_at).toLocaleString('id-ID') : '-';
+        }
 
         // Show rejected info if status is ditolak
         const rejectedInfo = document.getElementById('rejectedInfo');
-        if (status === 'ditolak') {
-            rejectedInfo.classList.remove('hidden');
-            // You can add more rejected info fields if needed
-        } else {
-            rejectedInfo.classList.add('hidden');
+        if (rejectedInfo) {
+            if (status === 'ditolak') {
+                rejectedInfo.classList.remove('hidden');
+            } else {
+                rejectedInfo.classList.add('hidden');
+            }
         }
     }
 
@@ -537,14 +578,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function closeDetailModal() {
-        overlay.classList.add('hidden');
+        if (overlay) overlay.classList.add('hidden');
     }
 
     function openDetailModal() {
-        overlay.classList.remove('hidden');
+        if (overlay) overlay.classList.remove('hidden');
     }
 
-    // Event listeners for detail buttons
+    // === EVENT LISTENERS FOR DETAIL BUTTONS ===
     document.querySelectorAll(".aksiBtn").forEach(btn => {
         btn.addEventListener("click", function() {
             const id = this.dataset.id;
@@ -554,124 +595,144 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Close modal
-    closeBtn.addEventListener("click", closeDetailModal);
+    if (closeBtn) {
+        closeBtn.addEventListener("click", closeDetailModal);
+    }
 
     // Click outside to close
-    overlay.addEventListener("click", (e) => {
-        if (e.target === overlay) closeDetailModal();
-    });
+    if (overlay) {
+        overlay.addEventListener("click", (e) => {
+            if (e.target === overlay) closeDetailModal();
+        });
+    }
 
-    // BUTTON PULIHKAN
-    enterManageBtn.addEventListener("click", () => {
-        enterManageBtn.classList.add("hidden");
-        manageOptions.classList.remove("hidden");
+    // === MODE KELOLA ===
+    if (kelolaBtn) {
+        kelolaBtn.addEventListener("click", () => {
+            kelolaBtn.classList.add("hidden");
+            if (manageOptions) manageOptions.classList.remove("hidden");
 
-        actionCells.forEach(btn => btn.classList.add("hidden"));
-        checkboxCells.forEach(cell => cell.classList.remove("hidden"));
-    });
+            // Tampilkan checkbox, sembunyikan action cell
+            actionCells.forEach(cell => cell.classList.add("hidden"));
+            checkboxCells.forEach(cell => cell.classList.remove("hidden"));
+        });
+    }
 
-    // Event listener untuk button pulihkan yang muncul setelah mode kelola
-    restoreBtn.addEventListener("click", restoreReports);
+    // === BATAL MODE KELOLA ===
+    if (batalBtn) {
+        batalBtn.addEventListener("click", () => {
+            if (kelolaBtn) kelolaBtn.classList.remove("hidden");
+            if (manageOptions) manageOptions.classList.add("hidden");
 
-    // Event listener untuk button hapus permanen
-    document.getElementById('hapusPermanenBtn').addEventListener('click', deletePermanent);
+            // Sembunyikan checkbox, tampilkan action cell
+            checkboxCells.forEach(cell => cell.classList.add("hidden"));
+            actionCells.forEach(cell => cell.classList.remove("hidden"));
 
-    // BATAL MODE KELOLA
-    batalBtn.addEventListener("click", () => {
-        enterManageBtn.classList.remove("hidden");
-        manageOptions.classList.add("hidden");
+            // Uncheck semua checkbox
+            reportCheckboxes.forEach(ch => ch.checked = false);
+            if (selectAll) selectAll.checked = false;
+        });
+    }
 
-        checkboxCells.forEach(cell => cell.classList.add("hidden"));
-        actionCells.forEach(btn => btn.classList.remove("hidden"));
-        
-        reportCheckboxes.forEach(ch => ch.checked = false);
-        selectAll.checked = false;
-    });
+    // === SELECT ALL CHECKBOX ===
+    if (selectAll) {
+        selectAll.addEventListener("change", function() {
+            reportCheckboxes.forEach(ch => ch.checked = selectAll.checked);
+        });
+    }
 
-    // Select All checkbox
-    selectAll.addEventListener("change", function() {
-        reportCheckboxes.forEach(ch => ch.checked = selectAll.checked);
-    });
+    // === ACTION FUNCTIONS UNTUK ARSIP ===
 
-    // Update status function (for demo)
+    // Function untuk memulihkan data dari arsip
+    async function restoreReports() {
+        const selectedIds = Array.from(document.querySelectorAll('.report-checkbox:checked'))
+            .map(checkbox => checkbox.value);
+
+        if (selectedIds.length === 0) {
+            showToast('Pilih laporan yang akan dipulihkan', 'error');
+            return;
+        }
+
+        if (!confirm(`Pulihkan ${selectedIds.length} laporan dari arsip?`)) return;
+
+        try {
+            const response = await fetch("{{ route('admin.arsip.restore') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({ ids: selectedIds })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                showToast(data.message);
+                setTimeout(() => location.reload(), 1500);
+            } else {
+                showToast(data.message, 'error');
+            }
+        } catch (error) {
+            showToast('Terjadi kesalahan: ' + error.message, 'error');
+        }
+    }
+
+    // Function untuk menghapus permanen dari arsip
+    async function deletePermanent() {
+        const selectedIds = Array.from(document.querySelectorAll('.report-checkbox:checked'))
+            .map(checkbox => checkbox.value);
+
+        if (selectedIds.length === 0) {
+            showToast('Pilih laporan yang akan dihapus permanen', 'error');
+            return;
+        }
+
+        if (!confirm(`Hapus permanen ${selectedIds.length} laporan? Tindakan ini tidak dapat dibatalkan!`)) return;
+
+        try {
+            const response = await fetch("{{ route('admin.arsip.destroy') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({ ids: selectedIds })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                showToast(data.message);
+                setTimeout(() => location.reload(), 1500);
+            } else {
+                showToast(data.message, 'error');
+            }
+        } catch (error) {
+            showToast('Terjadi kesalahan: ' + error.message, 'error');
+        }
+    }
+
+    // === BUTTON EVENT LISTENERS UNTUK ARSIP ===
+    if (pulihkanBtn) {
+        pulihkanBtn.addEventListener('click', restoreReports);
+    }
+
+    if (hapusPermanenBtn) {
+        hapusPermanenBtn.addEventListener('click', deletePermanent);
+    }
+
+    // === UPDATE STATUS FUNCTION (UNTUK MODAL) ===
+    // Di halaman arsip, tombol update status di modal sebaiknya dihapus
+    // Karena data arsip sudah final
     function updateStatus(status) {
-        showToast(`Status laporan berhasil diubah menjadi ${getStatusText(status)}`);
-        // In real implementation, you would make an API call here
-        fetch(`/api/admin/laporan/${currentReportId}/status`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ status: status })
-        })
+        showToast('Data arsip tidak dapat diubah statusnya', 'error');
+        closeDetailModal();
     }
+
+    // Expose updateStatus ke global scope untuk modal
+    window.updateStatus = updateStatus;
+    window.closeDetailModal = closeDetailModal;
+    window.showToast = showToast;
 });
-
-// Function untuk memulihkan data
-async function restoreReports() {
-    const selectedIds = Array.from(document.querySelectorAll('.report-checkbox:checked'))
-        .map(checkbox => checkbox.value);
-
-    if (selectedIds.length === 0) {
-        showToast('Pilih laporan yang akan dipulihkan', 'error');
-        return;
-    }
-
-    if (!confirm(`Pulihkan ${selectedIds.length} laporan dari arsip?`)) return;
-
-    try {
-        const response = await fetch('/admin/arsip/restore', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            body: JSON.stringify({ ids: selectedIds })
-        });
-
-        const data = await response.json();
-
-        if (data.success) {
-            showToast(data.message);
-            setTimeout(() => location.reload(), 1500);
-        } else {
-            showToast(data.message, 'error');
-        }
-    } catch (error) {
-        showToast('Terjadi kesalahan: ' + error.message, 'error');
-    }
-}
-
-// Function untuk menghapus permanen
-async function deletePermanent() {
-    const selectedIds = Array.from(document.querySelectorAll('.report-checkbox:checked'))
-        .map(checkbox => checkbox.value);
-
-    if (selectedIds.length === 0) {
-        showToast('Pilih laporan yang akan dihapus permanen', 'error');
-        return;
-    }
-
-    if (!confirm(`Hapus permanen ${selectedIds.length} laporan? Tindakan ini tidak dapat dibatalkan!`)) return;
-
-    try {
-        const response = await fetch('/admin/arsip/destroy', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            body: JSON.stringify({ ids: selectedIds })
-        });
-
-        const data = await response.json();
-
-        if (data.success) {
-            showToast(data.message);
-            setTimeout(() => location.reload(), 1500);
-        } else {
-            showToast(data.message, 'error');
-        }
-    } catch (error) {
-        showToast('Terjadi kesalahan: ' + error.message, 'error');
-    }
-}
 </script>
