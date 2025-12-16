@@ -1,10 +1,12 @@
 @extends('layouts.admin')
 
 @section('title', 'Laporan')
+
 @section('page-title', 'Laporan')
-@section('showSearch', true)  <!-- SHOW SEARCH BAR -->
+@section('showSearch', true)
+
 @section('search-placeholder', 'Cari nama, email, atau lokasi laporan')
-@section('search-mode', 'laporan')  <!-- SET MODE LAPORAN -->
+@section('search-mode', 'laporan')
 
 @section('content')
 <div class="space-y-6">
@@ -364,6 +366,8 @@
 <style>
     .checkbox-cell { width: 60px; }
     .action-cell { width: 100px; }
+
+    /* Status colors */
     .status-menunggu { background-color: #E1E7E9; color: #022C55; }
     .status-diproses { background-color: #FEEF94; color: #022C55; }
     .status-terselesaikan { background-color: #A0F1B5; color: #022C55; }
@@ -373,7 +377,6 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-    // Pastikan elemen ada sebelum menambahkan event listener
     const kelolaBtn = document.getElementById("kelolaBtn");
     const batalBtn = document.getElementById("batalBtn");
     const manageOptions = document.getElementById("manageOptions");
@@ -385,46 +388,42 @@ document.addEventListener("DOMContentLoaded", () => {
     const closeBtn = document.getElementById("closeDetail");
     const filterStatus = document.getElementById("filterStatus");
     const filterTanggal = document.getElementById("filterTanggal");
+    const searchInput = document.getElementById("searchInput");
 
-    // Filter change event - hanya jika elemen ada
-    if (filterStatus) {
-        filterStatus.addEventListener('change', applyFilters);
-    }
-    if (filterTanggal) {
-        filterTanggal.addEventListener('change', applyFilters);
-    }
-
-    // === SET FILTER VALUE DARI URL ===
+    // Set initial filter values from URL params
     const urlParams = new URLSearchParams(window.location.search);
+    const statusParam = urlParams.get('status');
+    const tanggalParam = urlParams.get('tanggal');
+    const searchParam = urlParams.get('search');
 
-    // Status
-    if (filterStatus && urlParams.has('status')) {
-        filterStatus.value = urlParams.get('status');
-    }
+    if (statusParam) filterStatus.value = statusParam;
+    if (tanggalParam) filterTanggal.value = tanggalParam;
+    if (searchParam) searchInput.value = searchParam;
 
-    // Tanggal
-    if (filterTanggal && urlParams.has('tanggal')) {
-        filterTanggal.value = urlParams.get('tanggal');
-    }
+    // Filter change event
+    filterStatus.addEventListener('change', applyFilters);
+    filterTanggal.addEventListener('change', applyFilters);
+
+    // Search with debounce
+    let searchTimeout;
+    searchInput.addEventListener('input', function() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(applyFilters, 500);
+    });
 
     function applyFilters() {
         const params = new URLSearchParams();
 
-        // Get search value from topbar search
-        const searchInput = document.getElementById('topbarSearch');
-        const searchValue = searchInput ? searchInput.value.trim() : '';
-
-        // Add filters
-        if (filterStatus && filterStatus.value !== 'all') {
+        if (filterStatus.value !== 'all') {
             params.append('status', filterStatus.value);
         }
 
-        if (filterTanggal && filterTanggal.value !== '7hari') {
+        if (filterTanggal.value !== '7hari') {
             params.append('tanggal', filterTanggal.value);
         }
 
-        if (searchValue) {
-            params.append('search', searchValue);
+        if (searchInput.value.trim()) {
+            params.append('search', searchInput.value.trim());
         }
 
         const queryString = params.toString();
@@ -435,8 +434,6 @@ document.addEventListener("DOMContentLoaded", () => {
     function showToast(message, type = 'success') {
         const toast = document.getElementById('toast');
         const toastMessage = document.getElementById('toastMessage');
-
-        if (!toast || !toastMessage) return;
 
         toastMessage.textContent = message;
         toast.className = `fixed top-4 right-4 px-4 py-2 rounded-lg shadow-lg z-50 flex items-center gap-2 ${type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white`;
@@ -449,15 +446,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function loadReportDetail(id) {
         try {
-            const detailLoading = document.getElementById('detailLoading');
-            const detailContent = document.getElementById('detailContent');
-            const detailError = document.getElementById('detailError');
-            const detailActions = document.getElementById('detailActions');
-
-            if (detailLoading) detailLoading.classList.remove('hidden');
-            if (detailContent) detailContent.classList.add('hidden');
-            if (detailError) detailError.classList.add('hidden');
-            if (detailActions) detailActions.classList.add('hidden');
+            document.getElementById('detailLoading').classList.remove('hidden');
+            document.getElementById('detailContent').classList.add('hidden');
+            document.getElementById('detailError').classList.add('hidden');
+            document.getElementById('detailActions').classList.add('hidden');
 
             const response = await fetch(`http://localhost:8001/api/admin/laporan/${id}`);
             const data = await response.json();
@@ -470,94 +462,65 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         } catch (error) {
             console.error('Error loading report detail:', error);
-            const detailLoading = document.getElementById('detailLoading');
-            const detailError = document.getElementById('detailError');
-            const errorMessage = document.getElementById('errorMessage');
-
-            if (detailLoading) detailLoading.classList.add('hidden');
-            if (detailError) detailError.classList.remove('hidden');
-            if (errorMessage) errorMessage.textContent = error.message;
+            document.getElementById('detailLoading').classList.add('hidden');
+            document.getElementById('detailError').classList.remove('hidden');
+            document.getElementById('errorMessage').textContent = error.message;
         }
     }
 
     function displayReportDetail(report) {
-        const detailLoading = document.getElementById('detailLoading');
-        const detailContent = document.getElementById('detailContent');
-        const detailActions = document.getElementById('detailActions');
-
-        if (detailLoading) detailLoading.classList.add('hidden');
-        if (detailContent) detailContent.classList.remove('hidden');
-        if (detailActions) detailActions.classList.remove('hidden');
+        document.getElementById('detailLoading').classList.add('hidden');
+        document.getElementById('detailContent').classList.remove('hidden');
+        document.getElementById('detailActions').classList.remove('hidden');
 
         // Set basic info
-        const detailTitle = document.getElementById('detailTitle');
-        const detailDate = document.getElementById('detailDate');
-        const detailNama = document.getElementById('detailNama');
-        const detailEmail = document.getElementById('detailEmail');
-        const detailTelp = document.getElementById('detailTelp');
-        const detailLokasi = document.getElementById('detailLokasi');
-        const detailDeskripsi = document.getElementById('detailDeskripsi');
+        document.getElementById('detailTitle').textContent = `Laporan #${report.id}`;
+        document.getElementById('detailDate').textContent = report.created_at ?
+            new Date(report.created_at).toLocaleDateString('id-ID', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            }) : '-';
 
-        if (detailTitle) detailTitle.textContent = `Laporan #${report.id}`;
-        if (detailDate) {
-            detailDate.textContent = report.created_at ?
-                new Date(report.created_at).toLocaleDateString('id-ID', {
-                    weekday: 'long',
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                }) : '-';
-        }
-        if (detailNama) detailNama.textContent = report.nama_pengusul || '-';
-        if (detailEmail) detailEmail.textContent = report.email || '-';
-        if (detailTelp) detailTelp.textContent = report.nomor_telepon || '-';
-        if (detailLokasi) detailLokasi.textContent = report.lokasi_kerusakan || '-';
-        if (detailDeskripsi) detailDeskripsi.textContent = report.deskripsi_kerusakan || '-';
+        document.getElementById('detailNama').textContent = report.nama_pengusul || '-';
+        document.getElementById('detailEmail').textContent = report.email || '-';
+        document.getElementById('detailTelp').textContent = report.nomor_telepon || '-';
+        document.getElementById('detailLokasi').textContent = report.lokasi_kerusakan || '-';
+        document.getElementById('detailDeskripsi').textContent = report.deskripsi_kerusakan || '-';
 
         // Set status
         const statusElement = document.getElementById('detailStatus');
         const status = report.status_laporan || 'menunggu';
-        if (statusElement) {
-            statusElement.textContent = getStatusText(status);
-            statusElement.className = `px-3 py-1 text-sm rounded-md font-medium status-${status}`;
-        }
+        statusElement.textContent = getStatusText(status);
+        statusElement.className = `px-3 py-1 text-sm rounded-md font-medium status-${status}`;
 
         // Set foto
         const fotoElement = document.getElementById('detailFoto');
         const noFotoMessage = document.getElementById('noFotoMessage');
 
-        if (fotoElement && noFotoMessage) {
-            if (report.foto_kerusakan && report.foto_kerusakan !== 'default.jpg') {
-                fotoElement.src = `http://localhost:8001/storage/${report.foto_kerusakan}`;
-                fotoElement.classList.remove('hidden');
-                noFotoMessage.classList.add('hidden');
-            } else {
-                fotoElement.classList.add('hidden');
-                noFotoMessage.classList.remove('hidden');
-            }
+        if (report.foto_kerusakan && report.foto_kerusakan !== 'default.jpg') {
+            fotoElement.src = `http://localhost:8001/storage/${report.foto_kerusakan}`;
+            fotoElement.classList.remove('hidden');
+            noFotoMessage.classList.add('hidden');
+        } else {
+            fotoElement.classList.add('hidden');
+            noFotoMessage.classList.remove('hidden');
         }
 
         // Set timestamps
-        const detailCreatedAt = document.getElementById('detailCreatedAt');
-        const detailUpdatedAt = document.getElementById('detailUpdatedAt');
-
-        if (detailCreatedAt) {
-            detailCreatedAt.textContent = report.created_at ?
-                new Date(report.created_at).toLocaleString('id-ID') : '-';
-        }
-        if (detailUpdatedAt) {
-            detailUpdatedAt.textContent = report.updated_at ?
-                new Date(report.updated_at).toLocaleString('id-ID') : '-';
-        }
+        document.getElementById('detailCreatedAt').textContent = report.created_at ?
+            new Date(report.created_at).toLocaleString('id-ID') : '-';
+        document.getElementById('detailUpdatedAt').textContent = report.updated_at ?
+            new Date(report.updated_at).toLocaleString('id-ID') : '-';
 
         // Show rejected info if status is ditolak
         const rejectedInfo = document.getElementById('rejectedInfo');
-        if (rejectedInfo) {
-            if (status === 'ditolak') {
-                rejectedInfo.classList.remove('hidden');
-            } else {
-                rejectedInfo.classList.add('hidden');
-            }
+        if (status === 'ditolak') {
+            rejectedInfo.classList.remove('hidden');
+            // You can add more rejected info fields if needed
+        } else {
+            rejectedInfo.classList.add('hidden');
         }
     }
 
@@ -572,11 +535,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function closeDetailModal() {
-        if (overlay) overlay.classList.add('hidden');
+        overlay.classList.add('hidden');
     }
 
     function openDetailModal() {
-        if (overlay) overlay.classList.remove('hidden');
+        overlay.classList.remove('hidden');
     }
 
     // Event listeners for detail buttons
@@ -589,16 +552,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Close modal
-    if (closeBtn) {
-        closeBtn.addEventListener("click", closeDetailModal);
-    }
+    closeBtn.addEventListener("click", closeDetailModal);
 
     // Click outside to close
-    if (overlay) {
-        overlay.addEventListener("click", (e) => {
-            if (e.target === overlay) closeDetailModal();
-        });
-    }
+    overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) closeDetailModal();
+    });
 
     // Tambahkan ini di akhir
     const kelolaBtn = document.getElementById('kelolaBtn');
@@ -642,12 +601,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-    // Select All checkbox - hanya jika ada
-    if (selectAll) {
-        selectAll.addEventListener("change", function() {
-            reportCheckboxes.forEach(ch => ch.checked = selectAll.checked);
-        });
-    }
+    // Select All checkbox
+    selectAll.addEventListener("change", function() {
+        reportCheckboxes.forEach(ch => ch.checked = selectAll.checked);
+    });
 
     // Update status function (for demo)
     function updateStatus(status) {
