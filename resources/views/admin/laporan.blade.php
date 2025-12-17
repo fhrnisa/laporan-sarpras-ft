@@ -31,6 +31,7 @@
             <div class="flex items-center gap-3">
                 <span class="text-[#002C55] font-medium">Tanggal</span>
                 <select id="filterTanggal" class="border border-[#DDDDDD] rounded-lg text-sm text-[#002C55] max-w-[140px] py-2 px-3 w-40 focus:outline-none focus:ring-1 focus:ring-[#002C55] focus:border-[#002C55]">
+                    <option value="semua">Semua</option>
                     <option value="7hari">7 Hari Terakhir</option>
                     <option value="30hari">30 Hari Terakhir</option>
                     <option value="bulan">Bulan Ini</option>
@@ -453,24 +454,31 @@ document.addEventListener("DOMContentLoaded", () => {
         filterTanggal.addEventListener('change', applyFilters);
     }
 
+    // Di bagian applyFilters() halaman laporan (baris ~215)
     function applyFilters() {
         const params = new URLSearchParams();
 
-        // Get search value from topbar search
-        const searchInput = document.getElementById('topbarSearch');
+        // Get search value from topbar
+        const searchInput = document.querySelector('input[name="search"]') || document.querySelector('.search-input');
         const searchValue = searchInput ? searchInput.value.trim() : '';
 
-        // Add filters
+        // Add filters only if not default value
         if (filterStatus && filterStatus.value !== 'all') {
             params.append('status', filterStatus.value);
         }
 
-        if (filterTanggal && filterTanggal.value !== '7hari') {
+        if (filterTanggal && filterTanggal.value !== 'semua') { // PERUBAHAN INI
             params.append('tanggal', filterTanggal.value);
         }
 
         if (searchValue) {
             params.append('search', searchValue);
+        }
+
+        // Add page parameter if exists
+        const currentPage = new URLSearchParams(window.location.search).get('page');
+        if (currentPage) {
+            params.append('page', currentPage);
         }
 
         const queryString = params.toString();
