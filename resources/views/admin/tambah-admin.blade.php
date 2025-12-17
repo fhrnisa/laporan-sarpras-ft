@@ -1,12 +1,10 @@
 @extends('layouts.admin')
 
 @section('title', 'Tambah Admin')
-
 @section('hideTopbar', true)
-
 @section('content')
 
-<div class="bg-white shadow-lg m-4">
+<div class="bg-white">
     <div class="mt-5 md:mt-0 md:p-12 items-center justify-center">
         <div class="items-center">
             <!-- Title -->
@@ -37,7 +35,7 @@
                     class="w-full rounded-lg border border-[#DDDDDD] text-sm md:text-base px-3 py-3 focus:outline-none focus:ring-1 focus:ring-[#002D56]"
                     required>
                 </div>
-                
+
                 <!-- Email -->
                 <div>
                     <label class="block text-sm md:text-base font-semibold text-[#002D56] mb-1">

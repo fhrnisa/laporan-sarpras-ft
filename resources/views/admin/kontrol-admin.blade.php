@@ -400,7 +400,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const kelolaBtn = document.getElementById("kelolaBtn");
     const batalBtn = document.getElementById("batalBtn");
     const manageOptions = document.getElementById("manageOptions");
-    const hapusBtn = document.querySelector("#manageOptions button:first-child"); // Tombol hapus pertama
+    const hapusBtn = document.querySelector("#manageOptions button:first-child");
 
     const actionCells = document.querySelectorAll(".action-cell");
     const checkboxCells = document.querySelectorAll(".checkbox-cell");
@@ -412,100 +412,49 @@ document.addEventListener("DOMContentLoaded", () => {
     const confirmModal = document.getElementById("confirmModal");
     const successToast = document.getElementById("successToast");
 
-    // Filter elements
-    const searchInput = document.getElementById("searchInput") || document.querySelector('input[name="search"]');
+    // Filter elements - FIXED SELECTORS
+    const searchInput = document.querySelector('input[type="search"], input[name="search"], .search-input, #topbarSearch');
     const filterStatus = document.getElementById("filterStatus");
     const filterTanggal = document.getElementById("filterTanggal");
 
-    // === EVENT LISTENERS ===
+    // === SET FILTER VALUES FROM URL ===
+    function setFilterValuesFromUrl() {
+        const urlParams = new URLSearchParams(window.location.search);
 
-    // Fungsi untuk men-set nilai filter dari URL
-function setFilterValuesFromUrl() {
-    const urlParams = new URLSearchParams(window.location.search);
-
-    if (filterStatus) {
-        const statusParam = urlParams.get('status');
-        if (statusParam) {
-            filterStatus.value = statusParam;
-        } else {
-            filterStatus.value = 'all'; // default
+        // Set filter status
+        if (filterStatus) {
+            const statusParam = urlParams.get('status');
+            if (statusParam) {
+                filterStatus.value = statusParam;
+            } else {
+                filterStatus.value = 'all';
+            }
         }
-    }
 
-    if (filterTanggal) {
-        const tanggalParam = urlParams.get('tanggal');
-        if (tanggalParam) {
-            filterTanggal.value = tanggalParam;
-        } else {
-            // Set default berdasarkan halaman
-            if (window.location.pathname.includes('/admin/kontrol-admin')) {
+        // Set filter tanggal
+        if (filterTanggal) {
+            const tanggalParam = urlParams.get('tanggal');
+            if (tanggalParam) {
+                filterTanggal.value = tanggalParam;
+            } else {
                 filterTanggal.value = 'semua';
-            } else if (window.location.pathname.includes('/admin/laporan')) {
-                filterTanggal.value = 'semua'; // atau '7hari' sesuai preferensi
-            } else if (window.location.pathname.includes('/admin/arsip')) {
-                filterTanggal.value = 'semua'; // atau '7hari' sesuai preferensi
+            }
+        }
+
+        // Set search input
+        if (searchInput) {
+            const searchParam = urlParams.get('search');
+            if (searchParam) {
+                searchInput.value = searchParam;
             }
         }
     }
-}
 
-// Panggil fungsi saat halaman dimuat
-document.addEventListener('DOMContentLoaded', function() {
-    setFilterValuesFromUrl();
-
-    // Tambahkan event listener untuk search di topbar
-    const topbarSearch = document.querySelector('#topbarSearch');
-    if (topbarSearch) {
-        let searchTimeout;
-        topbarSearch.addEventListener('input', function() {
-            clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(() => {
-                applyFilters();
-            }, 800);
-        });
-
-        // Set nilai search dari URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const searchParam = urlParams.get('search');
-        if (searchParam) {
-            topbarSearch.value = searchParam;
-        }
-    }
-});
-
-    // Search input dengan debounce
-    if (searchInput) {
-        let searchTimeout;
-        searchInput.addEventListener('input', function() {
-            clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(() => {
-                loadAdmins();
-            }, 500);
-        });
-    }
-
-    // Filter change - reload page dengan filter baru
-    if (filterStatus) {
-        filterStatus.addEventListener('change', function() {
-            applyFilters();
-        });
-    }
-
-    if (filterTanggal) {
-        filterTanggal.addEventListener('change', function() {
-            applyFilters();
-        });
-    }
-
-    // Di bagian applyFilters() di kontrol-admin.blade.php (baris ~100)
     function applyFilters() {
         const params = new URLSearchParams();
 
-        // Get search value from topbar
-        const searchInput = document.querySelector('input[name="search"]') || document.querySelector('.search-input');
         const searchValue = searchInput ? searchInput.value.trim() : '';
 
-        // Add filters only if not default value
         if (filterStatus && filterStatus.value !== 'all') {
             params.append('status', filterStatus.value);
         }
@@ -518,20 +467,49 @@ document.addEventListener('DOMContentLoaded', function() {
             params.append('search', searchValue);
         }
 
-        // Add page parameter if exists
         const currentPage = new URLSearchParams(window.location.search).get('page');
         if (currentPage) {
             params.append('page', currentPage);
         }
 
+        const basePath = window.location.pathname;
         const queryString = params.toString();
-        window.location.href = `/admin/kontrol-admin${queryString ? '?' + queryString : ''}`;
+
+        window.location.href = `${basePath}${queryString ? '?' + queryString : ''}`;
     }
 
-        // MODE KELOLA
+    // === EVENT LISTENERS ===
+
+    // Initialize filter values from URL
+    setFilterValuesFromUrl();
+
+    // Search input dengan debounce
+    if (searchInput) {
+        let searchTimeout;
+        searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                applyFilters();
+            }, 800);
+        });
+    }
+
+    // Filter change events
+    if (filterStatus) {
+        filterStatus.addEventListener('change', function() {
+            applyFilters();
+        });
+    }
+
+    if (filterTanggal) {
+        filterTanggal.addEventListener('change', function() {
+            applyFilters();
+        });
+    }
+
+    // === MODE KELOLA ===
     if (kelolaBtn) {
         kelolaBtn.addEventListener("click", () => {
-            console.log("Kelola button clicked"); // Debug log
             kelolaBtn.classList.add("hidden");
             if (manageOptions) manageOptions.classList.remove("hidden");
 
@@ -541,10 +519,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // BATAL MODE KELOLA
+    // === BATAL MODE KELOLA ===
     if (batalBtn) {
         batalBtn.addEventListener("click", () => {
-            console.log("Batal button clicked"); // Debug log
             if (kelolaBtn) kelolaBtn.classList.remove("hidden");
             if (manageOptions) manageOptions.classList.add("hidden");
 
@@ -553,21 +530,41 @@ document.addEventListener('DOMContentLoaded', function() {
             actionCells.forEach(cell => cell.classList.remove("hidden"));
 
             // Uncheck semua checkbox
-            adminCheckboxes.forEach(ch => ch.checked = false); // Perbaikan: dari reportCheckboxes ke adminCheckboxes
+            adminCheckboxes.forEach(ch => ch.checked = false);
             if (selectAll) selectAll.checked = false;
         });
     }
 
-    // SELECT ALL CHECKBOX
+    // === SELECT ALL CHECKBOX ===
     if (selectAll) {
         selectAll.addEventListener("change", function() {
-            adminCheckboxes.forEach(ch => ch.checked = selectAll.checked); // Perbaikan: dari reportCheckboxes ke adminCheckboxes
+            adminCheckboxes.forEach(ch => ch.checked = selectAll.checked);
         });
     }
 
+    // Hapus multiple (tombol hapus di mode kelola)
+    if (hapusBtn) {
+        hapusBtn.addEventListener("click", () => {
+            const selectedIds = getSelectedAdminIds();
+            if (selectedIds.length === 0) {
+                showToast('Pilih admin terlebih dahulu', 'error');
+                return;
+            }
+
+            showConfirmModal(
+                'Hapus Admin Terpilih',
+                `Apakah Anda yakin ingin menghapus ${selectedIds.length} admin terpilih?`,
+                () => deleteMultipleAdmins(selectedIds)
+            );
+        });
+    }
+
+    // === MODAL FUNCTIONS ===
+
     // Tambah Admin button
     if (addAdminBtn) {
-        addAdminBtn.addEventListener("click", () => {
+        addAdminBtn.addEventListener("click", (e) => {
+            e.preventDefault();
             openAdminModal('add');
         });
     }
@@ -590,101 +587,11 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById("cancelConfirm").addEventListener("click", () => confirmModal.classList.add("hidden"));
     }
 
-    // Hapus multiple (tombol hapus di mode kelola)
-    if (hapusBtn) {
-        hapusBtn.addEventListener("click", () => {
-            const selectedIds = getSelectedAdminIds();
-            if (selectedIds.length === 0) {
-                showToast('Pilih admin terlebih dahulu', 'error');
-                return;
-            }
+    // === UTILITY FUNCTIONS ===
 
-            showConfirmModal(
-                'Hapus Admin Terpilih',
-                `Apakah Anda yakin ingin menghapus ${selectedIds.length} admin terpilih?`,
-                () => deleteMultipleAdmins(selectedIds)
-            );
-        });
-    }
-
-    // === FUNCTIONS ===
-
-    // Function untuk load admins dari API (jika menggunakan AJAX)
-    function loadAdmins() {
-        const params = new URLSearchParams({
-            status: filterStatus ? filterStatus.value : 'all',
-            tanggal: filterTanggal ? filterTanggal.value : 'semua',
-            search: searchInput ? searchInput.value : ''
-        });
-
-        fetch(`${baseUrl}?${params}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    updateTable(data.data);
-                }
-            })
-            .catch(error => {
-                console.error('Error loading admins:', error);
-                showToast('Gagal memuat data admin', 'error');
-            });
-    }
-
-    // Function untuk update table dengan AJAX (opsional)
-    function updateTable(admins) {
-        // Implementasi jika ingin menggunakan AJAX untuk update table
-        // Tapi di sini kita sudah menggunakan server-side rendering
-        console.log('Admins loaded:', admins);
-    }
-
-    // Function untuk attach action listeners ke baris tabel
-    function attachActionListeners() {
-        // Aksi dropdown
-        document.querySelectorAll('.aksiBtn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                const dropdown = this.nextElementSibling;
-                document.querySelectorAll('.aksiDropdown').forEach(d => {
-                    if (d !== dropdown) d.classList.add('hidden');
-                });
-                dropdown.classList.toggle('hidden');
-            });
-        });
-
-        // Edit admin
-        document.querySelectorAll('.editAdminBtn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                openAdminModal('edit', this.dataset);
-            });
-        });
-
-        // Change status
-        document.querySelectorAll('.changeStatusBtn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const newStatus = this.dataset.status === 'aktif' ? 'tidak_aktif' : 'aktif';
-                showConfirmModal(
-                    'Ubah Status Admin',
-                    `Apakah Anda yakin ingin mengubah status admin menjadi ${newStatus}?`,
-                    () => updateAdminStatus(this.dataset.id, newStatus)
-                );
-            });
-        });
-
-        // Delete admin
-        document.querySelectorAll('.deleteAdminBtn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                showConfirmModal(
-                    'Hapus Admin',
-                    'Apakah Anda yakin ingin menghapus admin ini?',
-                    () => deleteAdmin(this.dataset.id)
-                );
-            });
-        });
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', () => {
-            document.querySelectorAll('.aksiDropdown').forEach(d => d.classList.add('hidden'));
-        });
+    function getSelectedAdminIds() {
+        const checkboxes = document.querySelectorAll('.admin-checkbox:checked');
+        return Array.from(checkboxes).map(cb => cb.value);
     }
 
     function openAdminModal(action, data = null) {
@@ -781,7 +688,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (result.success) {
                 if (confirmModal) confirmModal.classList.add('hidden');
                 showToast(result.message || 'Status berhasil diperbarui');
-                // Reload page untuk update data
                 setTimeout(() => window.location.reload(), 1500);
             } else {
                 showToast(result.message || 'Gagal memperbarui status', 'error');
@@ -806,7 +712,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (result.success) {
                 if (confirmModal) confirmModal.classList.add('hidden');
                 showToast(result.message || 'Admin berhasil dihapus');
-                // Reload page untuk update data
                 setTimeout(() => window.location.reload(), 1500);
             } else {
                 showToast(result.message || 'Gagal menghapus admin', 'error');
@@ -833,7 +738,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (result.success) {
                 if (confirmModal) confirmModal.classList.add('hidden');
                 showToast(result.message || 'Admin berhasil dihapus');
-                // Reload page untuk update data dan keluar mode kelola
                 setTimeout(() => window.location.reload(), 1500);
             } else {
                 showToast(result.message || 'Gagal menghapus admin', 'error');
@@ -843,11 +747,6 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error:', error);
             showToast('Terjadi kesalahan', 'error');
         });
-    }
-
-    function getSelectedAdminIds() {
-        const checkboxes = document.querySelectorAll('.admin-checkbox:checked');
-        return Array.from(checkboxes).map(cb => cb.value);
     }
 
     function showConfirmModal(title, message, callback) {
@@ -893,11 +792,9 @@ document.addEventListener('DOMContentLoaded', function() {
         toastMessage.textContent = message;
 
         if (type === 'error') {
-            toast.className = toast.className.replace('bg-green-100 border-green-400 text-green-700',
-                                                     'bg-red-100 border-red-400 text-red-700');
+            toast.className = 'hidden fixed top-4 right-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg shadow-lg z-50 flex items-center';
         } else {
-            toast.className = toast.className.replace('bg-red-100 border-red-400 text-red-700',
-                                                     'bg-green-100 border-green-400 text-green-700');
+            toast.className = 'hidden fixed top-4 right-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg shadow-lg z-50 flex items-center';
         }
 
         toast.classList.remove('hidden');
@@ -905,6 +802,56 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => {
             toast.classList.add('hidden');
         }, 3000);
+    }
+
+    // === ATTACH ACTION LISTENERS ===
+    function attachActionListeners() {
+        // Aksi dropdown
+        document.querySelectorAll('.aksiBtn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const dropdown = this.nextElementSibling;
+                document.querySelectorAll('.aksiDropdown').forEach(d => {
+                    if (d !== dropdown) d.classList.add('hidden');
+                });
+                dropdown.classList.toggle('hidden');
+            });
+        });
+
+        // Edit admin
+        document.querySelectorAll('.editAdminBtn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                openAdminModal('edit', this.dataset);
+            });
+        });
+
+        // Change status
+        document.querySelectorAll('.changeStatusBtn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const newStatus = this.dataset.status === 'aktif' ? 'tidak_aktif' : 'aktif';
+                showConfirmModal(
+                    'Ubah Status Admin',
+                    `Apakah Anda yakin ingin mengubah status admin menjadi ${newStatus}?`,
+                    () => updateAdminStatus(this.dataset.id, newStatus)
+                );
+            });
+        });
+
+        // Delete admin
+        document.querySelectorAll('.deleteAdminBtn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                showConfirmModal(
+                    'Hapus Admin',
+                    'Apakah Anda yakin ingin menghapus admin ini?',
+                    () => deleteAdmin(this.dataset.id)
+                );
+            });
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', () => {
+            document.querySelectorAll('.aksiDropdown').forEach(d => d.classList.add('hidden'));
+        });
     }
 
     // Initial attachment of event listeners
