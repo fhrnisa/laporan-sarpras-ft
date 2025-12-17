@@ -29,6 +29,11 @@ Route::post('/admin/arsip/destroy', [ArsipController::class, 'destroy'])->name('
 // Route admin kontrol-admin
 Route::get('/admin/kontrol-admin', [AdminController::class, 'index'])->name('admin.kontrol-admin');
 
+// Route admin kontrol-admin
+Route::get('/admin/tambah-admin', function () {
+    return view('admin.tambah-admin');
+})->name('admin.tambah');
+
 // API Routes untuk admin di FE (untuk AJAX calls)
 Route::prefix('admin/api')->group(function () {
     Route::get('/admins', [AdminController::class, 'index']);

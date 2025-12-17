@@ -176,6 +176,10 @@
 
     <!-- GANTI INI DI BAGIAN TOPBAR INCLUDE -->
     <main id="main-content" class="flex-1 ml-64 p-6 bg-white overflow-auto">
+         @hasSection('hideTopbar')
+        <!-- Topbar disembunyikan -->
+    @else
+
         @include('admin.components.topbar', [
             'showSearch' => View::hasSection('showSearch')
                 ? trim($__env->yieldContent('showSearch')) !== 'false'
@@ -187,7 +191,9 @@
                 ? trim($__env->yieldContent('search-mode'))
                 : 'default'
         ])
-        @yield('content')
+    @endif
+
+    @yield('content')
     </main>
 </div>
 
