@@ -249,19 +249,31 @@
 
 <!-- === MODAL DETAIL LAPORAN === -->
 <div id="detailOverlay" class="hidden fixed inset-0 bg-black/40 z-50">
-    <div class="absolute right-0 top-0 h-full w-full max-w-md bg-white mt-6 mr-6 shadow-xl rounded-l-xl overflow-y-auto">
+    <div class="absolute right-0 top-0 h-full w-full max-w-md bg-white mt-6 mr-6 shadow-xl rounded-xl overflow-y-auto">
 
         <!-- Header -->
-        <div class="flex justify-between items-start p-5 border-b">
+        <div class="sticky top-0 bg-white z-10 flex justify-between items-start p-5 border-b">
             <div>
-                <h2 id="detailTitle" class="text-xl font-semibold text-gray-800">Detail Laporan</h2>
-                <p id="detailDate" class="text-sm text-gray-500">-</p>
+                <h2 id="detailTitle" class="text-3xl font-semibold text-[#002C55]">Detail Laporan</h2>
+                <div class="flex">
+                    <div>
+                        <span id="detailStatus" class="inline-flex px-3 py-1 text-lg font-semibold rounded-md">
+                           
+                        </span>
+                    </div>
+                    <p id="detailDate" class="text-lg text-[#002C55]">17 Desember 2025</p>
+                </div>
             </div>
-            <button id="closeDetail" class="text-gray-500 hover:text-gray-700 text-2xl">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+            <!-- Close Button -->
+            <button id="closeDetail" 
+                    onclick="closeDetailModal()"
+                    class="text-gray-500 hover:text-gray-700 text-2xl p-1 hover:bg-gray-100 rounded"
+                    aria-label="Tutup modal">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M5.00098 5L19 18.9991" stroke="#002C55" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M4.99996 18.9991L18.999 5" stroke="#002C55" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                    </svg>
             </button>
         </div>
 
@@ -272,7 +284,7 @@
         </div>
 
         <!-- Content -->
-        <div id="detailContent" class="hidden p-5 space-y-4 text-sm text-gray-700">
+        <div id="detailContent" class="hidden p-5 space-y-4 text-sm text-[#002C55]">
             <!-- User Info -->
             <div class="space-y-4">
                 <div>
@@ -330,18 +342,22 @@
                 </div>
             </div>
 
-            <!-- Timestamps -->
+            <!-- Detail Waktu -->
             <div class="pt-4 border-t border-gray-200">
-                <div class="grid grid-cols-2 gap-4 text-xs text-gray-500">
                     <div>
-                        <p class="font-medium">Dibuat:</p>
-                        <p id="detailCreatedAt">-</p>
+                        <p class="text-base text-[#002C55]">Waktu Diterima:</p>
+                        <p id="detailCreatedAt" class="text-base font-semibold text-[#002C55]">-</p>
                     </div>
+
                     <div>
-                        <p class="font-medium">Diperbarui:</p>
-                        <p id="detailUpdatedAt">-</p>
+                        <p class="text-base text-[#002C55]">Diselesaikan oleh:</p>
+                        <p id="detailCreatedAt" class="text-base font-semibold text-[#002C55]">-</p>
                     </div>
-                </div>
+
+                    <div>
+                        <p class="text-base text-[#002C55]">Waktu Terselesaikan:</p>
+                        <p id="detailUpdatedAt" class="text-base font-semibold text-[#002C55]">-</p>
+                    </div>
             </div>
 
         </div>
@@ -362,13 +378,13 @@
         <!-- Footer Actions -->
         <div id="detailActions" class="hidden p-5 border-t border-gray-200">
             <div class="grid grid-cols-2 gap-3">
-                <button onclick="updateStatus('diproses')" class="py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">
+                <button onclick="updateStatus('diproses')" class="py-1 px-2 bg-[#FED43E] text-white rounded-md hover:bg-yellow-600">
                     Set Diproses
                 </button>
-                <button onclick="updateStatus('terselesaikan')" class="py-2 bg-green-500 text-white rounded-md hover:bg-green-600">
+                <button onclick="updateStatus('terselesaikan')" class="py-1 px-2 bg-[#A0F1B5] text-white rounded-md hover:bg-green-600">
                     Set Selesai
                 </button>
-                <button onclick="updateStatus('ditolak')" class="py-2 bg-red-500 text-white rounded-md hover:bg-red-600 col-span-2">
+                <button onclick="updateStatus('ditolak')" class="py-1 px-2 bg-[#ED3237] text-white rounded-md hover:bg-red-600 col-span-2">
                     Tolak Laporan
                 </button>
             </div>
@@ -403,6 +419,7 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
+
     // === ELEMEN UTAMA ===
     const kelolaBtn = document.getElementById("kelolaBtn");
     const batalBtn = document.getElementById("batalBtn");
@@ -784,5 +801,40 @@ document.addEventListener("DOMContentLoaded", () => {
     // Expose updateStatus ke global scope untuk modal
     window.updateStatus = updateStatus;
     window.closeDetailModal = closeDetailModal;
+
+    
+    
+    const STATUS_CONFIG = {
+    menunggu: {
+        text: 'Menunggu',
+        class: 'bg-[#E1E7E9] text-[#022C55]'
+    },
+    diproses: {
+        text: 'Diproses',
+        class: 'bg-[#FEEF94] text-[#022C55]'
+    },
+    terselesaikan: {
+        text: 'Terselesaikan',
+        class: 'bg-[#A0F1B5] text-[#022C55]'
+    },
+    ditolak: {
+        text: 'Ditolak',
+        class: 'bg-[#FF7A7E] text-[#022C55]'
+    }
+};
+
+    const statusElement = document.getElementById('detailStatus');
+    const status = report.status_laporan || 'menunggu';
+
+    if (statusElement) {
+        const config = STATUS_CONFIG[status] || STATUS_CONFIG.menunggu;
+
+        statusElement.textContent = config.text;
+
+        // reset class dasar
+        statusElement.className =
+            'inline-flex px-3 py-1 text-sm font-semibold rounded-md ' + config.class;
+    }
+
 });
 </script>
