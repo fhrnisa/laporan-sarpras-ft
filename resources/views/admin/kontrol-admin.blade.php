@@ -372,7 +372,7 @@
 @push('scripts')
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-    const baseUrl = '{{ url("/admin/api/admins") }}';
+    const baseUrl = '{{ env("BE_API_URL") }}/admin/admins';
     const csrfToken = '{{ csrf_token() }}';
 
     // Elements
@@ -480,24 +480,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (selectAll) {
         selectAll.addEventListener("change", function() {
             adminCheckboxes.forEach(ch => ch.checked = selectAll.checked); // Perbaikan: dari reportCheckboxes ke adminCheckboxes
-        });
-    }
-
-    // HAPUS MULTIPLE BUTTON
-    if (hapusBtn) {
-        hapusBtn.addEventListener("click", () => {
-            console.log("Hapus button clicked"); // Debug log
-            const selectedIds = getSelectedAdminIds();
-            if (selectedIds.length === 0) {
-                showToast('Pilih admin terlebih dahulu', 'error');
-                return;
-            }
-
-            showConfirmModal(
-                'Hapus Admin Terpilih',
-                `Apakah Anda yakin ingin menghapus ${selectedIds.length} admin terpilih?`,
-                () => deleteMultipleAdmins(selectedIds)
-            );
         });
     }
 

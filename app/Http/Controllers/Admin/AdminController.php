@@ -33,29 +33,36 @@ class AdminController extends Controller
                 $params['search'] = $request->search;
             }
 
-            // Mengambil data admin dari BE - endpoint yang benar
-            // Perhatikan: endpoint di BE adalah /admin/admins (bukan /admin/api/admins)
+            // Mengambil data admin dari BE
             $response = Http::get("{$this->apiUrl}/admin/admins", $params);
 
             if ($response->successful()) {
                 $data = $response->json();
 
+                // Konversi array ke collection agar bisa diakses dengan cara yang sama
+                $admins = collect($data['data'] ?? [])->map(function ($admin) {
+                    // Convert array to object-like structure
+                    return (object) $admin;
+                });
+
                 return view('admin.kontrol-admin', [
-                    'admins' => $data['data'] ?? [],
-                    'total' => $data['count'] ?? count($data['data'] ?? []),
+                    'admins' => $admins,
+                    'total' => $data['total'] ?? $data['count'] ?? 0,
                     'error' => null
                 ]);
             } else {
                 return view('admin.kontrol-admin', [
-                    'admins' => [],
+                    'admins' => collect([]),
                     'total' => 0,
                     'error' => 'Gagal mengambil data admin'
                 ]);
             }
 
         } catch (\Exception $e) {
+            \Log::error('FE AdminController Error: ' . $e->getMessage());
+
             return view('admin.kontrol-admin', [
-                'admins' => [],
+                'admins' => collect([]),
                 'total' => 0,
                 'error' => 'Terjadi kesalahan: ' . $e->getMessage()
             ]);
@@ -68,15 +75,11 @@ class AdminController extends Controller
         try {
             $response = Http::post("{$this->apiUrl}/admin/admins", $request->all());
 
-            if ($response->successful()) {
-                return response()->json($response->json());
-            } else {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Gagal menambahkan admin'
-                ], 400);
-            }
+            return response()->json($response->json());
+
         } catch (\Exception $e) {
+            \Log::error('FE AdminStore Error: ' . $e->getMessage());
+
             return response()->json([
                 'success' => false,
                 'message' => 'Terjadi kesalahan: ' . $e->getMessage()
@@ -89,15 +92,11 @@ class AdminController extends Controller
         try {
             $response = Http::get("{$this->apiUrl}/admin/admins/{$id}");
 
-            if ($response->successful()) {
-                return response()->json($response->json());
-            } else {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Gagal mengambil data admin'
-                ], 400);
-            }
+            return response()->json($response->json());
+
         } catch (\Exception $e) {
+            \Log::error('FE AdminShow Error: ' . $e->getMessage());
+
             return response()->json([
                 'success' => false,
                 'message' => 'Terjadi kesalahan: ' . $e->getMessage()
@@ -110,15 +109,11 @@ class AdminController extends Controller
         try {
             $response = Http::put("{$this->apiUrl}/admin/admins/{$id}", $request->all());
 
-            if ($response->successful()) {
-                return response()->json($response->json());
-            } else {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Gagal memperbarui admin'
-                ], 400);
-            }
+            return response()->json($response->json());
+
         } catch (\Exception $e) {
+            \Log::error('FE AdminUpdate Error: ' . $e->getMessage());
+
             return response()->json([
                 'success' => false,
                 'message' => 'Terjadi kesalahan: ' . $e->getMessage()
@@ -131,15 +126,11 @@ class AdminController extends Controller
         try {
             $response = Http::delete("{$this->apiUrl}/admin/admins/{$id}");
 
-            if ($response->successful()) {
-                return response()->json($response->json());
-            } else {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Gagal menghapus admin'
-                ], 400);
-            }
+            return response()->json($response->json());
+
         } catch (\Exception $e) {
+            \Log::error('FE AdminDestroy Error: ' . $e->getMessage());
+
             return response()->json([
                 'success' => false,
                 'message' => 'Terjadi kesalahan: ' . $e->getMessage()
@@ -152,15 +143,11 @@ class AdminController extends Controller
         try {
             $response = Http::post("{$this->apiUrl}/admin/admins/delete-multiple", $request->all());
 
-            if ($response->successful()) {
-                return response()->json($response->json());
-            } else {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Gagal menghapus admin'
-                ], 400);
-            }
+            return response()->json($response->json());
+
         } catch (\Exception $e) {
+            \Log::error('FE AdminDestroyMultiple Error: ' . $e->getMessage());
+
             return response()->json([
                 'success' => false,
                 'message' => 'Terjadi kesalahan: ' . $e->getMessage()
@@ -173,15 +160,11 @@ class AdminController extends Controller
         try {
             $response = Http::put("{$this->apiUrl}/admin/admins/{$id}/status", $request->all());
 
-            if ($response->successful()) {
-                return response()->json($response->json());
-            } else {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Gagal mengubah status admin'
-                ], 400);
-            }
+            return response()->json($response->json());
+
         } catch (\Exception $e) {
+            \Log::error('FE AdminUpdateStatus Error: ' . $e->getMessage());
+
             return response()->json([
                 'success' => false,
                 'message' => 'Terjadi kesalahan: ' . $e->getMessage()
@@ -194,15 +177,11 @@ class AdminController extends Controller
         try {
             $response = Http::put("{$this->apiUrl}/admin/admins/{$id}/last-active", $request->all());
 
-            if ($response->successful()) {
-                return response()->json($response->json());
-            } else {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Gagal mengupdate waktu aktif'
-                ], 400);
-            }
+            return response()->json($response->json());
+
         } catch (\Exception $e) {
+            \Log::error('FE AdminUpdateLastActive Error: ' . $e->getMessage());
+
             return response()->json([
                 'success' => false,
                 'message' => 'Terjadi kesalahan: ' . $e->getMessage()
