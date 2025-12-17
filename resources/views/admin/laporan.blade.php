@@ -249,7 +249,7 @@
 
 <!-- === MODAL DETAIL LAPORAN === -->
 <div id="detailOverlay" class="hidden fixed inset-0 bg-black/40 z-50">
-    <div class="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-xl rounded-l-xl overflow-y-auto">
+    <div class="absolute right-0 top-0 h-full w-full max-w-md bg-white mt-6 mr-6 shadow-xl rounded-l-xl overflow-y-auto">
 
         <!-- Header -->
         <div class="flex justify-between items-start p-5 border-b">
@@ -258,7 +258,10 @@
                 <p id="detailDate" class="text-sm text-gray-500">-</p>
             </div>
             <button id="closeDetail" class="text-gray-500 hover:text-gray-700 text-2xl">
-                ✕
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5.00098 5L19 18.9991" stroke="#002C55" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M4.99996 18.9991L18.999 5" stroke="#002C55" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
             </button>
         </div>
 
@@ -270,41 +273,36 @@
 
         <!-- Content -->
         <div id="detailContent" class="hidden p-5 space-y-4 text-sm text-gray-700">
+            <!-- User Info -->
+            <div class="space-y-4">
+                <div>
+                    <p class="text-base text-[#002C55] mb-1">Nama Pengusul:</p>
+                    <p id="detailNama" class="text-base font-semibold text-[#002C55]">Fahrunnisa</p>
+                </div>
 
-            <!-- Badge Status -->
-            <div>
-                <span id="detailStatus" class="px-3 py-1 text-sm rounded-md font-medium">
-                    -
-                </span>
+                <div>
+                    <p class="text-base text-[#002C55] mb-1">Email:</p>
+                    <p id="detailEmail" class="text-base font-semibold text-[#002C55]">nisa@email.com</p>
+                </div>
+
+                <div>
+                    <p class="text-base font-semibold text-[#002C55] mb-1">Nomor Telepon:</p>
+                    <p id="detailTelp" class="text-base font-semibold text-[#002C55]">08129383641</p>
+                </div>
+
+                <div>
+                    <p class="text-base text-[#002C55] mb-1">Lokasi Kerusakan:</p>
+                    <p id="detailLokasi" class="text-base font-semibold text-[#002C55]">E8</p>
+                </div>
+
+                <div>
+                    <p class="text-base text-[#002C55] mb-1">Laporan Kerusakan:</p>
+                    <div id="detailDeskripsi" class="mt-1 text-base font-semibold text-[#002C55] whitespace-pre-line">Meja rusak</div>
+                </div>
             </div>
 
             <div>
-                <p class="font-semibold text-gray-800">Nama Pengusul:</p>
-                <p id="detailNama" class="mt-1 text-gray-600">-</p>
-            </div>
-
-            <div>
-                <p class="font-semibold text-gray-800">Email:</p>
-                <p id="detailEmail" class="mt-1 text-gray-600">-</p>
-            </div>
-
-            <div>
-                <p class="font-semibold text-gray-800">Nomor Telepon:</p>
-                <p id="detailTelp" class="mt-1 text-gray-600">-</p>
-            </div>
-
-            <div>
-                <p class="font-semibold text-gray-800">Lokasi Kerusakan:</p>
-                <p id="detailLokasi" class="mt-1 text-gray-600">-</p>
-            </div>
-
-            <div>
-                <p class="font-semibold text-gray-800">Deskripsi Kerusakan:</p>
-                <p id="detailDeskripsi" class="mt-1 text-gray-600 whitespace-pre-line">-</p>
-            </div>
-
-            <div>
-                <p class="font-semibold text-gray-800">Foto Kerusakan:</p>
+                <p class="text-base text-[#002C55]">Foto Kerusakan:</p>
                 <div id="detailFotoContainer" class="mt-2">
                     <img id="detailFoto" class="w-full h-auto rounded-md border border-gray-300"
                         src="" alt="Foto kerusakan"
