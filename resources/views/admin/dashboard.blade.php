@@ -6,17 +6,49 @@
 
 @section('content')
 
-    <!-- INFO PANEL -->
-    <div class="bg-blue-50 p-4 rounded-lg mb-4">
-        <h3 class="text-lg font-bold text-[#002C55] flex gap-2 mb-2">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M13 15.0001V7.00007M13 15.0001L18.504 18.1451C18.6561 18.2319 18.8283 18.2773 19.0034 18.2767C19.1785 18.2761 19.3504 18.2296 19.5019 18.1417C19.6533 18.0538 19.7791 17.9277 19.8665 17.776C19.9539 17.6242 19.9999 17.4522 20 17.2771V4.72307C19.9999 4.54795 19.9539 4.37591 19.8665 4.22418C19.7791 4.07244 19.6533 3.94632 19.5019 3.85844C19.3504 3.77055 19.1785 3.72399 19.0034 3.72339C18.8283 3.7228 18.6561 3.76821 18.504 3.85507L13 7.00007M13 15.0001H10M13 7.00007H7C5.93913 7.00007 4.92172 7.42149 4.17157 8.17164C3.42143 8.92178 3 9.9392 3 11.0001C3 12.0609 3.42143 13.0783 4.17157 13.8285C4.92172 14.5786 5.93913 15.0001 7 15.0001M10 15.0001V19.5001C10 19.8979 9.84196 20.2794 9.56066 20.5607C9.27936 20.842 8.89782 21.0001 8.5 21.0001C8.10218 21.0001 7.72064 20.842 7.43934 20.5607C7.15804 20.2794 7 19.8979 7 19.5001V15.0001M10 15.0001H7" stroke="#002C55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+        <!-- INFO PANEL -->
+    <div id="infoPanel" class="bg-white border-2 border-blue-600 p-4 rounded-lg mb-4">
 
-            Informasi Dashboard</h3>
-        <p class="text-base text-[#002C55]"><strong>4 Cards di atas:</strong> Menampilkan total akumulasi <strong>semua laporan</strong> dari awal sistem sampai sekarang.</p>
-        <p class="text-base text-[#002C55]"><strong>Grafik di bawah:</strong> Menampilkan data dalam <strong>rentang waktu yang dipilih</strong> (7 hari, 30 hari, atau bulan ini).</p>
-        <p class="text-sm text-[#002C55] mt-1">Gunakan filter di bawah untuk mengubah periode tampilan grafik.</p>
+        <!-- Header Info Panel -->
+        <div class="flex items-center justify-between mb-5">
+            <div class="flex items-center gap-3">
+                <div class="bg-blue-600 rounded-full p-2 pulsating-circle">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 22C6.477 22 2 17.523 2 12C2 6.477 6.477 2 12 2C17.523 2 22 6.477 22 12C22 17.523 17.523 22 12 22ZM12 20C14.1217 20 16.1566 19.1571 17.6569 17.6569C19.1571 16.1566 20 14.1217 20 12C20 9.87827 19.1571 7.84344 17.6569 6.34315C16.1566 4.84285 14.1217 4 12 4C9.87827 4 7.84344 4.84285 6.34315 6.34315C4.84285 7.84344 4 9.87827 4 12C4 14.1217 4.84285 16.1566 6.34315 17.6569C7.84344 19.1571 9.87827 20 12 20ZM12 7C12.2652 7 12.5196 7.10536 12.7071 7.29289C12.8946 7.48043 13 7.73478 13 8V13C13 13.2652 12.8946 13.5196 12.7071 13.7071C12.5196 13.8946 12.2652 14 12 14C11.7348 14 11.4804 13.8946 11.2929 13.7071C11.1054 13.5196 11 13.2652 11 13V8C11 7.73478 11.1054 7.48043 11.2929 7.29289C11.4804 7.10536 11.7348 7 12 7ZM12 17C11.7348 17 11.4804 16.8946 11.2929 16.7071C11.1054 16.5196 11 16.2652 11 16C11 15.7348 11.1054 15.4804 11.2929 15.2929C11.4804 15.1054 11.7348 15 12 15C12.2652 15 12.5196 15.1054 12.7071 15.2929C12.8946 15.4804 13 15.7348 13 16C13 16.2652 12.8946 16.5196 12.7071 16.7071C12.5196 16.8946 12.2652 17 12 17Z" fill="white"/>
+                    </svg>
+                </div>
+                
+                <h3 class="text-2xl font-semibold text-[#002C55] flex gap-2 mb-2">
+                    Informasi Dashboard
+                </h3>
+            </div>
+
+            <button id="closeInfo" class="p-1 hover:bg-blue-50 rounded flex items-center justify-center">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5.00098 5L19 18.9991" stroke="#002C55" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4.99996 18.9991L18.999 5" stroke="#002C55" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Content Info Panel -->
+        <div class="flex gap-2 bg-blue-50 mb-2">
+            <div class="border-2 border-blue-600 w-1 h-auto rounded-sm"></div>
+            <div class="bg-blue-50 p-3">
+                <p class="text-base text-[#002C55]"><strong>4 Cards di bawah:</strong> Menampilkan total akumulasi <strong>semua laporan</strong> dari awal sistem sampai sekarang.</p>
+            </div>
+        </div>
+
+        <div class="flex gap-2 bg-blue-50 mb-4">
+            <div class="border-2 border-blue-600 w-1 h-auto"></div>
+            <div class="bg-blue-50 p-3">
+                <p class="text-base text-[#002C55]"><strong>Grafik di bawah:</strong> Menampilkan data dalam <strong>rentang waktu yang dipilih</strong> (7 hari, 30 hari, atau bulan ini).</p>
+            </div>
+        </div>
+
+        <div class="bg-blue-600 p-2 rounded-lg">
+            <p class="text-base text-white mt-1">Gunakan filter di bagian grafik untuk mengubah periode tampilan grafik.</p>
+        </div>
     </div>
 
     <!-- SUMMARY CARDS (TOTAL AKUMULASI SEMUA LAPORAN) -->
@@ -81,6 +113,7 @@
             </div>
         </div>
     </div>
+
 
     <!-- GRAFIK LAPORAN (HANYA RENTANG WAKTU TERTENTU) -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -354,6 +387,18 @@ function filterChart() {
     window.addEventListener('resize', function() {
         laporanChart.resize();
     });
+
+
+    // KODE CLOSE INFO PANEL
+    const infoPanel = document.getElementById("infoPanel");
+    const closeInfo = document.getElementById("closeInfo");
+
+    if (closeInfo && infoPanel) {
+    closeInfo.addEventListener("click", () => {
+        infoPanel.classList.add("hidden");
+    });
+}
+
 });
 </script>
 
@@ -373,6 +418,25 @@ function filterChart() {
     .flex-wrap.gap-5 {
         gap: 10px !important;
         flex-wrap: wrap !important;
+    }
+}
+
+.pulsating-circle {
+    animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(0, 44, 85, 0.7);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(0, 44, 85, 0);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(0, 44, 85, 0);
     }
 }
 </style>
