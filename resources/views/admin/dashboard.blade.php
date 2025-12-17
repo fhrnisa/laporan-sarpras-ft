@@ -5,6 +5,20 @@
 @section('showSearch', 'false')  <!-- DISABLE SEARCH BAR -->
 
 @section('content')
+
+    <!-- INFO PANEL -->
+    <div class="bg-blue-50 p-4 rounded-lg mb-4">
+        <h3 class="text-lg font-bold text-[#002C55] flex gap-2 mb-2">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13 15.0001V7.00007M13 15.0001L18.504 18.1451C18.6561 18.2319 18.8283 18.2773 19.0034 18.2767C19.1785 18.2761 19.3504 18.2296 19.5019 18.1417C19.6533 18.0538 19.7791 17.9277 19.8665 17.776C19.9539 17.6242 19.9999 17.4522 20 17.2771V4.72307C19.9999 4.54795 19.9539 4.37591 19.8665 4.22418C19.7791 4.07244 19.6533 3.94632 19.5019 3.85844C19.3504 3.77055 19.1785 3.72399 19.0034 3.72339C18.8283 3.7228 18.6561 3.76821 18.504 3.85507L13 7.00007M13 15.0001H10M13 7.00007H7C5.93913 7.00007 4.92172 7.42149 4.17157 8.17164C3.42143 8.92178 3 9.9392 3 11.0001C3 12.0609 3.42143 13.0783 4.17157 13.8285C4.92172 14.5786 5.93913 15.0001 7 15.0001M10 15.0001V19.5001C10 19.8979 9.84196 20.2794 9.56066 20.5607C9.27936 20.842 8.89782 21.0001 8.5 21.0001C8.10218 21.0001 7.72064 20.842 7.43934 20.5607C7.15804 20.2794 7 19.8979 7 19.5001V15.0001M10 15.0001H7" stroke="#002C55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+
+            Informasi Dashboard</h3>
+        <p class="text-base text-[#002C55]"><strong>4 Cards di atas:</strong> Menampilkan total akumulasi <strong>semua laporan</strong> dari awal sistem sampai sekarang.</p>
+        <p class="text-base text-[#002C55]"><strong>Grafik di bawah:</strong> Menampilkan data dalam <strong>rentang waktu yang dipilih</strong> (7 hari, 30 hari, atau bulan ini).</p>
+        <p class="text-sm text-[#002C55] mt-1">Gunakan filter di bawah untuk mengubah periode tampilan grafik.</p>
+    </div>
+
     <!-- SUMMARY CARDS (TOTAL AKUMULASI SEMUA LAPORAN) -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-7">
         <!-- Card Laporan Masuk -->
@@ -66,19 +80,6 @@
                 <span class="text-lg text-[#002C55] mt-1">Laporan</span>
             </div>
         </div>
-    </div>
-
-    <!-- INFO PANEL -->
-    <div class="bg-blue-50 p-4 rounded-lg mb-4">
-        <h3 class="text-lg font-bold text-[#002C55] flex gap-2 mb-2">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M13 15.0001V7.00007M13 15.0001L18.504 18.1451C18.6561 18.2319 18.8283 18.2773 19.0034 18.2767C19.1785 18.2761 19.3504 18.2296 19.5019 18.1417C19.6533 18.0538 19.7791 17.9277 19.8665 17.776C19.9539 17.6242 19.9999 17.4522 20 17.2771V4.72307C19.9999 4.54795 19.9539 4.37591 19.8665 4.22418C19.7791 4.07244 19.6533 3.94632 19.5019 3.85844C19.3504 3.77055 19.1785 3.72399 19.0034 3.72339C18.8283 3.7228 18.6561 3.76821 18.504 3.85507L13 7.00007M13 15.0001H10M13 7.00007H7C5.93913 7.00007 4.92172 7.42149 4.17157 8.17164C3.42143 8.92178 3 9.9392 3 11.0001C3 12.0609 3.42143 13.0783 4.17157 13.8285C4.92172 14.5786 5.93913 15.0001 7 15.0001M10 15.0001V19.5001C10 19.8979 9.84196 20.2794 9.56066 20.5607C9.27936 20.842 8.89782 21.0001 8.5 21.0001C8.10218 21.0001 7.72064 20.842 7.43934 20.5607C7.15804 20.2794 7 19.8979 7 19.5001V15.0001M10 15.0001H7" stroke="#002C55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-
-            Informasi Dashboard</h3>
-        <p class="text-base text-[#002C55]"><strong>4 Cards di atas:</strong> Menampilkan total akumulasi <strong>semua laporan</strong> dari awal sistem sampai sekarang.</p>
-        <p class="text-base text-[#002C55]"><strong>Grafik di bawah:</strong> Menampilkan data dalam <strong>rentang waktu yang dipilih</strong> (7 hari, 30 hari, atau bulan ini).</p>
-        <p class="text-sm text-[#002C55] mt-1">Gunakan filter di bawah untuk mengubah periode tampilan grafik.</p>
     </div>
 
     <!-- GRAFIK LAPORAN (HANYA RENTANG WAKTU TERTENTU) -->
