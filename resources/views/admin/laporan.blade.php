@@ -255,7 +255,7 @@
         <div class="sticky top-0 bg-white z-10 flex justify-between items-start p-5 border-b">
             <div>
                 <h2 id="detailTitle" class="text-3xl font-semibold text-[#002C55]">Detail Laporan</h2>
-                <div class="flex">
+                <div class="flex gap-4 mt-2">
                     <div>
                         <span id="detailStatus" class="inline-flex px-3 py-1 text-lg font-semibold rounded-md">
 
