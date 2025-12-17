@@ -2,108 +2,90 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Routing\Controller;
 
 class ArsipController extends Controller
 {
-    private $apiUrl;
+    private string $apiBaseUrl;
 
     public function __construct()
     {
-        $this->apiUrl = env('BE_API_URL', 'http://localhost:8001/api');
+        $this->apiBaseUrl = 'http://localhost:8001';
     }
 
+    /**
+     * Menampilkan halaman arsip (FE)
+     */
     public function index(Request $request)
     {
         try {
-            $params = [];
+            // Query params ke BE
+            $queryParams = $request->only(['status', 'tanggal', 'search']);
 
-            if ($request->has('status') && $request->status !== 'all') {
-                $params['status'] = $request->status;
+            // Call API BE
+            $response = Http::get($this->apiBaseUrl . '/api/admin/arsip', $queryParams);
+
+            if (!$response->successful()) {
+                throw new \Exception('Response API gagal');
             }
 
-            if ($request->has('tanggal')) {
-                $params['tanggal'] = $request->tanggal;
-            }
+            $json = $response->json();
 
-            if ($request->has('search')) {
-                $params['search'] = $request->search;
-            }
+            // VALIDASI STRUKTUR RESPONSE
+            $laporan = $json['data'] ?? [];
+            $total   = $json['total'] ?? count($laporan);
 
-            $response = Http::get("{$this->apiUrl}/admin/laporan/arsip", $params);
+            return view('admin.arsip', [
+                'laporan' => $laporan,
+                'total'   => $total
+            ]);
 
-            if ($response->successful()) {
-                $data = $response->json();
+        } catch (\Throwable $e) {
+            \Log::error('FE Arsip Error: ' . $e->getMessage());
 
-                return view('admin.arsip', [
-                    'laporan' => $data['data'] ?? [],
-                    'total' => $data['count'] ?? 0,
-                    'error' => null
-                ]);
-            } else {
-                return view('admin.arsip', [
-                    'laporan' => [],
-                    'total' => 0,
-                    'error' => 'Gagal mengambil data arsip'
-                ]);
-            }
-
-        } catch (\Exception $e) {
             return view('admin.arsip', [
                 'laporan' => [],
-                'total' => 0,
-                'error' => 'Terjadi kesalahan: ' . $e->getMessage()
+                'total'   => 0,
+                'error'   => 'Gagal mengambil data arsip'
             ]);
         }
     }
 
-    // Method untuk memulihkan data dari arsip
+    /**
+     * Restore arsip
+     */
     public function restore(Request $request)
     {
-        try {
-            $response = Http::post("{$this->apiUrl}/admin/laporan/pulihkan", [
-                'ids' => $request->ids
-            ]);
+        $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'integer'
+        ]);
 
-            if ($response->successful()) {
-                return response()->json($response->json());
-            } else {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Gagal memulihkan data'
-                ], 400);
-            }
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
-            ], 500);
-        }
+        $response = Http::post(
+            $this->apiBaseUrl . '/api/admin/arsip/restore',
+            ['ids' => $request->ids]
+        );
+
+        return response()->json($response->json(), $response->status());
     }
 
-    // Method untuk menghapus permanen
+    /**
+     * Hapus permanen arsip
+     */
     public function destroy(Request $request)
     {
-        try {
-            $response = Http::post("{$this->apiUrl}/admin/laporan/hapus-permanen", [
-                'ids' => $request->ids
-            ]);
+        $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'integer'
+        ]);
 
-            if ($response->successful()) {
-                return response()->json($response->json());
-            } else {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Gagal menghapus data'
-                ], 400);
-            }
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
-            ], 500);
-        }
+        $response = Http::post(
+            $this->apiBaseUrl . '/api/admin/arsip/destroy',
+            ['ids' => $request->ids]
+        );
+
+        return response()->json($response->json(), $response->status());
     }
 }

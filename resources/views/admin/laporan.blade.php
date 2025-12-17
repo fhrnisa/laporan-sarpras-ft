@@ -248,8 +248,8 @@
 </div>
 
 <!-- === MODAL DETAIL LAPORAN === -->
-<div id="detailOverlay" class="hidden fixed inset-0 bg-black/40 z-50">
-    <div class="absolute right-0 top-0 h-full w-full max-w-md bg-white mt-6 mr-6 shadow-xl rounded-xl overflow-y-auto">
+<div id="detailOverlay" class="hidden overflow-y-auto fixed inset-0 bg-black/40 z-50">
+    <div class="absolute right-0 top-0 h-auto w-full max-w-md bg-white mt-6 mr-6 shadow-xl rounded-xl overflow-y-auto">
 
         <!-- Header -->
         <div class="sticky top-0 bg-white z-10 flex justify-between items-start p-5 border-b">
@@ -258,7 +258,7 @@
                 <div class="flex">
                     <div>
                         <span id="detailStatus" class="inline-flex px-3 py-1 text-lg font-semibold rounded-md">
-                           
+
                         </span>
                     </div>
                     <p id="detailDate" class="text-lg text-[#002C55]">17 Desember 2025</p>
@@ -266,7 +266,7 @@
             </div>
 
             <!-- Close Button -->
-            <button id="closeDetail" 
+            <button id="closeDetail"
                     onclick="closeDetailModal()"
                     class="text-gray-500 hover:text-gray-700 text-2xl p-1 hover:bg-gray-100 rounded"
                     aria-label="Tutup modal">
@@ -343,7 +343,7 @@
             </div>
 
             <!-- Detail Waktu -->
-            <div class="pt-4 border-t border-gray-200">
+            <div class="pt-4 border-t border-gray-200 space-y-4">
                     <div>
                         <p class="text-base text-[#002C55]">Waktu Diterima:</p>
                         <p id="detailCreatedAt" class="text-base font-semibold text-[#002C55]">-</p>
@@ -731,7 +731,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!confirm(`Hapus permanen ${selectedIds.length} laporan? Tindakan ini tidak dapat dibatalkan!`)) return;
 
         try {
-            const response = await fetch("{{ route('admin.arsip.destroy') }}", {
+            const response = await fetch("{{ route('admin.laporan.destroy') }}", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -802,8 +802,8 @@ document.addEventListener("DOMContentLoaded", () => {
     window.updateStatus = updateStatus;
     window.closeDetailModal = closeDetailModal;
 
-    
-    
+
+
     const STATUS_CONFIG = {
     menunggu: {
         text: 'Menunggu',
