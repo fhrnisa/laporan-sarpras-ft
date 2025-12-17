@@ -167,7 +167,7 @@
 
                         <!-- Lokasi -->
                         <td class="max-w-[200px] px-6 py-4">
-                            <div class="text-sm text-[#002C55] max-w-xs truncate" title="{{ $report['lokasi_kerusakan'] ?? '' }}">
+                            <div class="text-base text-[#002C55] max-w-xs truncate" title="{{ $report['lokasi_kerusakan'] ?? '' }}">
                                 {{ $report['lokasi_kerusakan'] ?? 'N/A' }}
                             </div>
                         </td>
@@ -189,7 +189,7 @@
                                     'ditolak' => 'Ditolak'
                                 ];
                             @endphp
-                            <span class="px-3 py-1 text-xs font-medium rounded-full {{ $statusColors[$status] ?? 'bg-gray-200' }}">
+                            <span class="px-4 py-2 text-base font-medium rounded-sm {{ $statusColors[$status] ?? 'bg-gray-200' }}">
                                 {{ $statusText[$status] ?? 'Unknown' }}
                             </span>
                         </td>

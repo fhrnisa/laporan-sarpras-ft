@@ -89,26 +89,28 @@
 
         <!-- Filter Section (HANYA UNTUK CHART) -->
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-3">
-            <!-- Filter Status -->
-            <div class="flex items-center gap-3">
-                <span class="text-[#002C55]">Status</span>
-                <select id="filterStatus" class="border border-[#DDDDDD] rounded-lg text-sm text-[#002C55] py-2 px-3 w-40 focus:outline-none focus:ring-1 focus:ring-[#002C55] focus:border-[#002C55]">
-                    <option value="all">Semua Status</option>
-                    <option value="menunggu">Menunggu</option>
-                    <option value="diproses">Diproses</option>
-                    <option value="terselesaikan">Terselesaikan</option>
-                    <option value="ditolak">Ditolak</option>
-                </select>
-            </div>
-
-            <!-- Filter Tanggal -->
-            <div class="flex items-center gap-3">
-                <span class="text-[#002C55]">Periode</span>
-                <select id="filterTanggal" class="border border-gray-300 rounded-lg text-sm py-2 px-3 w-40 focus:outline-none focus:ring-1 focus:ring-[#002C55] focus:border-[#002C55]">
-                    <option value="7hari">7 Hari Terakhir</option>
-                    <option value="30hari">30 Hari Terakhir</option>
-                    <option value="bulan">Bulan Ini</option>
-                </select>
+            <div class="flex gap-6">
+                <!-- Filter Status -->
+                <div class="flex items-center gap-3">
+                    <span class="text-[#002C55]">Status</span>
+                    <select id="filterStatus" class="border border-[#DDDDDD] rounded-lg text-sm text-[#002C55] py-2 px-3 w-40 focus:outline-none focus:ring-1 focus:ring-[#002C55] focus:border-[#002C55]">
+                        <option value="all">Semua Status</option>
+                        <option value="menunggu">Menunggu</option>
+                        <option value="diproses">Diproses</option>
+                        <option value="terselesaikan">Terselesaikan</option>
+                        <option value="ditolak">Ditolak</option>
+                    </select>
+                </div>
+    
+                <!-- Filter Tanggal -->
+                <div class="flex items-center gap-3">
+                    <span class="text-[#002C55]">Periode</span>
+                    <select id="filterTanggal" class="border border-gray-300 rounded-lg text-sm text-[#002C55] py-2 px-3 w-40 focus:outline-none focus:ring-1 focus:ring-[#002C55] focus:border-[#002C55]">
+                        <option value="7hari">7 Hari Terakhir</option>
+                        <option value="30hari">30 Hari Terakhir</option>
+                        <option value="bulan">Bulan Ini</option>
+                    </select>
+                </div>
             </div>
 
             <!-- Legenda (TIDAK BISA DIKLIK) -->
