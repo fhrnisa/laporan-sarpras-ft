@@ -105,7 +105,7 @@
                     </label>
                     <label class="flex items-center gap-3 w-full px-4 py-3 text-sm md:text-base border border-[#DDDDDD] rounded-lg cursor-pointer hover:bg-gray-50 transition">
                         <img src="{{ asset('icon/upload-icon.svg') }}" alt="Upload Icon" class="w-6 h-6">
-                        <span class="text-[#959595]" id="filePlaceholder">Tambahkan foto</span>
+                        <span class="text-[#959595]" id="filePlaceholder">Tambahkan foto. Hanya bisa .jpeg, .png, .jpg (max 2MB)</span>
                         <input type="file"
                                name="foto_kerusakan"
                                class="hidden"
@@ -363,11 +363,11 @@ document.addEventListener('DOMContentLoaded', function() {
             filePlaceholder.textContent = file.name;
         } else {
             previewImage.classList.add("hidden");
-            filePlaceholder.textContent = "Tambahkan foto";
+            filePlaceholder.textContent = "Tambahkan foto. Hanya bisa .jpeg, .png, .jpg (max 2MB)";
         }
     });
 
-// Form submission handler
+// Tambahkan validasi sebelum submit form
 form.addEventListener('submit', async function(e) {
     e.preventDefault();
 
@@ -377,34 +377,96 @@ form.addEventListener('submit', async function(e) {
 
     showLoading();
 
-    // Prepare form data
-    const formData = new FormData();
+    // Validasi lengkap
+    const namaInput = document.querySelector("input[name='nama_pengusul']");
+    const emailInput = document.querySelector("input[name='email']");
+    const teleponInput = document.querySelector("input[name='nomor_telepon']");
+    const lokasiInput = document.querySelector("input[name='lokasi_kerusakan']");
+    const deskripsiInput = document.querySelector("input[name='deskripsi_kerusakan']");
 
-    // Validasi form
-    const requiredFields = [
-        {name: 'nama_pengusul', label: 'Nama Pengusul'},
-        {name: 'email', label: 'Email'},
-        {name: 'nomor_telepon', label: 'Nomor WhatsApp'},
-        {name: 'lokasi_kerusakan', label: 'Lokasi Kerusakan'},
-        {name: 'deskripsi_kerusakan', label: 'Deskripsi Kerusakan'}
-    ];
+    // Reset error border
+    [namaInput, emailInput, teleponInput, lokasiInput, deskripsiInput].forEach(input => {
+        input.classList.remove('border-red-500');
+    });
 
-    let hasError = false;
-    for (const field of requiredFields) {
-        const input = document.querySelector(`input[name='${field.name}']`);
-        const value = input.value.trim();
-        if (!value) {
-            showErrorModal(`${field.label} harus diisi`);
-            hasError = true;
-            break;
-        }
-        formData.append(field.name, value);
+    let isValid = true;
+    let errorMessage = '';
+
+    // Validasi nama
+    if (!namaInput.value.trim()) {
+        namaInput.classList.add('border-red-500');
+        isValid = false;
+        errorMessage = 'Nama Pengusul harus diisi';
     }
 
-    if (hasError) {
+    // Validasi email
+    if (!emailInput.value.trim()) {
+        emailInput.classList.add('border-red-500');
+        isValid = false;
+        errorMessage = 'Email harus diisi';
+    } else if (!emailInput.value.includes('@') || !emailInput.value.includes('.')) {
+        emailInput.classList.add('border-red-500');
+        isValid = false;
+        errorMessage = 'Format email tidak valid';
+    }
+
+    // Validasi nomor telepon
+    if (!teleponInput.value.trim()) {
+        teleponInput.parentElement.classList.add('border-red-500');
+        isValid = false;
+        errorMessage = 'Nomor WhatsApp harus diisi';
+    } else {
+        // Hilangkan karakter selain angka
+        const cleanNumber = teleponInput.value.replace(/\D/g, '');
+
+        // Validasi: tidak boleh diawali 0, hanya angka
+        if (cleanNumber.charAt(0) === '0') {
+            teleponInput.parentElement.classList.add('border-red-500');
+            isValid = false;
+            errorMessage = 'Nomor tidak boleh diawali dengan 0';
+        } else if (cleanNumber.length < 9 || cleanNumber.length > 13) {
+            teleponInput.parentElement.classList.add('border-red-500');
+            isValid = false;
+            errorMessage = 'Nomor harus 9-13 digit';
+        } else if (!/^\d+$/.test(cleanNumber)) {
+            teleponInput.parentElement.classList.add('border-red-500');
+            isValid = false;
+            errorMessage = 'Nomor harus berupa angka';
+        }
+
+        // Format nomor untuk database (tambah 0 di depan)
+        teleponInput.value = '0' + cleanNumber;
+    }
+
+    // Validasi lokasi
+    if (!lokasiInput.value.trim()) {
+        lokasiInput.classList.add('border-red-500');
+        isValid = false;
+        errorMessage = 'Lokasi Kerusakan harus diisi';
+    }
+
+    // Validasi deskripsi
+    if (!deskripsiInput.value.trim()) {
+        deskripsiInput.classList.add('border-red-500');
+        isValid = false;
+        errorMessage = 'Deskripsi Kerusakan harus diisi';
+    }
+
+    if (!isValid) {
+        showErrorModal(errorMessage);
         hideLoading();
         return;
     }
+
+    // Prepare form data
+    const formData = new FormData();
+
+    // Tambahkan semua data
+    formData.append('nama_pengusul', namaInput.value.trim());
+    formData.append('email', emailInput.value.trim());
+    formData.append('nomor_telepon', teleponInput.value); // Sudah ada 0 di depan
+    formData.append('lokasi_kerusakan', lokasiInput.value.trim());
+    formData.append('deskripsi_kerusakan', deskripsiInput.value.trim());
 
     if (fileInput.files[0]) {
         formData.append('foto_kerusakan', fileInput.files[0]);
@@ -452,7 +514,7 @@ form.addEventListener('submit', async function(e) {
             // Reset form
             form.reset();
             previewImage.classList.add('hidden');
-            filePlaceholder.textContent = "Tambahkan foto";
+            filePlaceholder.textContent = "Tambahkan foto. Hanya bisa .jpeg, .png, .jpg (max 2MB)";
 
         } else if (response.status === 429) {
             const waitTime = data.wait_time || 600;
@@ -482,6 +544,38 @@ form.addEventListener('submit', async function(e) {
         hideLoading();
     }
 });
+
+// Tambahkan fungsi ini di script
+function showFieldError(field, message) {
+    const input = document.querySelector(`[name="${field}"]`);
+    const label = document.querySelector(`label[for="${field}"]`);
+
+    if (input) {
+        input.classList.add('border-red-500', 'shake');
+        input.focus();
+
+        // Tambahkan pesan error
+        let errorDiv = input.parentElement.querySelector('.error-message');
+        if (!errorDiv) {
+            errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message text-red-500 text-xs mt-1';
+            input.parentElement.appendChild(errorDiv);
+        }
+        errorDiv.textContent = message;
+
+        // Hapus setelah 3 detik
+        setTimeout(() => {
+            input.classList.remove('border-red-500', 'shake');
+            if (errorDiv) errorDiv.remove();
+        }, 3000);
+    }
+}
+
+// Panggil di validasi
+if (!emailInput.value.includes('@')) {
+    showFieldError('email', 'Email harus mengandung @');
+    isValid = false;
+}
 });
 </script>
 
@@ -531,6 +625,23 @@ form.addEventListener('submit', async function(e) {
 button:disabled {
     opacity: 0.7;
     cursor: not-allowed;
+}
+
+/* Tambahkan di style section */
+.border-red-500 {
+    border-color: #ef4444 !important;
+    border-width: 2px !important;
+}
+
+/* Animasi untuk error */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.shake {
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
 }
 </style>
 @endsection
