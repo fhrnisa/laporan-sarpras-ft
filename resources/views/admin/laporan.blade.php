@@ -565,8 +565,32 @@ document.addEventListener("DOMContentLoaded", () => {
         const statusElement = document.getElementById('detailStatus');
         const status = report.status_laporan || 'menunggu';
         if (statusElement) {
-            statusElement.textContent = getStatusText(status);
-            statusElement.className = `px-3 py-1 text-sm rounded-md font-medium status-${status}`;
+            // Konfigurasi status
+            const STATUS_CONFIG = {
+                menunggu: {
+                    text: 'Menunggu',
+                    class: 'bg-[#E1E7E9] text-[#022C55]'
+                },
+                diproses: {
+                    text: 'Diproses',
+                    class: 'bg-[#FEEF94] text-[#022C55]'
+                },
+                terselesaikan: {
+                    text: 'Terselesaikan',
+                    class: 'bg-[#A0F1B5] text-[#022C55]'
+                },
+                ditolak: {
+                    text: 'Ditolak',
+                    class: 'bg-[#FF7A7E] text-[#022C55]'
+                }
+            };
+
+            const config = STATUS_CONFIG[status] || STATUS_CONFIG.menunggu;
+
+            // Set teks dan kelas
+            statusElement.textContent = config.text;
+            // Reset class dasar dan tambahkan class status
+            statusElement.className = 'inline-flex px-3 py-1 text-sm font-semibold rounded-md ' + config.class;
         }
 
         // Set foto
