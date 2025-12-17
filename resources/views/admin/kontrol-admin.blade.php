@@ -93,19 +93,18 @@
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
                 <!-- HEADER -->
-                <thead class="bg-gray-50">
+                <thead class="bg-[#002C55]">
                     <tr>
-                        <th class="px-6 py-3 text-left text-base font-medium text-gray-500 tracking-wider">ID</th>
-                        <th class="px-6 py-3 text-left text-base font-medium text-gray-500 tracking-wider">Nama Admin</th>
-                        <th class="px-6 py-3 text-left text-base font-medium text-gray-500 tracking-wider">Email</th>
-                        <th class="px-6 py-3 text-left text-base font-medium text-gray-500 tracking-wider">Nomor WhatsApp</th>
-                        <th class="px-6 py-3 text-left text-base font-medium text-gray-500 tracking-wider">Dibuat</th>
-                        <th class="px-6 py-3 text-left text-base font-medium text-gray-500 tracking-wider">Role</th>
-                        <th class="px-6 py-3 text-left text-base font-medium text-gray-500 tracking-wider">Status</th>
-                        <th class="px-6 py-3 text-left text-base font-medium text-gray-500 tracking-wider">Waktu Aktif</th>
-
+                        <th class="px-6 py-3 text-left text-base font-medium text-white tracking-wider">ID</th>
+                        <th class="px-6 py-3 text-left text-base font-medium text-white tracking-wider">Nama Admin</th>
+                        <th class="px-6 py-3 text-left text-base font-medium text-white tracking-wider">Email</th>
+                        <th class="px-6 py-3 text-left text-base font-medium text-white tracking-wider">Nomor WhatsApp</th>
+                        <th class="px-6 py-3 text-left text-base font-medium text-white tracking-wider">Dibuat</th>
+                        <th class="px-6 py-3 text-left text-base font-medium text-white tracking-wider">Role</th>
+                        <th class="px-6 py-3 text-left text-base font-medium text-white tracking-wider">Status</th>
+                        <th class="px-6 py-3 text-left text-base font-medium text-white tracking-wider">Waktu Aktif</th>
                         <!-- Aksi -->
-                        <th class="action-cell px-6 py-3 text-left text-base font-medium text-gray-500 tracking-wider">
+                        <th class="action-cell px-6 py-3 text-left text-base font-medium text-white tracking-wider">
                             Aksi
                         </th>
 

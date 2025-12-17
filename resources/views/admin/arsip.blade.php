@@ -13,7 +13,7 @@
 
     <!-- FILTER SECTION -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-        <div class="flex flex-col md:flex-row gap-4 w-full">
+        <div class="flex flex-col md:flex-row gap-4">
 
             <!-- Filter Status -->
             <div class="flex items-center gap-3">
@@ -57,10 +57,10 @@
                     <button id="arsipBtn" class="px-4 py-2 bg-[#FED43E] text-white rounded-lg flex gap-2 items-center hover:bg-yellow-600">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M22 12C22 17.52 17.52 22 12 22C6.48 22 3.11 16.44 3.11 16.44M3.11 16.44H7.63M3.11 16.44V21.44M2 12C2 6.48 6.44 2 12 2C18.67 2 22 7.56 22 7.56M22 7.56V2.56M22 7.56H17.56" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>  
+                        </svg>
                         Pulihkan
                     </button>
-    
+
                     <button id="hapusPermanenBtn" class="px-4 py-2 bg-[#ED3237] text-white rounded-lg flex gap-2 items-center hover:bg-red-600">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M21.0002 6.72998C20.9802 6.72998 20.9502 6.72998 20.9202 6.72998C15.6302 6.19998 10.3502 5.99998 5.12016 6.52998L3.08016 6.72998C2.66016 6.76998 2.29016 6.46998 2.25016 6.04998C2.21016 5.62998 2.51016 5.26998 2.92016 5.22998L4.96016 5.02998C10.2802 4.48998 15.6702 4.69998 21.0702 5.22998C21.4802 5.26998 21.7802 5.63998 21.7402 6.04998C21.7102 6.43998 21.3802 6.72998 21.0002 6.72998Z" fill="white"/>
@@ -96,15 +96,14 @@
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
                 <!-- HEADER -->
-                <thead class="bg-gray-50">
+                <thead class="bg-[#002C55]">
                     <tr>
-                        <th class="px-6 py-3 text-left text-base font-medium text-gray-500 tracking-wider">ID</th>
-                        <th class="px-6 py-3 text-left text-base font-medium text-gray-500 tracking-wider">Nama Pengusul</th>
-                        <th class="px-6 py-3 text-left text-base font-medium text-gray-500 tracking-wider">Tanggal</th>
-                        <th class="px-6 py-3 text-left text-base font-medium text-gray-500 tracking-wider">Nomor WhatsApp</th>
-                        <th class="px-6 py-3 text-left text-base font-medium text-gray-500 tracking-wider">Lokasi Kerusakan</th>
-                        <th class="px-6 py-3 text-left text-base font-medium text-gray-500 tracking-wider">Status</th>
-
+                        <th class="px-6 py-3 text-left text-base font-medium text-white tracking-wider">ID</th>
+                        <th class="px-6 py-3 text-left text-base font-medium text-white tracking-wider">Nama Pengusul</th>
+                        <th class="px-6 py-3 text-left text-base font-medium text-white tracking-wider">Tanggal</th>
+                        <th class="px-6 py-3 text-left text-base font-medium text-white tracking-wider">Nomor WhatsApp</th>
+                        <th class="px-6 py-3 text-left text-base font-medium text-white tracking-wider">Lokasi Kerusakan</th>
+                        <th class="px-6 py-3 text-left text-base font-medium text-white tracking-wider">Status</th>
                         <!-- Aksi -->
                         <th class="action-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
 
