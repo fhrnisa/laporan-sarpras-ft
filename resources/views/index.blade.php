@@ -137,80 +137,88 @@
 </div>
 
 <!-- MODAL SUCCESS -->
-<div id="successModal" class="hidden fixed inset-0 justify-center items-center bg-black/50 backdrop-blur-sm z-50">
-    <div class="bg-white p-6 rounded-2xl text-center max-w-md mx-4 space-y-4">
-        <div class="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
-            <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-            </svg>
+<div id="successModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50">
+    <div class="min-h-screen justify-center items-center flex">
+        <div class="bg-white p-6 rounded-2xl text-center max-w-md mx-4 space-y-4">
+            <div class="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+                <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+            <h2 class="text-[#002D56] font-bold text-lg lg:text-2xl">
+                Laporan <span class="text-green-600">Berhasil Dikirim!</span>
+            </h2>
+            <p class="text-[#002D56] text-sm">
+                Laporan Anda telah diterima. Kami akan memproses laporan ini secepatnya.
+            </p>
+            <div class="text-left bg-gray-50 p-3 rounded-lg">
+                <p class="text-sm text-gray-600">ID Laporan: <span id="laporanId" class="font-semibold"></span></p>
+                <p class="text-sm text-gray-600">Waktu: <span id="laporanTime" class="font-semibold"></span></p>
+                <p class="text-sm text-gray-600">Status: <span class="font-semibold text-yellow-600">Menunggu</span></p>
+            </div>
+            <p class="text-sm text-gray-500">
+                Anda dapat mengirim laporan berikutnya dalam <span class="font-semibold">10 menit</span>
+            </p>
+            <button id="closeSuccessModal"
+                    class="w-full py-3 rounded-lg text-white font-semibold text-lg lg:text-xl bg-[#002D56] hover:bg-[#001F3B] transition">
+                Tutup
+            </button>
         </div>
-        <h2 class="text-[#002D56] font-bold text-lg lg:text-2xl">
-            Laporan <span class="text-green-600">Berhasil Dikirim!</span>
-        </h2>
-        <p class="text-[#002D56] text-sm">
-            Laporan Anda telah diterima. Kami akan memproses laporan ini secepatnya.
-        </p>
-        <div class="text-left bg-gray-50 p-3 rounded-lg">
-            <p class="text-sm text-gray-600">ID Laporan: <span id="laporanId" class="font-semibold"></span></p>
-            <p class="text-sm text-gray-600">Waktu: <span id="laporanTime" class="font-semibold"></span></p>
-            <p class="text-sm text-gray-600">Status: <span class="font-semibold text-yellow-600">Menunggu</span></p>
-        </div>
-        <p class="text-sm text-gray-500">
-            Anda dapat mengirim laporan berikutnya dalam <span class="font-semibold">10 menit</span>
-        </p>
-        <button id="closeSuccessModal"
-                class="w-full py-3 rounded-lg text-white font-semibold text-lg lg:text-xl bg-[#002D56] hover:bg-[#001F3B] transition">
-            Tutup
-        </button>
     </div>
 </div>
 
 <!-- MODAL RATE LIMIT -->
-<div id="rateLimitModal" class="hidden fixed inset-0 justify-center items-center bg-black/50 backdrop-blur-sm z-50">
-    <div class="bg-white p-6 rounded-2xl text-center max-w-md mx-4 space-y-4">
-        <div class="mx-auto w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center">
-            <svg class="w-8 h-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
+<div id="rateLimitModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50">
+    <div class="min-h-screen justify-center items-center flex">
+        <div class="bg-white p-6 rounded-2xl text-center max-w-md mx-4 space-y-4">
+            <div class="mx-auto w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center">
+                <svg class="w-8 h-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+            </div>
+            <h2 class="text-[#002D56] font-bold text-lg lg:text-2xl">
+                Tunggu Sebentar <span class="text-yellow-600">😊</span>
+            </h2>
+            <p class="text-[#002D56]">
+                Anda baru saja mengirim laporan. Sistem membutuhkan waktu untuk memproses laporan sebelumnya.
+            </p>
+            <p class="text-[#002D56] font-bold text-5xl tracking-wide">
+                <span id="countdownTimer">10:00</span>
+            </p>
+            <p class="text-sm text-gray-500">
+                Anda dapat mengirim laporan berikutnya setelah timer mencapai 00:00
+            </p>
+            <button id="closeRateLimitModal"
+                    disabled
+                    class="w-full py-3 rounded-lg text-white font-semibold text-lg lg:text-xl bg-gray-400 cursor-not-allowed transition">
+                Tunggu...
+            </button>
         </div>
-        <h2 class="text-[#002D56] font-bold text-lg lg:text-2xl">
-            Tunggu Sebentar <span class="text-yellow-600">😊</span>
-        </h2>
-        <p class="text-[#002D56]">
-            Anda baru saja mengirim laporan. Sistem membutuhkan waktu untuk memproses laporan sebelumnya.
-        </p>
-        <p class="text-[#002D56] font-bold text-5xl tracking-wide">
-            <span id="countdownTimer">10:00</span>
-        </p>
-        <p class="text-sm text-gray-500">
-            Anda dapat mengirim laporan berikutnya setelah timer mencapai 00:00
-        </p>
-        <button id="closeRateLimitModal"
-                disabled
-                class="w-full py-3 rounded-lg text-white font-semibold text-lg lg:text-xl bg-gray-400 cursor-not-allowed transition">
-            Tunggu...
-        </button>
     </div>
 </div>
 
 <!-- MODAL ERROR -->
-<div id="errorModal" class="hidden fixed inset-0 justify-center items-center bg-black/50 backdrop-blur-sm z-50">
-    <div class="bg-white p-6 rounded-2xl text-center max-w-md mx-4 space-y-4">
-        <div class="mx-auto w-16 h-16 bg-red-100 rounded-full flex items-center justify-center">
-            <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
+<div id="errorModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50">
+    <div class="min-h-screen justify-center items-center flex">
+        <div class="bg-white p-6 rounded-2xl text-center max-w-md mx-4 space-y-4">
+            <div class="mx-auto w-16 h-16 bg-red-100 rounded-full flex items-center justify-center">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 36.6666C29.2048 36.6666 36.6667 29.2047 36.6667 19.9999C36.6667 10.7952 29.2048 3.33325 20 3.33325C10.7953 3.33325 3.33334 10.7952 3.33334 19.9999C3.33334 29.2047 10.7953 36.6666 20 36.6666Z" stroke="#ED3237" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M20 26.6667H20.0167" stroke="#ED3237" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M20 13.3333V19.9999" stroke="#ED3237" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <h2 class="text-[#002D56] font-semibold text-lg lg:text-2xl">
+                <span class="text-red-600">Terjadi kegagalan </span> dalam pemrosesan data. 
+            </h2>
+            <p id="errorMessage" class="text-base text-[#002D56]">
+                Sistem tidak dapat menyimpan laporan Anda ke dalam database. Silakan melakukan pengiriman ulang atau mencoba kembali nanti.
+            </p>
+            <button id="closeErrorModal"
+                    class="w-full py-3 rounded-lg text-white font-semibold text-lg lg:text-xl bg-[#002D56] hover:bg-[#001F3B] transition">
+                Coba Lagi
+            </button>
         </div>
-        <h2 class="text-[#002D56] font-bold text-lg lg:text-2xl">
-            Gagal <span class="text-red-600">Mengirim</span>
-        </h2>
-        <p id="errorMessage" class="text-[#002D56]">
-            Terjadi kesalahan saat mengirim laporan.
-        </p>
-        <button id="closeErrorModal"
-                class="w-full py-3 rounded-lg text-white font-semibold text-lg lg:text-xl bg-[#002D56] hover:bg-[#001F3B] transition">
-            Coba Lagi
-        </button>
     </div>
 </div>
 
