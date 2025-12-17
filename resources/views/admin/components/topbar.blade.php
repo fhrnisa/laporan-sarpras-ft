@@ -24,22 +24,67 @@
         @endif
 
         <!-- Notification Panel -->
-        <div id="notificationPanel" class="hidden fixed inset-0 z-50 bg-black/50">
-            <div class="absolute right-4 top-16 bg-white rounded-lg shadow-lg w-80">
-                <div class="p-4 border-b">
-                    <div class="flex justify-between items-center">
-                        <h3 class="font-semibold">Notifikasi</h3>
-                        <button id="closeNotification" class="text-gray-500 hover:text-gray-700">
-                            ✕
-                        </button>
+        <div id="notificationPanel" class="hidden fixed inset-0 bg-black/40 z-50">
+            <div class="absolute right-0 top-0 h-auto w-full max-w-md bg-white mt-6 mr-6 shadow-xl rounded-xl overflow-y-auto">
+
+                <!-- Header -->
+                <div class="flex justify-between items-start p-5 border-b border-gray-300">
+                    <div>
+                        <h2 id="detailTitle" class="text-3xl font-semibold text-[#002C55]">Notifikasi</h2>
+                        <p id="detailDate" class="text-lg text-[#002C55]">3 Pesan Baru</p>
                     </div>
+                    <button id="closeNotification" class="text-gray-500 hover:text-gray-700">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5.00098 5L19 18.9991" stroke="#002C55" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M4.99996 18.9991L18.999 5" stroke="#002C55" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
                 </div>
-                <div class="p-4">
-                    <p class="text-gray-500">Tidak ada notifikasi</p>
+
+                <!-- Content -->
+                <div class="p-5 space-y-5 text-sm text-[#002C55]">
+
+                    <div class="grid grid-rows-2">
+                        <div class="flex justify-between">
+                            <p class="text-lg text-[#002C55] font-semibold">1 Laporan Baru Masuk</p>
+                            <p class="text-lg text-[#ED3237]">*</p>
+                        </div>
+                        <div>
+                            <p class="text-base text-[#002C55]">Nama Pengusul: Sang Bimo Raharjoning Leksono</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-rows-2">
+                        <div class="flex justify-between">
+                            <p class="text-lg text-[#002C55] font-semibold">1 Laporan Baru Masuk</p>
+                            <p class="text-lg text-[#ED3237]">*</p>
+                        </div>
+                        <div>
+                            <p class="text-base text-[#002C55]">Nama Pengusul: Fahrunnisa Kusumawardani</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-rows-2">
+                        <div class="flex justify-between">
+                            <p class="text-lg text-[#002C55] font-semibold">Admin 123 Mengubah Status Laporan</p>
+                            <p class="text-lg text-[#ED3237]">*</p>
+                        </div>
+                        <div>
+                            <p class="text-base text-[#002C55]">Laporan #2</p>
+                        </div>
+                    </div>
+
                 </div>
+
+                <!-- Footer -->
+                <div class="p-5">
+                    <button id="readBtn" class="w-full py-2 bg-[#002C5F] text-white rounded-md hover:bg-[#01408C]">
+                        Tandai Dibaca
+                    </button>
+                </div>
+
             </div>
         </div>
-
         <!-- Notification Button -->
         <button id="openNotification" class="p-2 border border-[#DDDDDD] rounded-lg hover:bg-gray-100">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
