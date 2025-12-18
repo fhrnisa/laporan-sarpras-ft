@@ -36,6 +36,7 @@
         </div>
 
         <!-- BUTTONS -->
+        @if(session('user.role') === 'admin')
         <div class="flex gap-3 items-center">
             <a id="addadminBtn"
                 href="{{ route('admin.tambah') }}"
@@ -59,6 +60,7 @@
                     </svg>
                     Kelola
             </button>
+            @endif
 
             <!-- Hidden buttons -->
             <div id="manageOptions" class="hidden gap-4 items-center">

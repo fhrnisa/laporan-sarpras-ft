@@ -40,6 +40,7 @@
 
         <!-- BUTTONS SECTION -->
         <div class="flex gap-3 items-center">
+            @if(session('user.role') === 'admin')
             <button id="kelolaBtn"
                     class="bg-[#022C55] text-white text-base rounded-lg py-2 px-4 flex gap-2 items-center hover:bg-[#01408C] transition-colors">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -48,6 +49,7 @@
                     </svg>
                     Kelola Data
             </button>
+            @endif
 
             <!-- Hidden buttons -->
             <div id="manageOptions" class="hidden gap-2 items-center">
@@ -107,12 +109,12 @@
                         <th class="px-6 py-3 text-left text-base font-medium text-white tracking-wider">Status</th>
 
                         <!-- Aksi -->
-                        <th class="action-cell px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-
+                        <th class="action-cell px-6 py-3 text-left text-base font-medium text-white tracking-wider">
+                            Aksi
                         </th>
 
                         <!-- Checkbox Column (Hidden by default) -->
-                        <th class="checkbox-cell hidden px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="checkbox-cell hidden px-6 py-3 text-left text-base font-medium text-white tracking-wider">
                             <input type="checkbox" id="select-all" class="rounded border-gray-300">
                         </th>
                     </tr>
@@ -376,6 +378,7 @@
         </div>
 
         <!-- Footer Actions -->
+        @if(session('role') === 'admin')
         <div id="detailActions" class="hidden p-5 border-t border-gray-200">
             <div class="grid grid-cols-2 gap-3">
                 <button onclick="updateStatus('diproses')" class="py-1 px-2 bg-[#FED43E] text-white rounded-md hover:bg-yellow-600">
@@ -389,6 +392,7 @@
                 </button>
             </div>
         </div>
+        @endif
 
     </div>
 </div>
