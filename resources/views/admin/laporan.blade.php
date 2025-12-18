@@ -1,9 +1,10 @@
 @extends('layouts.admin')
 
 @section('title', 'Laporan')
-@section('page-title', 'Laporan')
 
+@section('page-title', 'Laporan')
 @section('showSearch', true)
+
 @section('search-placeholder', 'Cari nama, email, atau lokasi laporan')
 @section('search-mode', 'laporan')
 
@@ -40,7 +41,6 @@
 
         <!-- BUTTONS SECTION -->
         <div class="flex gap-3 items-center">
-            @if(session('user.role') === 'admin')
             <button id="kelolaBtn"
                     class="bg-[#022C55] text-white text-base rounded-lg py-2 px-4 flex gap-2 items-center hover:bg-[#01408C] transition-colors">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -49,7 +49,6 @@
                     </svg>
                     Kelola Data
             </button>
-            @endif
 
             <!-- Hidden buttons -->
             <div id="manageOptions" class="hidden gap-2 items-center">
@@ -109,12 +108,12 @@
                         <th class="px-6 py-3 text-left text-base font-medium text-white tracking-wider">Status</th>
 
                         <!-- Aksi -->
-                        <th class="action-cell px-6 py-3 text-left text-base font-medium text-white tracking-wider">
-                            Aksi
+                        <th class="action-cell px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+
                         </th>
 
                         <!-- Checkbox Column (Hidden by default) -->
-                        <th class="checkbox-cell hidden px-6 py-3 text-left text-base font-medium text-white tracking-wider">
+                        <th class="checkbox-cell hidden px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             <input type="checkbox" id="select-all" class="rounded border-gray-300">
                         </th>
                     </tr>
@@ -378,7 +377,6 @@
         </div>
 
         <!-- Footer Actions -->
-        @if(session('role') === 'admin')
         <div id="detailActions" class="hidden p-5 border-t border-gray-200">
             <div class="grid grid-cols-2 gap-3">
                 <button onclick="updateStatus('diproses')" class="py-1 px-2 bg-[#FED43E] text-white rounded-md hover:bg-yellow-600">
@@ -392,82 +390,19 @@
                 </button>
             </div>
         </div>
-        @endif
 
     </div>
 </div>
 
 <!-- Toast Notification -->
-<div id="toast" class="hidden fixed top-20 left-1/2 -translate-x-1/2 bg-green-200 border border-green-500 text-white px-6 py-3 rounded-sm shadow-lg z-50">
+<div id="toast" class="hidden fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50">
     <div class="flex items-center gap-2">
-        <div class="bg-green-500 rounded-full p-2">
-            <svg class="w-6 h-6" fill="none" stroke="#fff" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
-            </svg>
-        </div>
-        <span id="toastMessage" class="ml-4 text-[#002C55] text-lg font-medium"></span>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+        <span id="toastMessage"></span>
     </div>
 </div>
-
-<!-- Confirm Modal -->
-<div id="confirmModal" class="hidden fixed inset-0 z-50 bg-black/40">
-    <div class="flex items-center justify-center">
-        <div class="bg-white w-full max-w-md rounded-xl shadow-xl p-6">
-
-            <h2 id="confirmTitle" class="text-xl font-semibold text-[#002C55] mb-2">
-                Konfirmasi
-            </h2>
-
-            <p id="confirmMessage" class="text-gray-700 mb-6">
-                Apakah Anda yakin?
-            </p>
-
-            <div class="flex justify-end gap-3">
-                <button
-                    id="confirmCancel"
-                    class="px-4 py-2 border rounded-lg hover:bg-gray-100">
-                    Batal
-                </button>
-
-                <button
-                    id="confirmOk"
-                    class="px-4 py-2 bg-[#002C55] text-white rounded-lg hover:bg-[#01408C]">
-                    Ya, Arsipkan
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Confirm Hapus Permanen Modal -->
-<div id="deleteModal" class="hidden fixed inset-0 z-50 bg-black/40">
-    <div class="flex items-center justify-center">
-        <div class="bg-white w-full max-w-md rounded-xl shadow-xl p-6">
-            <h2 class="text-xl font-semibold text-[#002C55] mb-2">
-                Konfirmasi
-            </h2>
-
-            <p id="deleteMessage" class="text-[#002C55] mb-6">
-                Apakah Anda yakin ingin menghapus laporan ini secara permanen? Tindakan ini tidak dapat dibatalkan.
-            </p>
-
-            <div class="flex justify-end gap-3">
-                <button
-                    id="deleteCancel"
-                    class="px-4 py-2 border rounded-lg hover:bg-gray-100">
-                    Batal
-                </button>
-
-                <button
-                    id="deleteConfirm"
-                    class="px-4 py-2 bg-[#ED3237] text-white rounded-lg hover:bg-red-600">
-                    Ya, Hapus Permanen
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
 @endsection
 
 @push('styles')
@@ -558,7 +493,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!toast || !toastMessage) return;
 
         toastMessage.textContent = message;
-        toast.className = `fixed top-4 right-4 px-4 py-2 rounded-lg shadow-lg z-50 flex items-center gap-2 ${type === 'success' ? 'bg-green-200' : 'bg-red-500'} text-white`;
+        toast.className = `fixed top-4 right-4 px-4 py-2 rounded-lg shadow-lg z-50 flex items-center gap-2 ${type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white`;
         toast.classList.remove('hidden');
 
         setTimeout(() => {
@@ -781,28 +716,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ACTION FUNCTIONS
     // Function untuk mengarsipkan laporan
-    function showConfirm(message) {
-        return new Promise((resolve) => {
-            const modal = document.getElementById('confirmModal');
-            const msg = document.getElementById('confirmMessage');
-            const okBtn = document.getElementById('confirmOk');
-            const cancelBtn = document.getElementById('confirmCancel');
-
-            msg.textContent = message;
-            modal.classList.remove('hidden');
-
-            const close = (result) => {
-                modal.classList.add('hidden');
-                okBtn.onclick = null;
-                cancelBtn.onclick = null;
-                resolve(result);
-            };
-
-            okBtn.onclick = () => close(true);
-            cancelBtn.onclick = () => close(false);
-        });
-    }
-
     async function archiveReports() {
         const selectedIds = Array.from(document.querySelectorAll('.report-checkbox:checked'))
             .map(checkbox => checkbox.value);
@@ -812,12 +725,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const confirmed = await showConfirm(
-            `Arsipkan ${selectedIds.length} laporan?`
-        );
-
-        if (!confirmed) return;
-
+        if (!confirm(`Arsipkan ${selectedIds.length} laporan?`)) return;
 
         try {
             const response = await fetch("{{ route('admin.laporan.archive') }}", {
@@ -843,26 +751,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Function untuk menghapus permanen (halaman laporan tidak ada hapus permanen, hanya arsip)
-        const deleteConfirmed = async () => {
-        return new Promise((resolve) => {
-            const modal = document.getElementById('deleteModal');
-            const okBtn = document.getElementById('deleteConfirm');
-            const cancelBtn = document.getElementById('deleteCancel');
-
-            modal.classList.remove('hidden');
-
-            const close = (result) => {
-                modal.classList.add('hidden');
-                okBtn.onclick = null;
-                cancelBtn.onclick = null;
-                resolve(result);
-            };
-
-            okBtn.onclick = () => close(true);
-            cancelBtn.onclick = () => close(false);
-        });
-    };
-
     async function deletePermanent() {
         const selectedIds = Array.from(document.querySelectorAll('.report-checkbox:checked'))
             .map(checkbox => checkbox.value);
@@ -872,11 +760,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-         const confirmed = await deleteConfirmed(
-            `Hapus permanen ${selectedIds.length} laporan? Tindakan ini tidak dapat dibatalkan.`
-        );
-
-        if (!confirmed) return;
+        if (!confirm(`Hapus permanen ${selectedIds.length} laporan? Tindakan ini tidak dapat dibatalkan!`)) return;
 
         try {
             const response = await fetch("{{ route('admin.laporan.destroy') }}", {

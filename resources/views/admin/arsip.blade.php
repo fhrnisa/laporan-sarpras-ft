@@ -383,7 +383,7 @@
                 <button onclick="updateStatus('diproses')" class="py-1 px-2 bg-[#FED43E] text-white rounded-md hover:bg-yellow-600">
                     Set Diproses
                 </button>
-                <button onclick="updateStatus('terselesaikan')" class="py-1 px-2 bg-[#A0F1B5] text-white rounded-md hover:bg-green-600">
+                <button onclick="updateStatus('terselesaikan')" class="py-1 px-2 bg-[#00FF00] text-white rounded-md hover:bg-green-600">
                     Set Selesai
                 </button>
                 <button onclick="updateStatus('ditolak')" class="py-1 px-2 bg-[#ED3237] text-white rounded-md hover:bg-red-600 col-span-2">
@@ -549,19 +549,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // === TOAST FUNCTION ===
     function showToast(message, type = 'success') {
-        const toast = document.getElementById('toast');
-        const toastMessage = document.getElementById('toastMessage');
+    const toast = document.getElementById('toast');
+    const toastMessage = document.getElementById('toastMessage');
+    const iconContainer = toast.querySelector('div.rounded-full');
+    const svg = toast.querySelector('svg');
 
-        if (!toast || !toastMessage) return;
+    if (!toast || !toastMessage) return;
 
-        toastMessage.textContent = message;
-        toast.className = `fixed top-4 right-4 px-4 py-2 rounded-lg shadow-lg z-50 flex items-center gap-2 ${type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white`;
-        toast.classList.remove('hidden');
-
-        setTimeout(() => {
-            toast.classList.add('hidden');
-        }, 3000);
+    toastMessage.textContent = message;
+    
+    // Reset semua class warna
+    toast.className = 'hidden fixed top-20 left-1/2 -translate-x-1/2 px-6 py-3 rounded-sm shadow-lg z-50 flex items-center gap-2';
+    
+    // Set class berdasarkan tipe
+    if (type === 'success') {
+        toast.classList.add('bg-green-200', 'border', 'border-green-500');
+        iconContainer.className = 'bg-green-500 rounded-full p-2';
+        svg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>';
+    } else {
+        toast.classList.add('bg-red-200', 'border', 'border-red-500');
+        iconContainer.className = 'bg-red-500 rounded-full p-2';
+        svg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path>';
     }
+    
+    toast.classList.remove('hidden');
+
+    setTimeout(() => {
+        toast.classList.add('hidden');
+    }, 3000);
+}
 
     // === DETAIL MODAL FUNCTIONS ===
     async function loadReportDetail(id) {
