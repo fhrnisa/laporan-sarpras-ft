@@ -23,10 +23,13 @@ Route::middleware(['auth.admin'])->group(function () {
     // Laporan routes - viewer hanya bisa melihat
     Route::get('/admin/laporan', [LaporanController::class, 'index'])->name('admin.laporan');
 
-    // Routes yang hanya boleh diakses admin (tambah, edit, hapus)
+    // Di routes/web.php di FE
     Route::middleware(['role'])->group(function () {
-        Route::post('/admin/laporan/archive', [LaporanController::class, 'archive'])->name('admin.laporan.archive');
-        Route::post('/admin/laporan/destroy', [LaporanController::class, 'destroy'])->name('admin.laporan.destroy');
+        Route::prefix('admin')->group(function () {
+            Route::get('/laporan', [App\Http\Controllers\Admin\LaporanController::class, 'index'])->name('admin.laporan');
+            Route::post('/laporan/archive', [App\Http\Controllers\Admin\LaporanController::class, 'archive'])->name('admin.laporan.archive');
+            Route::post('/laporan/destroy', [App\Http\Controllers\Admin\LaporanController::class, 'destroy'])->name('admin.laporan.destroy');
+        });
     });
 
     // Arsip routes - viewer hanya bisa melihat
