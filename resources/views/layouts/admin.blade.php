@@ -114,6 +114,7 @@
             </a>
 
             <!-- Kontrol Admin -->
+            @if(session('user.role') === 'admin')
             @php $active  = request()->routeIs('admin.kontrol-admin'); @endphp
             <a href="{{ route('admin.kontrol-admin') }}"
                 class="sidebar-item flex items-center gap-3 p-3 rounded-lg transition-all
@@ -138,6 +139,7 @@
 
                 <span class="sidebar-text">Kontrol Admin</span>
             </a>
+            @endif
 
             <!-- Arsip -->
             @php $active  = request()->routeIs('admin.arsip'); @endphp
