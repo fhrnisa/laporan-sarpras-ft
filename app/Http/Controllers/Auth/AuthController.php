@@ -42,6 +42,9 @@ class AuthController extends Controller
                 // Simpan data user di session
                 Session::put('user', $data['admin']);
                 Session::put('token', $data['token']);
+                // // Simpan data user di session
+                // Session::put('user', $data['admin']);
+                // Session::put('token', $data['token']);
 
                 \Log::info('Login successful:', ['user' => $data['data']['user']]);
 
