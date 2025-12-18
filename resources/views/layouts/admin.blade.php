@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{  csrf_token() }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Admin Dashboard')</title>
 
     <!-- Favicon (opsional) -->
@@ -13,6 +13,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome untuk icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     @vite('resources/css/app.css')
     <style>
@@ -37,7 +40,6 @@
 
         <!-- HEADER SIDEBAR -->
         <div class="mb-6 mt-2">
-
             <!-- Logo Expanded (visible saat sidebar expanded) -->
             <div id="logo-expanded" class="flex items-center justify-between transition-opacity duration-300">
                 <img src="{{ asset('img/unnes-horizontal-white.webp') }}"
@@ -161,7 +163,8 @@
         </nav>
 
         <!-- LOGOUT -->
-        <form class="mt-auto" id="logoutForm">
+        <form method="POST" action="{{ route('auth.logout') }}" class="mt-auto" id="logoutForm">
+            @csrf
             <button type="submit"
                     class="sidebar-item flex items-center gap-3 p-3 rounded-lg text-white hover:bg-white/20 w-full text-left">
                 <img src="{{ asset('icon/logout-icon.svg') }}"
@@ -171,29 +174,19 @@
             </button>
         </form>
 
-
     </aside>
 
-    <!-- GANTI INI DI BAGIAN TOPBAR INCLUDE -->
+    <!-- MAIN CONTENT -->
     <main id="main-content" class="flex-1 ml-64 p-6 bg-white overflow-auto">
-         @hasSection('hideTopbar')
-        <!-- Topbar disembunyikan -->
-    @else
+        <!-- TOPBAR -->
+        @hasSection('hideTopbar')
+            <!-- Topbar disembunyikan -->
+        @else
+            @include('admin.components.topbar')
+        @endif
 
-        @include('admin.components.topbar', [
-            'showSearch' => View::hasSection('showSearch')
-                ? trim($__env->yieldContent('showSearch')) !== 'false'
-                : false,
-            'searchPlaceholder' => View::hasSection('search-placeholder')
-                ? trim($__env->yieldContent('search-placeholder'))
-                : 'Search...',
-            'searchMode' => View::hasSection('search-mode')
-                ? trim($__env->yieldContent('search-mode'))
-                : 'default'
-        ])
-    @endif
-
-    @yield('content')
+        <!-- CONTENT -->
+        @yield('content')
     </main>
 </div>
 
@@ -206,32 +199,32 @@
             <div class="flex justify-center">
                 <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center">
                     <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M19.9997 36.6667C29.2044 36.6667 36.6663 29.2048 36.6663 20C36.6663 10.7953 29.2044 3.33337 19.9997 3.33337C10.7949 3.33337 3.33301 10.7953 3.33301 20C3.33301 29.2048 10.7949 36.6667 19.9997 36.6667Z" 
+                        <path d="M19.9997 36.6667C29.2044 36.6667 36.6663 29.2048 36.6663 20C36.6663 10.7953 29.2044 3.33337 19.9997 3.33337C10.7949 3.33337 3.33301 10.7953 3.33301 20C3.33301 29.2048 10.7949 36.6667 19.9997 36.6667Z"
                               stroke="#ED3237" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M20 26.6666H20.0167" stroke="#ED3237" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M20 13.3334V20" stroke="#ED3237" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </div>
             </div>
-            
+
             <!-- Konten teks -->
             <div class="space-y-2">
                 <h2 class="text-[#002C55] font-semibold text-2xl">
                     Konfirmasi Logout
                 </h2>
-                
+
                 <p class="text-[#002C55]">
                     Apakah Anda yakin ingin <span class="text-red-600 font-semibold">logout</span>?
                 </p>
             </div>
-            
+
             <!-- Tombol -->
             <div class="grid grid-cols-2 gap-3">
                 <button id="cancelLogout"
                         class="py-2 rounded-lg bg-gray-300 text-[#002D56] font-semibold hover:bg-gray-400 transition">
                     Batal
                 </button>
-                
+
                 <button id="confirmLogout"
                         class="py-2 rounded-lg bg-red-600 text-white font-semibold hover:bg-red-700 transition">
                     Logout
@@ -241,48 +234,6 @@
     </div>
 </div>
 
-<!-- MODAL LOGOUT SUKSES -->
-<div id="logoutSuccessModal"
-     class="hidden fixed inset-0 z-50 justify-center items-center bg-black/50 backdrop-blur-sm">
-    <div class="min-h-screen justify-center items-center flex">
-        <div class="bg-white p-6 rounded-2xl text-center max-w-md mx-4 space-y-4">
-            <h2 class="text-green-700 font-semibold text-2xl">
-                Logout Berhasil
-            </h2>
-    
-            <p class="text-[#002D56]">Anda akan diarahkan ke halaman utama.</p>
-    
-            <button id="closeSuccessModal"
-                    class="w-full py-3 rounded-lg bg-green-600 text-white font-semibold">
-                Oke
-            </button>
-        </div>
-    </div>
-</div>
-
-<!-- MODAL LOGOUT GAGAL -->
-<div id="logoutFailedModal"
-     class="hidden fixed inset-0 z-50 justify-center items-center bg-black/50 backdrop-blur-sm">
-    <div class="min-h-screen justify-center items-center flex">
-        <div class="bg-white p-6 rounded-2xl text-center max-w-md mx-4 space-y-4">
-            <h2 class="text-red-600 font-semibold text-2xl">
-                Logout Gagal
-            </h2>
-    
-            <p class="text-[#002D56]">
-                Terjadi kesalahan saat memproses logout. Coba lagi nanti.
-            </p>
-    
-            <button id="closeFailedModal"
-                    class="w-full py-3 rounded-lg bg-red-600 text-white font-semibold">
-                Tutup
-            </button>
-        </div>
-    </div>
-</div>
-
-
-<!-- SCRIPT COLLAPSE -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const sidebar = document.getElementById('sidebar');
@@ -380,18 +331,12 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', handleResize);
 });
 
+// Logout Handler dengan Laravel Session (tidak perlu fetch ke BE)
 document.addEventListener('DOMContentLoaded', function() {
-
     const logoutForm = document.getElementById('logoutForm');
-
     const confirmModal = document.getElementById('logoutConfirmModal');
-    const successModal = document.getElementById('logoutSuccessModal');
-    const failedModal = document.getElementById('logoutFailedModal');
-
     const cancelLogout = document.getElementById('cancelLogout');
     const confirmLogout = document.getElementById('confirmLogout');
-    const closeSuccessModal = document.getElementById('closeSuccessModal');
-    const closeFailedModal = document.getElementById('closeFailedModal');
 
     // === 1. Saat tombol logout di sidebar diklik → buka modal konfirmasi ===
     logoutForm.addEventListener('submit', function(e) {
@@ -406,51 +351,12 @@ document.addEventListener('DOMContentLoaded', function() {
         confirmModal.classList.remove('flex');
     });
 
-    // === 3. Konfirmasi logout ===
-    confirmLogout.addEventListener('click', async function() {
-        confirmModal.classList.add('hidden');
-        confirmModal.classList.remove('flex');
-
-        const token = localStorage.getItem('token');
-
-        try {
-            const response = await fetch("http://localhost:8001/api/logout", {
-                method: "POST",
-                headers: {
-                    "Authorization": "Bearer " + token,
-                    "Accept": "application/json"
-                }
-            });
-
-            if (response.ok) {
-                successModal.classList.remove('hidden');
-                successModal.classList.add('flex');
-            } else {
-                failedModal.classList.remove('hidden');
-                failedModal.classList.add('flex');
-            }
-
-        } catch (err) {
-            console.error(err);
-
-            failedModal.classList.remove('hidden');
-            failedModal.classList.add('flex');
-        }
+    // === 3. Konfirmasi logout - langsung submit form Laravel ===
+    confirmLogout.addEventListener('click', function() {
+        // Submit form Laravel
+        logoutForm.submit();
     });
-
-    // === 4. Tutup modal sukses → redirect ke HOME ===
-    closeSuccessModal.addEventListener('click', function() {
-        window.location.href = "{{ route('home') }}";
-    });
-
-    // === 5. Tutup modal gagal ===
-    closeFailedModal.addEventListener('click', function() {
-        failedModal.classList.add('hidden');
-        failedModal.classList.remove('flex');
-    });
-
 });
-
 </script>
 
 </body>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\Controller;
+use App\Helpers\AdminHelper;
 
 class AdminController extends Controller
 {
@@ -18,6 +19,17 @@ class AdminController extends Controller
     // Method untuk halaman kontrol-admin (view)
     public function index(Request $request)
     {
+        // Cek role - hanya admin yang bisa akses
+        if (!AdminHelper::isAdmin() && AdminHelper::isViewer()) {
+            // Viewer hanya bisa melihat
+            return view('admin.kontrol-admin', [
+                'admins' => collect([]),
+                'total' => 0,
+                'error' => null,
+                'readonly' => true // Tambahkan flag readonly
+            ]);
+        }
+
         try {
             $params = [];
 

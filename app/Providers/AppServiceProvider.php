@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -11,7 +12,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Registrasi middleware
+        $this->app['router']->aliasMiddleware('role', \App\Http\Middleware\CheckAdminRole::class);
+        $this->app['router']->aliasMiddleware('auth.admin', \App\Http\Middleware\AuthAdmin::class);
     }
 
     /**
