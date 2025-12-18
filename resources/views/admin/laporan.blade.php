@@ -435,6 +435,34 @@
     </div>
 </div>
 
+<!-- Confirm Hapus Permanen Modal -->
+<div id="deleteModal" class="hidden fixed inset-0 z-50 bg-black/40">
+    <div class="flex items-center justify-center">
+        <div class="bg-white w-full max-w-md rounded-xl shadow-xl p-6">
+            <h2 class="text-xl font-semibold text-[#002C55] mb-2">
+                Konfirmasi
+            </h2>
+
+            <p id="deleteMessage" class="text-[#002C55] mb-6">
+                Apakah Anda yakin ingin menghapus laporan ini secara permanen? Tindakan ini tidak dapat dibatalkan.
+            </p>
+
+            <div class="flex justify-end gap-3">
+                <button
+                    id="deleteCancel"
+                    class="px-4 py-2 border rounded-lg hover:bg-gray-100">
+                    Batal
+                </button>
+
+                <button
+                    id="deleteConfirm"
+                    class="px-4 py-2 bg-[#ED3237] text-white rounded-lg hover:bg-red-600">
+                    Ya, Hapus Permanen
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 @endsection
 
@@ -526,7 +554,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!toast || !toastMessage) return;
 
         toastMessage.textContent = message;
-        toast.className = `fixed top-4 right-4 px-4 py-2 rounded-lg shadow-lg z-50 flex items-center gap-2 ${type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white`;
+        toast.className = `fixed top-4 right-4 px-4 py-2 rounded-lg shadow-lg z-50 flex items-center gap-2 ${type === 'success' ? 'bg-green-200' : 'bg-red-500'} text-white`;
         toast.classList.remove('hidden');
 
         setTimeout(() => {
@@ -811,6 +839,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Function untuk menghapus permanen (halaman laporan tidak ada hapus permanen, hanya arsip)
+        const deleteConfirmed = async () => {
+        return new Promise((resolve) => {
+            const modal = document.getElementById('deleteModal');
+            const okBtn = document.getElementById('deleteConfirm');
+            const cancelBtn = document.getElementById('deleteCancel');
+
+            modal.classList.remove('hidden');
+
+            const close = (result) => {
+                modal.classList.add('hidden');
+                okBtn.onclick = null;
+                cancelBtn.onclick = null;
+                resolve(result);
+            };
+
+            okBtn.onclick = () => close(true);
+            cancelBtn.onclick = () => close(false);
+        });
+    };
+
     async function deletePermanent() {
         const selectedIds = Array.from(document.querySelectorAll('.report-checkbox:checked'))
             .map(checkbox => checkbox.value);
@@ -820,7 +868,11 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        if (!confirm(`Hapus permanen ${selectedIds.length} laporan? Tindakan ini tidak dapat dibatalkan!`)) return;
+         const confirmed = await deleteConfirmed(
+            `Hapus permanen ${selectedIds.length} laporan? Tindakan ini tidak dapat dibatalkan.`
+        );
+
+        if (!confirmed) return;
 
         try {
             const response = await fetch("{{ route('admin.laporan.destroy') }}", {
