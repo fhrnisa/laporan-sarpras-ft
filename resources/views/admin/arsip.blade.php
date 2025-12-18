@@ -535,19 +535,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // === TOAST FUNCTION ===
     function showToast(message, type = 'success') {
-        const toast = document.getElementById('toast');
-        const toastMessage = document.getElementById('toastMessage');
+    const toast = document.getElementById('toast');
+    const toastMessage = document.getElementById('toastMessage');
+    const iconContainer = toast.querySelector('div.rounded-full');
+    const svg = toast.querySelector('svg');
 
-        if (!toast || !toastMessage) return;
+    if (!toast || !toastMessage) return;
 
         toastMessage.textContent = message;
         toast.className = `fixed top-4 right-4 px-4 py-2 rounded-lg shadow-lg z-50 flex items-center gap-2 ${type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white`;
         toast.classList.remove('hidden');
 
-        setTimeout(() => {
-            toast.classList.add('hidden');
-        }, 3000);
-    }
+    setTimeout(() => {
+        toast.classList.add('hidden');
+    }, 3000);
+}
 
     // === DETAIL MODAL FUNCTIONS ===
     async function loadReportDetail(id) {

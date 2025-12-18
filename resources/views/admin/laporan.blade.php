@@ -1,9 +1,10 @@
 @extends('layouts.admin')
 
 @section('title', 'Laporan')
-@section('page-title', 'Laporan')
 
+@section('page-title', 'Laporan')
 @section('showSearch', true)
+
 @section('search-placeholder', 'Cari nama, email, atau lokasi laporan')
 @section('search-mode', 'laporan')
 
@@ -40,7 +41,6 @@
 
         <!-- BUTTONS SECTION -->
         <div class="flex gap-3 items-center">
-            @if(session('user.role') === 'admin')
             <button id="kelolaBtn"
                     class="bg-[#022C55] text-white text-base rounded-lg py-2 px-4 flex gap-2 items-center hover:bg-[#01408C] transition-colors">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -49,7 +49,6 @@
                     </svg>
                     Kelola Data
             </button>
-            @endif
 
             <!-- Hidden buttons -->
             <div id="manageOptions" class="hidden gap-2 items-center">
@@ -109,12 +108,12 @@
                         <th class="px-6 py-3 text-left text-base font-medium text-white tracking-wider">Status</th>
 
                         <!-- Aksi -->
-                        <th class="action-cell px-6 py-3 text-left text-base font-medium text-white tracking-wider">
-                            Aksi
+                        <th class="action-cell px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+
                         </th>
 
                         <!-- Checkbox Column (Hidden by default) -->
-                        <th class="checkbox-cell hidden px-6 py-3 text-left text-base font-medium text-white tracking-wider">
+                        <th class="checkbox-cell hidden px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             <input type="checkbox" id="select-all" class="rounded border-gray-300">
                         </th>
                     </tr>
@@ -423,13 +422,12 @@
                 <!-- Buttons akan di-generate oleh JavaScript berdasarkan status -->
             </div>
         </div>
-        @endif
 
     </div>
 </div>
 
 <!-- Toast Notification -->
-<div id="toast" class="hidden fixed top-20 left-1/2 -translate-x-1/2 bg-green-200 border border-green-500 text-white px-6 py-3 rounded-sm shadow-lg z-50">
+<div id="toast" class="hidden fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50">
     <div class="flex items-center gap-2">
         <div class="bg-green-500 rounded-full p-2">
             <svg class="w-6 h-6" fill="none" stroke="#fff" viewBox="0 0 24 24">
@@ -675,7 +673,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!toast || !toastMessage) return;
 
         toastMessage.textContent = message;
-        toast.className = `fixed top-4 right-4 px-4 py-2 rounded-lg shadow-lg z-50 flex items-center gap-2 ${type === 'success' ? 'bg-green-200' : 'bg-red-500'} text-white`;
+        toast.className = `fixed top-4 right-4 px-4 py-2 rounded-lg shadow-lg z-50 flex items-center gap-2 ${type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white`;
         toast.classList.remove('hidden');
 
         setTimeout(() => {
