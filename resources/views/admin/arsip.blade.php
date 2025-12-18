@@ -247,17 +247,32 @@
 </div>
 
 <!-- === MODAL DETAIL LAPORAN === -->
-<div id="detailOverlay" class="hidden fixed inset-0 bg-black/40 z-50">
-    <div class="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-xl rounded-l-xl overflow-y-auto">
+<div id="detailOverlay" class="hidden overflow-y-auto fixed inset-0 bg-black/40 z-50">
+    <div class="absolute right-0 top-0 h-auto w-full max-w-md bg-white mt-6 mr-6 shadow-xl rounded-xl overflow-y-auto">
 
         <!-- Header -->
-        <div class="flex justify-between items-start p-5 border-b">
+        <div class="sticky top-0 bg-white z-10 flex justify-between items-start p-5 border-b">
             <div>
-                <h2 id="detailTitle" class="text-xl font-semibold text-gray-800">Detail Laporan</h2>
-                <p id="detailDate" class="text-sm text-gray-500">-</p>
+                <h2 id="detailTitle" class="text-3xl font-semibold text-[#002C55]">Detail Laporan</h2>
+                <div class="flex gap-4 mt-2">
+                    <div>
+                        <span id="detailStatus" class="inline-flex px-3 py-1 text-lg font-semibold rounded-md">
+
+                        </span>
+                    </div>
+                    <p id="detailDate" class="text-lg text-[#002C55]">17 Desember 2025</p>
+                </div>
             </div>
-            <button id="closeDetail" class="text-gray-500 hover:text-gray-700 text-2xl">
-                ✕
+
+            <!-- Close Button -->
+            <button id="closeDetail"
+                    onclick="closeDetailModal()"
+                    class="text-gray-500 hover:text-gray-700 text-2xl p-1 hover:bg-gray-100 rounded"
+                    aria-label="Tutup modal">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5.00098 5L19 18.9991" stroke="#002C55" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M4.99996 18.9991L18.999 5" stroke="#002C55" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
             </button>
         </div>
 
@@ -268,42 +283,37 @@
         </div>
 
         <!-- Content -->
-        <div id="detailContent" class="hidden p-5 space-y-4 text-sm text-gray-700">
+        <div id="detailContent" class="hidden p-5 space-y-4 text-sm text-[#002C55]">
+            <!-- User Info -->
+            <div class="space-y-4">
+                <div>
+                    <p class="text-base text-[#002C55] mb-1">Nama Pengusul:</p>
+                    <p id="detailNama" class="text-base font-semibold text-[#002C55]">Fahrunnisa</p>
+                </div>
 
-            <!-- Badge Status -->
-            <div>
-                <span id="detailStatus" class="px-3 py-1 text-sm rounded-md font-medium">
-                    -
-                </span>
+                <div>
+                    <p class="text-base text-[#002C55] mb-1">Email:</p>
+                    <p id="detailEmail" class="text-base font-semibold text-[#002C55]">nisa@email.com</p>
+                </div>
+
+                <div>
+                    <p class="text-base font-semibold text-[#002C55] mb-1">Nomor Telepon:</p>
+                    <p id="detailTelp" class="text-base font-semibold text-[#002C55]">08129383641</p>
+                </div>
+
+                <div>
+                    <p class="text-base text-[#002C55] mb-1">Lokasi Kerusakan:</p>
+                    <p id="detailLokasi" class="text-base font-semibold text-[#002C55]">E8</p>
+                </div>
+
+                <div>
+                    <p class="text-base text-[#002C55] mb-1">Laporan Kerusakan:</p>
+                    <div id="detailDeskripsi" class="mt-1 text-base font-semibold text-[#002C55] whitespace-pre-line">Meja rusak</div>
+                </div>
             </div>
 
             <div>
-                <p class="font-semibold text-gray-800">Nama Pengusul:</p>
-                <p id="detailNama" class="mt-1 text-gray-600">-</p>
-            </div>
-
-            <div>
-                <p class="font-semibold text-gray-800">Email:</p>
-                <p id="detailEmail" class="mt-1 text-gray-600">-</p>
-            </div>
-
-            <div>
-                <p class="font-semibold text-gray-800">Nomor Telepon:</p>
-                <p id="detailTelp" class="mt-1 text-gray-600">-</p>
-            </div>
-
-            <div>
-                <p class="font-semibold text-gray-800">Lokasi Kerusakan:</p>
-                <p id="detailLokasi" class="mt-1 text-gray-600">-</p>
-            </div>
-
-            <div>
-                <p class="font-semibold text-gray-800">Deskripsi Kerusakan:</p>
-                <p id="detailDeskripsi" class="mt-1 text-gray-600 whitespace-pre-line">-</p>
-            </div>
-
-            <div>
-                <p class="font-semibold text-gray-800">Foto Kerusakan:</p>
+                <p class="text-base text-[#002C55]">Foto Kerusakan:</p>
                 <div id="detailFotoContainer" class="mt-2">
                     <img id="detailFoto" class="w-full h-auto rounded-md border border-gray-300"
                         src="" alt="Foto kerusakan"
@@ -331,18 +341,22 @@
                 </div>
             </div>
 
-            <!-- Timestamps -->
-            <div class="pt-4 border-t border-gray-200">
-                <div class="grid grid-cols-2 gap-4 text-xs text-gray-500">
+            <!-- Detail Waktu -->
+            <div class="pt-4 border-t border-gray-200 space-y-4">
                     <div>
-                        <p class="font-medium">Dibuat:</p>
-                        <p id="detailCreatedAt">-</p>
+                        <p class="text-base text-[#002C55]">Waktu Diterima:</p>
+                        <p id="detailCreatedAt" class="text-base font-semibold text-[#002C55]">-</p>
                     </div>
+
                     <div>
-                        <p class="font-medium">Diperbarui:</p>
-                        <p id="detailUpdatedAt">-</p>
+                        <p class="text-base text-[#002C55]">Diselesaikan oleh:</p>
+                        <p id="detailCreatedAt" class="text-base font-semibold text-[#002C55]">-</p>
                     </div>
-                </div>
+
+                    <div>
+                        <p class="text-base text-[#002C55]">Waktu Terselesaikan:</p>
+                        <p id="detailUpdatedAt" class="text-base font-semibold text-[#002C55]">-</p>
+                    </div>
             </div>
 
         </div>
@@ -363,28 +377,30 @@
         <!-- Footer Actions -->
         <div id="detailActions" class="hidden p-5 border-t border-gray-200">
             <div class="grid grid-cols-2 gap-3">
-                <button onclick="updateStatus('diproses')" class="py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">
+                <button onclick="updateStatus('diproses')" class="py-1 px-2 bg-[#FED43E] text-white rounded-md hover:bg-yellow-600">
                     Set Diproses
                 </button>
-                <button onclick="updateStatus('terselesaikan')" class="py-2 bg-green-500 text-white rounded-md hover:bg-green-600">
+                <button onclick="updateStatus('terselesaikan')" class="py-1 px-2 bg-[#A0F1B5] text-white rounded-md hover:bg-green-600">
                     Set Selesai
                 </button>
-                <button onclick="updateStatus('ditolak')" class="py-2 bg-red-500 text-white rounded-md hover:bg-red-600 col-span-2">
+                <button onclick="updateStatus('ditolak')" class="py-1 px-2 bg-[#ED3237] text-white rounded-md hover:bg-red-600 col-span-2">
                     Tolak Laporan
                 </button>
             </div>
         </div>
-
     </div>
 </div>
 
+
 <!-- Toast Notification -->
-<div id="toast" class="hidden fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50">
+<div id="toast" class="hidden fixed top-20 left-1/2 -translate-x-1/2 bg-green-200 border border-green-500 text-white px-6 py-3 rounded-sm shadow-lg z-50">
     <div class="flex items-center gap-2">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-        </svg>
-        <span id="toastMessage"></span>
+        <div class="bg-green-500 rounded-full p-2">
+            <svg class="w-6 h-6" fill="none" stroke="#fff" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+            </svg>
+        </div>
+        <span id="toastMessage" class="ml-4 text-[#002C55] text-lg font-medium"></span>
     </div>
 </div>
 @endsection
