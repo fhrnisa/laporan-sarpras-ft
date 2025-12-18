@@ -69,13 +69,46 @@ class AdminController extends Controller
         }
     }
 
-    // Method untuk API calls (AJAX) di FE
+    // Method untuk menyimpan admin baru (API call)
     public function store(Request $request)
     {
         try {
-            $response = Http::post("{$this->apiUrl}/admin/admins", $request->all());
+            \Log::info('FE Admin Store Request:', $request->all());
 
-            return response()->json($response->json());
+            // Data yang akan dikirim ke BE
+            $data = [
+                'name' => $request->name,
+                'email' => $request->email,
+                'nomor_telepon' => $request->nomor_telepon,
+                'role' => $request->role,
+                'status' => $request->status ?? 'aktif',
+                'password' => $request->password,
+                'password_confirmation' => $request->password_confirmation
+            ];
+
+            \Log::info('Data to BE:', $data);
+
+            // Kirim ke BE API
+            $response = Http::post("{$this->apiUrl}/admin/admins", $data);
+
+            \Log::info('BE Response Status:', ['status' => $response->status()]);
+            \Log::info('BE Response Body:', $response->json());
+
+            if ($response->successful()) {
+                $result = $response->json();
+                return response()->json([
+                    'success' => true,
+                    'message' => $result['message'] ?? 'Admin berhasil ditambahkan',
+                    'data' => $result['data'] ?? null
+                ]);
+            } else {
+                $errorData = $response->json();
+                return response()->json([
+                    'success' => false,
+                    'message' => $errorData['message'] ?? 'Gagal menambahkan admin',
+                    'errors' => $errorData['errors'] ?? null
+                ], $response->status());
+            }
 
         } catch (\Exception $e) {
             \Log::error('FE AdminStore Error: ' . $e->getMessage());
