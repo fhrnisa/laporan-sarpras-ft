@@ -324,6 +324,21 @@
                 <p id="noFotoMessage" class="text-gray-500 italic mt-2 hidden">Tidak ada foto</p>
             </div>
 
+            <!-- Additional Info for Approved Reports -->
+            <div id="approvedInfo" class="hidden mt-4 p-4 bg-blue-50 rounded-lg">
+                <h3 class="font-semibold text-blue-800 mb-2">Informasi Persetujuan</h3>
+                <div class="space-y-2">
+                    <div>
+                        <p class="font-medium text-blue-700">Disetujui oleh:</p>
+                        <p id="detailDisetujuiOleh" class="text-blue-600">-</p>
+                    </div>
+                    <div>
+                        <p class="font-medium text-blue-700">Waktu Disetujui:</p>
+                        <p id="detailWaktuDisetujui" class="text-blue-600">-</p>
+                    </div>
+                </div>
+            </div>
+
             <!-- Additional Info for Rejected Reports -->
             <div id="rejectedInfo" class="hidden mt-4 p-4 bg-red-50 rounded-lg">
                 <h3 class="font-semibold text-red-800 mb-2">Informasi Penolakan</h3>
@@ -338,7 +353,31 @@
                     </div>
                     <div>
                         <p class="font-medium text-red-700">Ditolak oleh:</p>
-                        <p id="detailAdmin" class="text-red-600">-</p>
+                        <p id="detailDitolakOleh" class="text-red-600">-</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Info for Completed Reports -->
+            <div id="completedInfo" class="hidden mt-4 p-4 bg-green-50 rounded-lg">
+                <h3 class="font-semibold text-green-800 mb-2">Informasi Penyelesaian</h3>
+                <div class="space-y-2">
+                    <div>
+                        <p class="font-medium text-green-700">Diselesaikan oleh:</p>
+                        <p id="detailDiselesaikanOleh" class="text-green-600">-</p>
+                    </div>
+                    <div>
+                        <p class="font-medium text-green-700">Waktu Selesai:</p>
+                        <p id="detailWaktuSelesai" class="text-green-600">-</p>
+                    </div>
+                    <div>
+                        <p class="font-medium text-green-700">Bukti Penyelesaian:</p>
+                        <div id="detailBuktiContainer" class="mt-2">
+                            <img id="detailBukti" class="w-full h-auto rounded-md border border-gray-300"
+                                src="" alt="Bukti penyelesaian"
+                                onerror="this.onerror=null; this.src='#'; this.style.display='none';">
+                        </div>
+                        <p id="noBuktiMessage" class="text-gray-500 italic mt-2 hidden">Tidak ada bukti</p>
                     </div>
                 </div>
             </div>
@@ -377,17 +416,10 @@
         </div>
 
         <!-- Footer Actions -->
+        @if(session('user.role') === 'admin')
         <div id="detailActions" class="hidden p-5 border-t border-gray-200">
-            <div class="grid grid-cols-2 gap-3">
-                <button onclick="updateStatus('diproses')" class="py-1 px-2 bg-[#FED43E] text-white rounded-md hover:bg-yellow-600">
-                    Set Diproses
-                </button>
-                <button onclick="updateStatus('terselesaikan')" class="py-1 px-2 bg-[#A0F1B5] text-white rounded-md hover:bg-green-600">
-                    Set Selesai
-                </button>
-                <button onclick="updateStatus('ditolak')" class="py-1 px-2 bg-[#ED3237] text-white rounded-md hover:bg-red-600 col-span-2">
-                    Tolak Laporan
-                </button>
+            <div class="grid grid-cols-2 gap-3" id="actionButtonsContainer">
+                <!-- Buttons akan di-generate oleh JavaScript berdasarkan status -->
             </div>
         </div>
 
@@ -397,12 +429,172 @@
 <!-- Toast Notification -->
 <div id="toast" class="hidden fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50">
     <div class="flex items-center gap-2">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-        </svg>
-        <span id="toastMessage"></span>
+        <div class="bg-green-500 rounded-full p-2">
+            <svg class="w-6 h-6" fill="none" stroke="#fff" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+            </svg>
+        </div>
+        <span id="toastMessage" class="ml-4 text-[#002C55] text-lg font-medium"></span>
     </div>
 </div>
+
+<!-- Confirm Modal -->
+<div id="confirmModal" class="hidden fixed inset-0 z-50 bg-black/40">
+    <div class="flex items-center justify-center">
+        <div class="bg-white w-full max-w-md rounded-xl shadow-xl p-6">
+
+            <h2 id="confirmTitle" class="text-xl font-semibold text-[#002C55] mb-2">
+                Konfirmasi
+            </h2>
+
+            <p id="confirmMessage" class="text-gray-700 mb-6">
+                Apakah Anda yakin?
+            </p>
+
+            <div class="flex justify-end gap-3">
+                <button
+                    id="confirmCancel"
+                    class="px-4 py-2 border rounded-lg hover:bg-gray-100">
+                    Batal
+                </button>
+
+                <button
+                    id="confirmOk"
+                    class="px-4 py-2 bg-[#002C55] text-white rounded-lg hover:bg-[#01408C]">
+                    Ya, Arsipkan
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Confirm Hapus Permanen Modal -->
+<div id="deleteModal" class="hidden fixed inset-0 z-50 bg-black/40">
+    <div class="flex items-center justify-center">
+        <div class="bg-white w-full max-w-md rounded-xl shadow-xl p-6">
+            <h2 class="text-xl font-semibold text-[#002C55] mb-2">
+                Konfirmasi
+            </h2>
+
+            <p id="deleteMessage" class="text-[#002C55] mb-6">
+                Apakah Anda yakin ingin menghapus laporan ini secara permanen? Tindakan ini tidak dapat dibatalkan.
+            </p>
+
+            <div class="flex justify-end gap-3">
+                <button
+                    id="deleteCancel"
+                    class="px-4 py-2 border rounded-lg hover:bg-gray-100">
+                    Batal
+                </button>
+
+                <button
+                    id="deleteConfirm"
+                    class="px-4 py-2 bg-[#ED3237] text-white rounded-lg hover:bg-red-600">
+                    Ya, Hapus Permanen
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL TOLAK LAPORAN -->
+<div id="rejectModal" class="hidden fixed inset-0 bg-black/50 z-50 items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-md">
+        <div class="p-6">
+            <h3 class="text-xl font-semibold text-[#002C55] mb-4">Tolak Laporan</h3>
+            <p class="text-gray-600 mb-4">Silakan berikan alasan penolakan:</p>
+            <textarea id="rejectReason"
+                     rows="4"
+                     class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[#002C55]"
+                     placeholder="Masukkan alasan penolakan..."></textarea>
+            <div class="flex gap-3 mt-6">
+                <button onclick="closeRejectModal()"
+                        class="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
+                    Batal
+                </button>
+                <button onclick="submitReject()"
+                        class="flex-1 px-4 py-2 bg-[#ED3237] text-white rounded-lg hover:bg-red-600">
+                    Tolak Laporan
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL SELESAIKAN LAPORAN -->
+<div id="completeModal" class="hidden fixed inset-0 bg-black/50 z-50 items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-md">
+        <div class="p-6">
+            <h3 class="text-xl font-semibold text-[#002C55] mb-4">Selesaikan Laporan</h3>
+            <p class="text-gray-600 mb-4">Upload bukti foto penyelesaian:</p>
+
+            <!-- File Upload dengan Preview -->
+            <div class="mb-4">
+                <input type="file"
+                       id="buktiFile"
+                       accept="image/*"
+                       class="hidden"
+                       onchange="previewImage(this)">
+
+                <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:bg-gray-50 cursor-pointer"
+                     onclick="document.getElementById('buktiFile').click()">
+                    <div id="uploadArea" class="space-y-2">
+                        <svg class="w-12 h-12 mx-auto text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                        </svg>
+                        <p class="text-sm text-gray-600">Klik untuk upload foto</p>
+                        <p class="text-xs text-gray-500">Format: JPG, PNG (max 5MB)</p>
+                    </div>
+
+                    <!-- Preview Image -->
+                    <div id="imagePreview" class="hidden mt-4">
+                        <img id="previewImage"
+                             class="w-full h-48 object-cover rounded-lg border border-gray-300">
+                        <button type="button"
+                                onclick="removeImage()"
+                                class="mt-2 text-sm text-red-600 hover:text-red-800">
+                            Hapus foto
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex gap-3 mt-6">
+                <button onclick="closeCompleteModal()"
+                        class="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
+                    Batal
+                </button>
+                <button onclick="submitComplete()"
+                        id="submitCompleteBtn"
+                        class="flex-1 px-4 py-2 bg-[#002C55] text-white rounded-lg hover:bg-[#01408C] disabled:opacity-50 disabled:cursor-not-allowed">
+                    Selesaikan
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL DIPROSES -->
+<div id="processModal" class="hidden fixed inset-0 bg-black/50 z-50 items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-md">
+        <div class="p-6">
+            <h3 class="text-xl font-semibold text-[#002C55] mb-4">Set Diproses</h3>
+            <p class="text-gray-600 mb-4">Apakah Anda yakin ingin menyetujui dan memproses laporan ini?</p>
+
+            <div class="flex gap-3">
+                <button onclick="closeProcessModal()"
+                        class="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
+                    Batal
+                </button>
+                <button onclick="submitProcess()"
+                        class="flex-1 px-4 py-2 bg-[#FED43E] text-[#002C55] rounded-lg hover:bg-yellow-500">
+                    Ya, Set Diproses
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 
 @push('styles')
@@ -420,6 +612,9 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
+    // === VARIABLES ===
+    let currentReportId = null;
+    let currentAction = null;
 
     // === ELEMEN UTAMA ===
     const kelolaBtn = document.getElementById("kelolaBtn");
@@ -427,7 +622,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const arsipBtn = document.getElementById("arsipBtn");
     const hapusPermanenBtn = document.getElementById("hapusPermanenBtn");
     const manageOptions = document.getElementById("manageOptions");
-    const buttonWrapper = document.getElementById("manageOptions");
     const actionCells = document.querySelectorAll(".action-cell");
     const checkboxCells = document.querySelectorAll(".checkbox-cell");
     const reportCheckboxes = document.querySelectorAll(".report-checkbox");
@@ -438,15 +632,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const filterTanggal = document.getElementById("filterTanggal");
 
     // === FILTER FUNCTIONS ===
-    // Set initial filter values from URL params
-    const urlParams = new URLSearchParams(window.location.search);
-    const statusParam = urlParams.get('status');
-    const tanggalParam = urlParams.get('tanggal');
-
-    if (statusParam && filterStatus) filterStatus.value = statusParam;
-    if (tanggalParam && filterTanggal) filterTanggal.value = tanggalParam;
-
-    // Filter change event - hanya jika elemen ada
     if (filterStatus) {
         filterStatus.addEventListener('change', applyFilters);
     }
@@ -454,20 +639,16 @@ document.addEventListener("DOMContentLoaded", () => {
         filterTanggal.addEventListener('change', applyFilters);
     }
 
-    // Di bagian applyFilters() halaman laporan (baris ~215)
     function applyFilters() {
         const params = new URLSearchParams();
-
-        // Get search value from topbar
         const searchInput = document.querySelector('input[name="search"]') || document.querySelector('.search-input');
         const searchValue = searchInput ? searchInput.value.trim() : '';
 
-        // Add filters only if not default value
         if (filterStatus && filterStatus.value !== 'all') {
             params.append('status', filterStatus.value);
         }
 
-        if (filterTanggal && filterTanggal.value !== 'semua') { // PERUBAHAN INI
+        if (filterTanggal && filterTanggal.value !== 'semua') {
             params.append('tanggal', filterTanggal.value);
         }
 
@@ -475,7 +656,6 @@ document.addEventListener("DOMContentLoaded", () => {
             params.append('search', searchValue);
         }
 
-        // Add page parameter if exists
         const currentPage = new URLSearchParams(window.location.search).get('page');
         if (currentPage) {
             params.append('page', currentPage);
@@ -504,6 +684,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // === DETAIL MODAL FUNCTIONS ===
     async function loadReportDetail(id) {
         try {
+            currentReportId = id;
+
             const detailLoading = document.getElementById('detailLoading');
             const detailContent = document.getElementById('detailContent');
             const detailError = document.getElementById('detailError');
@@ -569,37 +751,71 @@ document.addEventListener("DOMContentLoaded", () => {
         if (detailLokasi) detailLokasi.textContent = report.lokasi_kerusakan || '-';
         if (detailDeskripsi) detailDeskripsi.textContent = report.deskripsi_kerusakan || '-';
 
-        // Set status
-        const statusElement = document.getElementById('detailStatus');
-        const status = report.status_laporan || 'menunggu';
-        if (statusElement) {
-            // Konfigurasi status
-            const STATUS_CONFIG = {
-                menunggu: {
-                    text: 'Menunggu',
-                    class: 'bg-[#E1E7E9] text-[#022C55]'
-                },
-                diproses: {
-                    text: 'Diproses',
-                    class: 'bg-[#FEEF94] text-[#022C55]'
-                },
-                terselesaikan: {
-                    text: 'Terselesaikan',
-                    class: 'bg-[#A0F1B5] text-[#022C55]'
-                },
-                ditolak: {
-                    text: 'Ditolak',
-                    class: 'bg-[#FF7A7E] text-[#022C55]'
+    // Set status
+    const statusElement = document.getElementById('detailStatus');
+    const status = report.status_laporan || 'menunggu';
+    const STATUS_CONFIG = {
+        menunggu: { text: 'Menunggu', class: 'bg-[#E1E7E9] text-[#022C55]' },
+        diproses: { text: 'Diproses', class: 'bg-[#FEEF94] text-[#022C55]' },
+        terselesaikan: { text: 'Terselesaikan', class: 'bg-[#A0F1B5] text-[#022C55]' },
+        ditolak: { text: 'Ditolak', class: 'bg-[#FF7A7E] text-[#022C55]' }
+    };
+
+    const config = STATUS_CONFIG[status] || STATUS_CONFIG.menunggu;
+    if (statusElement) {
+        statusElement.textContent = config.text;
+        statusElement.className = 'inline-flex px-3 py-1 text-sm font-semibold rounded-md ' + config.class;
+    }
+
+    // === PERBAIKAN: TAMPILKAN BUTTON SESUAI STATUS ===
+    const actionButtonsContainer = document.getElementById('actionButtonsContainer');
+    if (actionButtonsContainer) {
+        actionButtonsContainer.innerHTML = ''; // Kosongkan dulu
+
+        switch(status) {
+            case 'menunggu':
+                // Hanya tampilkan "Diproses"
+                actionButtonsContainer.innerHTML = `
+                    <button onclick="updateStatus('diproses')"
+                            class="py-1 px-2 bg-[#FED43E] text-white rounded-md hover:bg-yellow-600 col-span-2">
+                        Set Diproses
+                    </button>
+                `;
+                break;
+
+            case 'diproses':
+                // Tampilkan "Selesai" dan "Tolak"
+                actionButtonsContainer.innerHTML = `
+                    <button onclick="updateStatus('terselesaikan')"
+                            class="py-1 px-2 bg-[#A0F1B5] text-white rounded-md hover:bg-green-600">
+                        Set Selesai
+                    </button>
+                    <button onclick="updateStatus('ditolak')"
+                            class="py-1 px-2 bg-[#ED3237] text-white rounded-md hover:bg-red-600">
+                        Tolak
+                    </button>
+                `;
+                break;
+
+            case 'ditolak':
+                // Hanya tampilkan "Review Ulang"
+                actionButtonsContainer.innerHTML = `
+                    <button onclick="updateStatus('menunggu')"
+                            class="py-1 px-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 col-span-2">
+                        Review Ulang
+                    </button>
+                `;
+                break;
+
+            case 'terselesaikan':
+                // Tidak tampilkan button apapun
+                const detailActions = document.getElementById('detailActions');
+                if (detailActions) {
+                    detailActions.classList.add('hidden');
                 }
-            };
-
-            const config = STATUS_CONFIG[status] || STATUS_CONFIG.menunggu;
-
-            // Set teks dan kelas
-            statusElement.textContent = config.text;
-            // Reset class dasar dan tambahkan class status
-            statusElement.className = 'inline-flex px-3 py-1 text-sm font-semibold rounded-md ' + config.class;
+                break;
         }
+    }
 
         // Set foto
         const fotoElement = document.getElementById('detailFoto');
@@ -607,7 +823,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (fotoElement && noFotoMessage) {
             if (report.foto_kerusakan && report.foto_kerusakan !== 'default.jpg') {
-                fotoElement.src = `http://localhost:8001/storage/${report.foto_kerusakan}`;
+                fotoElement.src = `/storage/${report.foto_kerusakan}`;
                 fotoElement.classList.remove('hidden');
                 noFotoMessage.classList.add('hidden');
             } else {
@@ -629,15 +845,293 @@ document.addEventListener("DOMContentLoaded", () => {
                 new Date(report.updated_at).toLocaleString('id-ID') : '-';
         }
 
-        // Show rejected info if status is ditolak
+        // Show info boxes based on status
+        const approvedInfo = document.getElementById('approvedInfo');
         const rejectedInfo = document.getElementById('rejectedInfo');
-        if (rejectedInfo) {
-            if (status === 'ditolak') {
-                rejectedInfo.classList.remove('hidden');
-            } else {
-                rejectedInfo.classList.add('hidden');
-            }
+        const completedInfo = document.getElementById('completedInfo');
+
+        // Hide all first
+        if (approvedInfo) approvedInfo.classList.add('hidden');
+        if (rejectedInfo) rejectedInfo.classList.add('hidden');
+        if (completedInfo) completedInfo.classList.add('hidden');
+
+        switch (status) {
+            case 'diproses':
+                if (approvedInfo) {
+                    approvedInfo.classList.remove('hidden');
+                    document.getElementById('detailDisetujuiOleh').textContent = report.disetujui_oleh || '-';
+                    document.getElementById('detailWaktuDisetujui').textContent = report.disetujui_pada ?
+                        new Date(report.disetujui_pada).toLocaleString('id-ID') : '-';
+                }
+                break;
+
+            case 'ditolak':
+                if (rejectedInfo) {
+                    rejectedInfo.classList.remove('hidden');
+                    document.getElementById('detailAlasan').textContent = report.alasan_ditolak || '-';
+                    document.getElementById('detailWaktuDitolak').textContent = report.ditolak_pada ?
+                        new Date(report.ditolak_pada).toLocaleString('id-ID') : '-';
+                    document.getElementById('detailDitolakOleh').textContent = report.ditolak_oleh || '-';
+                }
+                break;
+
+            case 'terselesaikan':
+                if (completedInfo) {
+                    completedInfo.classList.remove('hidden');
+                    document.getElementById('detailDiselesaikanOleh').textContent = report.diselesaikan_oleh || '-';
+                    document.getElementById('detailWaktuSelesai').textContent = report.diselesaikan_pada ?
+                        new Date(report.diselesaikan_pada).toLocaleString('id-ID') : '-';
+
+                    // Show completion proof
+                    const buktiElement = document.getElementById('detailBukti');
+                    const noBuktiMessage = document.getElementById('noBuktiMessage');
+                    if (buktiElement && noBuktiMessage) {
+                        if (report.bukti_penyelesaian) {
+                            buktiElement.src = `/storage/${report.bukti_penyelesaian}`;
+                            buktiElement.classList.remove('hidden');
+                            noBuktiMessage.classList.add('hidden');
+                        } else {
+                            buktiElement.classList.add('hidden');
+                            noBuktiMessage.classList.remove('hidden');
+                        }
+                    }
+                }
+                break;
         }
+    }
+
+    // === MODAL FUNCTIONS ===
+    function closeDetailModal() {
+        if (overlay) overlay.classList.add('hidden');
+        currentReportId = null;
+    }
+
+    function openDetailModal() {
+        if (overlay) overlay.classList.remove('hidden');
+    }
+
+    // Reject Modal
+    function openRejectModal() {
+        document.getElementById('rejectModal').classList.remove('hidden');
+        document.getElementById('rejectReason').value = '';
+    }
+
+    function closeRejectModal() {
+        document.getElementById('rejectModal').classList.add('hidden');
+    }
+
+    // Complete Modal
+    function openCompleteModal() {
+        document.getElementById('completeModal').classList.remove('hidden');
+        document.getElementById('buktiFile').value = '';
+        document.getElementById('uploadArea').classList.remove('hidden');
+        document.getElementById('imagePreview').classList.add('hidden');
+        document.getElementById('submitCompleteBtn').disabled = true;
+    }
+
+    function closeCompleteModal() {
+        document.getElementById('completeModal').classList.add('hidden');
+        document.getElementById('buktiFile').value = '';
+    }
+
+    // Process Modal
+    function openProcessModal() {
+        document.getElementById('processModal').classList.remove('hidden');
+    }
+
+    function closeProcessModal() {
+        document.getElementById('processModal').classList.add('hidden');
+    }
+
+    // === IMAGE PREVIEW ===
+    function previewImage(input) {
+        if (input.files && input.files[0]) {
+            const file = input.files[0];
+
+            // Check file size (max 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                showToast('File terlalu besar. Maksimal 5MB.', 'error');
+                input.value = '';
+                return;
+            }
+
+            // Check file type
+            if (!file.type.match('image.*')) {
+                showToast('File harus berupa gambar.', 'error');
+                input.value = '';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('previewImage').src = e.target.result;
+                document.getElementById('uploadArea').classList.add('hidden');
+                document.getElementById('imagePreview').classList.remove('hidden');
+                document.getElementById('submitCompleteBtn').disabled = false;
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function removeImage() {
+        document.getElementById('buktiFile').value = '';
+        document.getElementById('uploadArea').classList.remove('hidden');
+        document.getElementById('imagePreview').classList.add('hidden');
+        document.getElementById('submitCompleteBtn').disabled = true;
+    }
+
+    // === STATUS UPDATE FUNCTIONS ===
+    function updateStatus(status) {
+        if (!currentReportId) {
+            showToast('Tidak ada laporan yang dipilih', 'error');
+            return;
+        }
+
+        switch(status) {
+            case 'diproses':
+                openProcessModal();
+                break;
+            case 'ditolak':
+                openRejectModal();
+                break;
+            case 'terselesaikan':
+                openCompleteModal();
+                break;
+            default:
+                sendStatusUpdate(status);
+        }
+    }
+
+    async function sendStatusUpdate(status, additionalData = null) {
+        try {
+            const url = `http://localhost:8001/api/admin/laporan/${currentReportId}/status`;
+            const data = { status };
+
+            if (additionalData) {
+                Object.assign(data, additionalData);
+            }
+
+            const response = await fetch(`http://localhost:8001/api/admin/laporan/${currentReportId}/status`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                showToast(`Status berhasil diubah menjadi ${getStatusText(status)}`);
+                closeAllModals();
+                setTimeout(() => location.reload(), 1000);
+            } else {
+                showToast(result.message || 'Gagal mengubah status', 'error');
+            }
+        } catch (error) {
+            showToast('Terjadi kesalahan: ' + error.message, 'error');
+        }
+    }
+
+    async function submitCompleteWithFile() {
+        const fileInput = document.getElementById('buktiFile');
+        const file = fileInput.files[0];
+
+        if (!file) {
+            showToast('Harap pilih file bukti', 'error');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('bukti_penyelesaian', file);
+        formData.append('status', 'terselesaikan');
+
+        try {
+            const response = await fetch(`/api/admin/laporan/${currentReportId}/status`, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                showToast('Laporan berhasil diselesaikan');
+                closeAllModals();
+                setTimeout(() => location.reload(), 1000);
+            } else {
+                showToast(result.message, 'error');
+            }
+        } catch (error) {
+            showToast('Terjadi kesalahan', 'error');
+        }
+    }
+
+    function submitProcess() {
+        sendStatusUpdate('diproses');
+    }
+
+    function submitReject() {
+        const reason = document.getElementById('rejectReason').value.trim();
+        if (!reason) {
+            showToast('Harap isi alasan penolakan', 'error');
+            return;
+        }
+        sendStatusUpdate('ditolak', { alasan_ditolak: reason });
+    }
+
+    async function submitComplete() {
+        const fileInput = document.getElementById('buktiFile');
+        const file = fileInput.files[0];
+
+        if (!file) {
+            showToast('Harap pilih file bukti penyelesaian', 'error');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('bukti_penyelesaian', file);
+        formData.append('status', 'terselesaikan');
+
+        // Tambahkan CSRF token
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+        if (csrfToken) {
+            formData.append('_token', csrfToken);
+        }
+
+        try {
+            const response = await fetch(`http://localhost:8001/api/admin/laporan/${currentReportId}/status`, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json',
+                    // 'X-CSRF-TOKEN' header tidak diperlukan untuk FormData
+                }
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                showToast('Laporan berhasil diselesaikan');
+                closeAllModals();
+                setTimeout(() => location.reload(), 1000);
+            } else {
+                showToast(result.message || 'Gagal menyelesaikan laporan', 'error');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            showToast('Terjadi kesalahan: ' + error.message, 'error');
+        }
+    }
+
+    function closeAllModals() {
+        closeDetailModal();
+        closeRejectModal();
+        closeCompleteModal();
+        closeProcessModal();
     }
 
     function getStatusText(status) {
@@ -650,29 +1144,20 @@ document.addEventListener("DOMContentLoaded", () => {
         return statusMap[status] || status;
     }
 
-    function closeDetailModal() {
-        if (overlay) overlay.classList.add('hidden');
-    }
-
-    function openDetailModal() {
-        if (overlay) overlay.classList.remove('hidden');
-    }
-
-    // === EVENT LISTENERS FOR DETAIL BUTTONS ===
+    // === EVENT LISTENERS ===
     document.querySelectorAll(".aksiBtn").forEach(btn => {
         btn.addEventListener("click", function() {
             const id = this.dataset.id;
+            currentReportId = id;
             openDetailModal();
             loadReportDetail(id);
         });
     });
 
-    // Close modal
     if (closeBtn) {
         closeBtn.addEventListener("click", closeDetailModal);
     }
 
-    // Click outside to close
     if (overlay) {
         overlay.addEventListener("click", (e) => {
             if (e.target === overlay) closeDetailModal();
@@ -684,38 +1169,29 @@ document.addEventListener("DOMContentLoaded", () => {
         kelolaBtn.addEventListener("click", () => {
             kelolaBtn.classList.add("hidden");
             if (manageOptions) manageOptions.classList.remove("hidden");
-
-            // Tampilkan checkbox, sembunyikan action cell
             actionCells.forEach(cell => cell.classList.add("hidden"));
             checkboxCells.forEach(cell => cell.classList.remove("hidden"));
         });
     }
 
-    // BATAL MODE KELOLA
     if (batalBtn) {
         batalBtn.addEventListener("click", () => {
             if (kelolaBtn) kelolaBtn.classList.remove("hidden");
             if (manageOptions) manageOptions.classList.add("hidden");
-
-            // Sembunyikan checkbox, tampilkan action cell
             checkboxCells.forEach(cell => cell.classList.add("hidden"));
             actionCells.forEach(cell => cell.classList.remove("hidden"));
-
-            // Uncheck semua checkbox
             reportCheckboxes.forEach(ch => ch.checked = false);
             if (selectAll) selectAll.checked = false;
         });
     }
 
-    // SELECT ALL CHECKBOX
     if (selectAll) {
         selectAll.addEventListener("change", function() {
             reportCheckboxes.forEach(ch => ch.checked = selectAll.checked);
         });
     }
 
-    // ACTION FUNCTIONS
-    // Function untuk mengarsipkan laporan
+    // ARCHIVE & DELETE
     async function archiveReports() {
         const selectedIds = Array.from(document.querySelectorAll('.report-checkbox:checked'))
             .map(checkbox => checkbox.value);
@@ -725,7 +1201,8 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        if (!confirm(`Arsipkan ${selectedIds.length} laporan?`)) return;
+        const confirmed = confirm(`Arsipkan ${selectedIds.length} laporan?`);
+        if (!confirmed) return;
 
         try {
             const response = await fetch("{{ route('admin.laporan.archive') }}", {
@@ -738,7 +1215,6 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             const data = await response.json();
-
             if (data.success) {
                 showToast(data.message);
                 setTimeout(() => location.reload(), 1500);
@@ -750,7 +1226,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Function untuk menghapus permanen (halaman laporan tidak ada hapus permanen, hanya arsip)
     async function deletePermanent() {
         const selectedIds = Array.from(document.querySelectorAll('.report-checkbox:checked'))
             .map(checkbox => checkbox.value);
@@ -760,7 +1235,8 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        if (!confirm(`Hapus permanen ${selectedIds.length} laporan? Tindakan ini tidak dapat dibatalkan!`)) return;
+        const confirmed = confirm(`Hapus permanen ${selectedIds.length} laporan? Tindakan ini tidak dapat dibatalkan.`);
+        if (!confirmed) return;
 
         try {
             const response = await fetch("{{ route('admin.laporan.destroy') }}", {
@@ -773,7 +1249,6 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             const data = await response.json();
-
             if (data.success) {
                 showToast(data.message);
                 setTimeout(() => location.reload(), 1500);
@@ -785,88 +1260,24 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // === BUTTON EVENT LISTENERS ===
     if (arsipBtn) {
         arsipBtn.addEventListener('click', archiveReports);
     }
 
     if (hapusPermanenBtn) {
-        // Hanya tampilkan tombol hapus permanen di halaman arsip
-        // Di halaman laporan, tombol ini disembunyikan
         hapusPermanenBtn.addEventListener('click', deletePermanent);
     }
 
-    // === UPDATE STATUS FUNCTION (UNTUK MODAL) ===
-    function updateStatus(status) {
-        const reportId = document.querySelector('.aksiBtn.active')?.dataset.id;
-        if (!reportId) {
-            showToast('Tidak ada laporan yang dipilih', 'error');
-            return;
-        }
-
-        showToast(`Status laporan berhasil diubah menjadi ${getStatusText(status)}`);
-
-        // In real implementation, you would make an API call here
-        fetch(`http://localhost:8001/api/admin/laporan/${reportId}/status`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            body: JSON.stringify({ status: status })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                showToast(`Status laporan berhasil diubah menjadi ${getStatusText(status)}`);
-                closeDetailModal();
-                setTimeout(() => location.reload(), 1000);
-            } else {
-                showToast(data.message || 'Gagal mengubah status', 'error');
-            }
-        })
-        .catch(error => {
-            showToast('Terjadi kesalahan: ' + error.message, 'error');
-        });
-    }
-
-    // Expose updateStatus ke global scope untuk modal
+    // Expose functions to global scope
     window.updateStatus = updateStatus;
     window.closeDetailModal = closeDetailModal;
-
-
-
-    const STATUS_CONFIG = {
-    menunggu: {
-        text: 'Menunggu',
-        class: 'bg-[#E1E7E9] text-[#022C55]'
-    },
-    diproses: {
-        text: 'Diproses',
-        class: 'bg-[#FEEF94] text-[#022C55]'
-    },
-    terselesaikan: {
-        text: 'Terselesaikan',
-        class: 'bg-[#A0F1B5] text-[#022C55]'
-    },
-    ditolak: {
-        text: 'Ditolak',
-        class: 'bg-[#FF7A7E] text-[#022C55]'
-    }
-};
-
-    const statusElement = document.getElementById('detailStatus');
-    const status = report.status_laporan || 'menunggu';
-
-    if (statusElement) {
-        const config = STATUS_CONFIG[status] || STATUS_CONFIG.menunggu;
-
-        statusElement.textContent = config.text;
-
-        // reset class dasar
-        statusElement.className =
-            'inline-flex px-3 py-1 text-sm font-semibold rounded-md ' + config.class;
-    }
-
+    window.closeRejectModal = closeRejectModal;
+    window.closeCompleteModal = closeCompleteModal;
+    window.closeProcessModal = closeProcessModal;
+    window.previewImage = previewImage;
+    window.removeImage = removeImage;
+    window.submitReject = submitReject;
+    window.submitComplete = submitComplete;
+    window.submitProcess = submitProcess;
 });
 </script>
