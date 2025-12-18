@@ -825,7 +825,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (fotoElement && noFotoMessage) {
             if (report.foto_kerusakan && report.foto_kerusakan !== 'default.jpg') {
-                fotoElement.src = `/storage/${report.foto_kerusakan}`;
+                fotoElement.src = `http://localhost:8001/storage/${report.foto_kerusakan}`;
                 fotoElement.classList.remove('hidden');
                 noFotoMessage.classList.add('hidden');
             } else {
@@ -889,7 +889,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     const noBuktiMessage = document.getElementById('noBuktiMessage');
                     if (buktiElement && noBuktiMessage) {
                         if (report.bukti_penyelesaian) {
-                            buktiElement.src = `/storage/${report.bukti_penyelesaian}`;
+                            buktiElement.src = `http://localhost:8001/storage/${report.bukti_penyelesaian}`;
                             buktiElement.classList.remove('hidden');
                             noBuktiMessage.classList.add('hidden');
                         } else {

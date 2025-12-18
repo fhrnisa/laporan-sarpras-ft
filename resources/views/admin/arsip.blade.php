@@ -377,22 +377,8 @@
         </div>
 
         <!-- Footer Actions -->
-        @if(session('user.role') === 'admin')
-        <div id="detailActions" class="hidden p-5 border-t border-gray-200">
-            <div class="grid grid-cols-2 gap-3">
-                <button onclick="updateStatus('diproses')" class="py-1 px-2 bg-[#FED43E] text-white rounded-md hover:bg-yellow-600">
-                    Set Diproses
-                </button>
-                <button onclick="updateStatus('terselesaikan')" class="py-1 px-2 bg-[#A0F1B5] text-white rounded-md hover:bg-green-600">
-                    Set Selesai
-                </button>
-                <button onclick="updateStatus('ditolak')" class="py-1 px-2 bg-[#ED3237] text-white rounded-md hover:bg-red-600 col-span-2">
-                    Tolak Laporan
-                </button>
-            </div>
-        </div>
-        @endif
-    </div>
+        <!-- TIDAK ADA FOOTER ACTION DI ARSIP -->
+        <!-- Data arsip tidak bisa diubah status -->
 </div>
 
 
