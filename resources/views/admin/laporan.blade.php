@@ -422,7 +422,7 @@
                 <!-- Buttons akan di-generate oleh JavaScript berdasarkan status -->
             </div>
         </div>
-
+        @endif
     </div>
 </div>
 
