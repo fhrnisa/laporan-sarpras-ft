@@ -199,26 +199,44 @@
 
 <!-- MODAL KONFIRMASI LOGOUT -->
 <div id="logoutConfirmModal"
-     class="hidden fixed inset-0 z-50 justify-center items-center bg-black/50 backdrop-blur-sm">
-    <div class="bg-white p-6 rounded-2xl text-center max-w-md mx-4 space-y-4">
-        <h2 class="text-[#002D56] font-bold text-xl">
-            Konfirmasi Logout
-        </h2>
-
-        <p class="text-[#002D56]">
-            Apakah Anda yakin ingin <span class="text-red-600 font-semibold">logout</span>?
-        </p>
-
-        <div class="grid grid-cols-2 gap-3">
-            <button id="cancelLogout"
-                    class="py-2 rounded-lg bg-gray-300 text-[#002D56] font-semibold">
-                Batal
-            </button>
-
-            <button id="confirmLogout"
-                    class="py-2 rounded-lg bg-red-600 text-white font-semibold">
-                Logout
-            </button>
+     class="hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-sm">
+    <div class="min-h-screen justify-center items-center flex">
+        <div class="bg-white p-6 rounded-2xl text-center max-w-md mx-4 space-y-4">
+            <!-- Container khusus untuk icon -->
+            <div class="flex justify-center">
+                <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center">
+                    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19.9997 36.6667C29.2044 36.6667 36.6663 29.2048 36.6663 20C36.6663 10.7953 29.2044 3.33337 19.9997 3.33337C10.7949 3.33337 3.33301 10.7953 3.33301 20C3.33301 29.2048 10.7949 36.6667 19.9997 36.6667Z" 
+                              stroke="#ED3237" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M20 26.6666H20.0167" stroke="#ED3237" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M20 13.3334V20" stroke="#ED3237" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+            </div>
+            
+            <!-- Konten teks -->
+            <div class="space-y-2">
+                <h2 class="text-[#002C55] font-semibold text-2xl">
+                    Konfirmasi Logout
+                </h2>
+                
+                <p class="text-[#002C55]">
+                    Apakah Anda yakin ingin <span class="text-red-600 font-semibold">logout</span>?
+                </p>
+            </div>
+            
+            <!-- Tombol -->
+            <div class="grid grid-cols-2 gap-3">
+                <button id="cancelLogout"
+                        class="py-2 rounded-lg bg-gray-300 text-[#002D56] font-semibold hover:bg-gray-400 transition">
+                    Batal
+                </button>
+                
+                <button id="confirmLogout"
+                        class="py-2 rounded-lg bg-red-600 text-white font-semibold hover:bg-red-700 transition">
+                    Logout
+                </button>
+            </div>
         </div>
     </div>
 </div>
@@ -226,36 +244,40 @@
 <!-- MODAL LOGOUT SUKSES -->
 <div id="logoutSuccessModal"
      class="hidden fixed inset-0 z-50 justify-center items-center bg-black/50 backdrop-blur-sm">
-    <div class="bg-white p-6 rounded-2xl text-center max-w-md mx-4 space-y-4">
-        <h2 class="text-green-700 font-bold text-xl">
-            Logout Berhasil
-        </h2>
-
-        <p class="text-[#002D56]">Anda akan diarahkan ke halaman utama.</p>
-
-        <button id="closeSuccessModal"
-                class="w-full py-3 rounded-lg bg-green-600 text-white font-semibold">
-            Oke
-        </button>
+    <div class="min-h-screen justify-center items-center flex">
+        <div class="bg-white p-6 rounded-2xl text-center max-w-md mx-4 space-y-4">
+            <h2 class="text-green-700 font-semibold text-2xl">
+                Logout Berhasil
+            </h2>
+    
+            <p class="text-[#002D56]">Anda akan diarahkan ke halaman utama.</p>
+    
+            <button id="closeSuccessModal"
+                    class="w-full py-3 rounded-lg bg-green-600 text-white font-semibold">
+                Oke
+            </button>
+        </div>
     </div>
 </div>
 
 <!-- MODAL LOGOUT GAGAL -->
 <div id="logoutFailedModal"
      class="hidden fixed inset-0 z-50 justify-center items-center bg-black/50 backdrop-blur-sm">
-    <div class="bg-white p-6 rounded-2xl text-center max-w-md mx-4 space-y-4">
-        <h2 class="text-red-600 font-bold text-xl">
-            Logout Gagal
-        </h2>
-
-        <p class="text-[#002D56]">
-            Terjadi kesalahan saat memproses logout. Coba lagi nanti.
-        </p>
-
-        <button id="closeFailedModal"
-                class="w-full py-3 rounded-lg bg-red-600 text-white font-semibold">
-            Tutup
-        </button>
+    <div class="min-h-screen justify-center items-center flex">
+        <div class="bg-white p-6 rounded-2xl text-center max-w-md mx-4 space-y-4">
+            <h2 class="text-red-600 font-semibold text-2xl">
+                Logout Gagal
+            </h2>
+    
+            <p class="text-[#002D56]">
+                Terjadi kesalahan saat memproses logout. Coba lagi nanti.
+            </p>
+    
+            <button id="closeFailedModal"
+                    class="w-full py-3 rounded-lg bg-red-600 text-white font-semibold">
+                Tutup
+            </button>
+        </div>
     </div>
 </div>
 
