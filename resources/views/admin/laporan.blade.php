@@ -1,10 +1,9 @@
 @extends('layouts.admin')
 
 @section('title', 'Laporan')
-
 @section('page-title', 'Laporan')
-@section('showSearch', true)
 
+@section('showSearch', true)
 @section('search-placeholder', 'Cari nama, email, atau lokasi laporan')
 @section('search-mode', 'laporan')
 
@@ -395,14 +394,48 @@
 </div>
 
 <!-- Toast Notification -->
-<div id="toast" class="hidden fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50">
+<div id="toast" class="hidden fixed top-20 left-1/2 -translate-x-1/2 bg-green-200 border border-green-500 text-white px-6 py-3 rounded-sm shadow-lg z-50">
     <div class="flex items-center gap-2">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-        </svg>
-        <span id="toastMessage"></span>
+        <div class="bg-green-500 rounded-full p-2">
+            <svg class="w-6 h-6" fill="none" stroke="#fff" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+            </svg>
+        </div>
+        <span id="toastMessage" class="ml-4 text-[#002C55] text-lg font-medium"></span>
     </div>
 </div>
+
+<!-- Confirm Modal -->
+<div id="confirmModal" class="hidden fixed inset-0 z-50 bg-black/40">
+    <div class="flex items-center justify-center">
+        <div class="bg-white w-full max-w-md rounded-xl shadow-xl p-6">
+
+            <h2 id="confirmTitle" class="text-xl font-semibold text-[#002C55] mb-2">
+                Konfirmasi
+            </h2>
+
+            <p id="confirmMessage" class="text-gray-700 mb-6">
+                Apakah Anda yakin?
+            </p>
+
+            <div class="flex justify-end gap-3">
+                <button
+                    id="confirmCancel"
+                    class="px-4 py-2 border rounded-lg hover:bg-gray-100">
+                    Batal
+                </button>
+
+                <button
+                    id="confirmOk"
+                    class="px-4 py-2 bg-[#002C55] text-white rounded-lg hover:bg-[#01408C]">
+                    Ya, Arsipkan
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 @endsection
 
 @push('styles')
@@ -716,6 +749,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ACTION FUNCTIONS
     // Function untuk mengarsipkan laporan
+    function showConfirm(message) {
+        return new Promise((resolve) => {
+            const modal = document.getElementById('confirmModal');
+            const msg = document.getElementById('confirmMessage');
+            const okBtn = document.getElementById('confirmOk');
+            const cancelBtn = document.getElementById('confirmCancel');
+
+            msg.textContent = message;
+            modal.classList.remove('hidden');
+
+            const close = (result) => {
+                modal.classList.add('hidden');
+                okBtn.onclick = null;
+                cancelBtn.onclick = null;
+                resolve(result);
+            };
+
+            okBtn.onclick = () => close(true);
+            cancelBtn.onclick = () => close(false);
+        });
+    }
+
     async function archiveReports() {
         const selectedIds = Array.from(document.querySelectorAll('.report-checkbox:checked'))
             .map(checkbox => checkbox.value);
@@ -725,7 +780,12 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        if (!confirm(`Arsipkan ${selectedIds.length} laporan?`)) return;
+        const confirmed = await showConfirm(
+            `Arsipkan ${selectedIds.length} laporan?`
+        );
+
+        if (!confirmed) return;
+
 
         try {
             const response = await fetch("{{ route('admin.laporan.archive') }}", {

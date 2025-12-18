@@ -403,6 +403,66 @@
         <span id="toastMessage" class="ml-4 text-[#002C55] text-lg font-medium"></span>
     </div>
 </div>
+
+
+<!-- Confirm Pulihkan Modal -->
+<div id="restoreModal" class="hidden fixed inset-0 z-50 bg-black/40">
+    <div class="flex items-center justify-center">
+        <div class="bg-white w-full max-w-md rounded-xl shadow-xl p-6">
+
+            <h2 class="text-xl font-semibold text-[#002C55] mb-2">
+                Konfirmasi
+            </h2>
+
+            <p id="restoreMessage" class="text-[#002C55] mb-6">
+                Apakah Anda yakin?
+            </p>
+
+            <div class="flex justify-end gap-3">
+                <button
+                    id="restoreCancel"
+                    class="px-4 py-2 border rounded-lg hover:bg-gray-100">
+                    Batal
+                </button>
+
+                <button
+                    id="restoreConfirm"
+                    class="px-4 py-2 bg-[#002C55] text-white rounded-lg hover:bg-[#01408C]">
+                    Ya, Pulihkan
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Confirm Hapus Permanen Modal -->
+<div id="deleteModal" class="hidden fixed inset-0 z-50 bg-black/40">
+    <div class="flex items-center justify-center">
+        <div class="bg-white w-full max-w-md rounded-xl shadow-xl p-6">
+            <h2 class="text-xl font-semibold text-[#002C55] mb-2">
+                Konfirmasi
+            </h2>
+
+            <p id="deleteMessage" class="text-[#002C55] mb-6">
+                Apakah Anda yakin ingin menghapus laporan ini secara permanen? Tindakan ini tidak dapat dibatalkan.
+            </p>
+
+            <div class="flex justify-end gap-3">
+                <button
+                    id="deleteCancel"
+                    class="px-4 py-2 border rounded-lg hover:bg-gray-100">
+                    Batal
+                </button>
+
+                <button
+                    id="deleteConfirm"
+                    class="px-4 py-2 bg-[#ED3237] text-white rounded-lg hover:bg-red-600">
+                    Ya, Hapus Permanen
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @push('styles')
@@ -691,6 +751,28 @@ document.addEventListener("DOMContentLoaded", () => {
     // === ACTION FUNCTIONS UNTUK ARSIP ===
 
     // Function untuk memulihkan data dari arsip
+    function showConfirm(message) {
+        return new Promise((resolve) => {
+            const modal = document.getElementById('restoreModal');
+            const msg = document.getElementById('restoreMessage');
+            const okBtn = document.getElementById('restoreConfirm');
+            const cancelBtn = document.getElementById('restoreCancel');
+
+            msg.textContent = message;
+            modal.classList.remove('hidden');
+
+            const close = (result) => {
+                modal.classList.add('hidden');
+                okBtn.onclick = null;
+                cancelBtn.onclick = null;
+                resolve(result);
+            };
+
+            okBtn.onclick = () => close(true);
+            cancelBtn.onclick = () => close(false);
+        });
+    }
+
     async function restoreReports() {
         const selectedIds = Array.from(document.querySelectorAll('.report-checkbox:checked'))
             .map(checkbox => checkbox.value);
@@ -700,7 +782,12 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        if (!confirm(`Pulihkan ${selectedIds.length} laporan dari arsip?`)) return;
+        const confirmed = await showConfirm(
+        `Pulihkan ${selectedIds.length} laporan dari arsip?`
+        );
+
+        if (!confirmed) return;
+
 
         try {
             const response = await fetch("{{ route('admin.arsip.restore') }}", {
@@ -726,6 +813,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Function untuk menghapus permanen dari arsip
+    const deleteConfirmed = async () => {
+        return new Promise((resolve) => {
+            const modal = document.getElementById('deleteModal');
+            const okBtn = document.getElementById('deleteConfirm');
+            const cancelBtn = document.getElementById('deleteCancel');
+
+            modal.classList.remove('hidden');
+
+            const close = (result) => {
+                modal.classList.add('hidden');
+                okBtn.onclick = null;
+                cancelBtn.onclick = null;
+                resolve(result);
+            };
+
+            okBtn.onclick = () => close(true);
+            cancelBtn.onclick = () => close(false);
+        });
+    };
+
     async function deletePermanent() {
         const selectedIds = Array.from(document.querySelectorAll('.report-checkbox:checked'))
             .map(checkbox => checkbox.value);
@@ -735,7 +842,11 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        if (!confirm(`Hapus permanen ${selectedIds.length} laporan? Tindakan ini tidak dapat dibatalkan!`)) return;
+        const confirmed = await deleteConfirmed(
+            `Hapus permanen ${selectedIds.length} laporan? Tindakan ini tidak dapat dibatalkan.`
+        );
+
+        if (!confirmed) return;
 
         try {
             const response = await fetch("{{ route('admin.arsip.destroy') }}", {
