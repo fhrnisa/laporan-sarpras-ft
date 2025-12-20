@@ -40,11 +40,8 @@ class AuthController extends Controller
                 $data = $response->json();
 
                 // Simpan data user di session
-                // Session::put('user', $data['data']['user']);
-                // Session::put('token', $data['data']['token']);
-                // Simpan data user di session
-                Session::put('user', $data['admin']);
-                Session::put('token', $data['token']);
+                Session::put('user', $data['data']['user']);
+                Session::put('token', $data['data']['token']);
 
                 \Log::info('Login successful:', ['user' => $data['data']['user']]);
 

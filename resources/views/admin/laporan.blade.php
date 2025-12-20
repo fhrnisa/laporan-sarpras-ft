@@ -426,149 +426,126 @@
     </div>
 </div>
 
-<!-- Toast Notification -->
-<div id="toast" class="hidden fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50">
-    <div class="flex items-center gap-2">
-        <div class="bg-green-500 rounded-full p-2">
-            <svg class="w-6 h-6" fill="none" stroke="#fff" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
-            </svg>
+<!-- TOAST NOTIFICATION -->
+<div id="toast"
+     role="status"
+     aria-live="polite"
+     class="fixed top-20 left-1/2 -translate-x-1/2 z-50 hidden pointer-events-none">
+    <div id="toastInner" 
+         class="flex items-center gap-3 px-6 py-4 rounded-lg border shadow-lg min-w-[320px] max-w-md transform -translate-y-10 opacity-0 transition-all duration-300 ease-out pointer-events-auto">
+        <div id="toastIcon" class="w-10 h-10 flex items-center justify-center rounded-full shrink-0">
+            <!-- Icon akan diisi via JS -->
         </div>
-        <span id="toastMessage" class="ml-4 text-[#002C55] text-lg font-medium"></span>
+        <span id="toastMessage" class="text-base font-medium grow text-center"></span>
     </div>
 </div>
 
-<!-- Confirm Modal -->
-<div id="confirmModal" class="hidden fixed inset-0 z-50 bg-black/40">
-    <div class="flex items-center justify-center">
-        <div class="bg-white w-full max-w-md rounded-xl shadow-xl p-6">
-
-            <h2 id="confirmTitle" class="text-xl font-semibold text-[#002C55] mb-2">
+<!-- CONFIRM MODAL -->
+<div id="confirmModal"
+     class="fixed inset-0 bg-black/40 z-50 hidden">
+    <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white rounded-xl w-full max-w-md p-6">
+            <h3 id="confirmTitle"
+                class="text-xl font-semibold text-[#002C55] mb-2">
                 Konfirmasi
-            </h2>
-
-            <p id="confirmMessage" class="text-gray-700 mb-6">
-                Apakah Anda yakin?
+            </h3>
+    
+            <p id="confirmMessage"
+               class="text-gray-600 mb-6">
             </p>
-
-            <div class="flex justify-end gap-3">
-                <button
-                    id="confirmCancel"
-                    class="px-4 py-2 border rounded-lg hover:bg-gray-100">
+    
+            <div class="flex gap-3">
+                <button id="confirmCancel"
+                        class="flex-1 px-4 py-2 border rounded-lg">
                     Batal
                 </button>
-
-                <button
-                    id="confirmOk"
-                    class="px-4 py-2 bg-[#002C55] text-white rounded-lg hover:bg-[#01408C]">
-                    Ya, Arsipkan
+                <button id="confirmOk"
+                        class="flex-1 px-4 py-2 rounded-lg text-white">
+                    Ya
                 </button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Confirm Hapus Permanen Modal -->
-<div id="deleteModal" class="hidden fixed inset-0 z-50 bg-black/40">
-    <div class="flex items-center justify-center">
-        <div class="bg-white w-full max-w-md rounded-xl shadow-xl p-6">
-            <h2 class="text-xl font-semibold text-[#002C55] mb-2">
-                Konfirmasi
-            </h2>
 
-            <p id="deleteMessage" class="text-[#002C55] mb-6">
-                Apakah Anda yakin ingin menghapus laporan ini secara permanen? Tindakan ini tidak dapat dibatalkan.
-            </p>
-
-            <div class="flex justify-end gap-3">
-                <button
-                    id="deleteCancel"
-                    class="px-4 py-2 border rounded-lg hover:bg-gray-100">
-                    Batal
-                </button>
-
-                <button
-                    id="deleteConfirm"
-                    class="px-4 py-2 bg-[#ED3237] text-white rounded-lg hover:bg-red-600">
-                    Ya, Hapus Permanen
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- MODAL TOLAK LAPORAN -->
 <div id="rejectModal" class="hidden fixed inset-0 bg-black/50 z-50 items-center justify-center p-4">
-    <div class="bg-white rounded-xl shadow-xl w-full max-w-md">
-        <div class="p-6">
-            <h3 class="text-xl font-semibold text-[#002C55] mb-4">Tolak Laporan</h3>
-            <p class="text-gray-600 mb-4">Silakan berikan alasan penolakan:</p>
-            <textarea id="rejectReason"
-                     rows="4"
-                     class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[#002C55]"
-                     placeholder="Masukkan alasan penolakan..."></textarea>
-            <div class="flex gap-3 mt-6">
-                <button onclick="closeRejectModal()"
-                        class="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
-                    Batal
-                </button>
-                <button onclick="submitReject()"
-                        class="flex-1 px-4 py-2 bg-[#ED3237] text-white rounded-lg hover:bg-red-600">
-                    Tolak Laporan
-                </button>
+    <div class="flex items-center justify-center">
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-md">
+            <div class="p-6">
+                <h3 class="text-xl font-semibold text-[#002C55] mb-4">Tolak Laporan</h3>
+                <p class="text-gray-600 mb-4">Silakan berikan alasan penolakan:</p>
+                <textarea id="rejectReason"
+                         rows="4"
+                         class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[#002C55]"
+                         placeholder="Masukkan alasan penolakan..."></textarea>
+                <div class="flex gap-3 mt-6">
+                    <button onclick="closeRejectModal()"
+                            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
+                        Batal
+                    </button>
+                    <button onclick="submitReject()"
+                            class="flex-1 px-4 py-2 bg-[#ED3237] text-white rounded-lg hover:bg-red-600">
+                        Tolak Laporan
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <!-- MODAL SELESAIKAN LAPORAN -->
-<div id="completeModal" class="hidden fixed inset-0 bg-black/50 z-50 items-center justify-center p-4">
-    <div class="bg-white rounded-xl shadow-xl w-full max-w-md">
-        <div class="p-6">
-            <h3 class="text-xl font-semibold text-[#002C55] mb-4">Selesaikan Laporan</h3>
-            <p class="text-gray-600 mb-4">Upload bukti foto penyelesaian:</p>
-
-            <!-- File Upload dengan Preview -->
-            <div class="mb-4">
-                <input type="file"
-                       id="buktiFile"
-                       accept="image/*"
-                       class="hidden"
-                       onchange="previewImage(this)">
-
-                <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:bg-gray-50 cursor-pointer"
-                     onclick="document.getElementById('buktiFile').click()">
-                    <div id="uploadArea" class="space-y-2">
-                        <svg class="w-12 h-12 mx-auto text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-                        </svg>
-                        <p class="text-sm text-gray-600">Klik untuk upload foto</p>
-                        <p class="text-xs text-gray-500">Format: JPG, PNG (max 5MB)</p>
-                    </div>
-
-                    <!-- Preview Image -->
-                    <div id="imagePreview" class="hidden mt-4">
-                        <img id="previewImage"
-                             class="w-full h-48 object-cover rounded-lg border border-gray-300">
-                        <button type="button"
-                                onclick="removeImage()"
-                                class="mt-2 text-sm text-red-600 hover:text-red-800">
-                            Hapus foto
-                        </button>
+<div id="completeModal" class="hidden fixed inset-0 bg-black/50 z-50 p-4">
+    <div class="flex">
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-md">
+            <div class="p-6">
+                <h3 class="text-xl font-semibold text-[#002C55] mb-4">Selesaikan Laporan</h3>
+                <p class="text-gray-600 mb-4">Upload bukti foto penyelesaian:</p>
+    
+                <!-- File Upload dengan Preview -->
+                <div class="mb-4">
+                    <input type="file"
+                           id="buktiFile"
+                           accept="image/*"
+                           class="hidden"
+                           onchange="previewImage(this)">
+    
+                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:bg-gray-50 cursor-pointer"
+                         onclick="document.getElementById('buktiFile').click()">
+                        <div id="uploadArea" class="space-y-2">
+                            <svg class="w-12 h-12 mx-auto text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                            </svg>
+                            <p class="text-sm text-gray-600">Klik untuk upload foto</p>
+                            <p class="text-xs text-gray-500">Format: JPG, PNG (max 5MB)</p>
+                        </div>
+    
+                        <!-- Preview Image -->
+                        <div id="imagePreview" class="hidden mt-4">
+                            <img id="previewImage"
+                                 class="w-full h-48 object-cover rounded-lg border border-gray-300">
+                            <button type="button"
+                                    onclick="removeImage()"
+                                    class="mt-2 text-sm text-red-600 hover:text-red-800">
+                                Hapus foto
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="flex gap-3 mt-6">
-                <button onclick="closeCompleteModal()"
-                        class="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
-                    Batal
-                </button>
-                <button onclick="submitComplete()"
-                        id="submitCompleteBtn"
-                        class="flex-1 px-4 py-2 bg-[#002C55] text-white rounded-lg hover:bg-[#01408C] disabled:opacity-50 disabled:cursor-not-allowed">
-                    Selesaikan
-                </button>
+    
+                <div class="flex gap-3 mt-6">
+                    <button onclick="closeCompleteModal()"
+                            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
+                        Batal
+                    </button>
+                    <button onclick="submitComplete()"
+                            id="submitCompleteBtn"
+                            class="flex-1 px-4 py-2 bg-[#002C55] text-white rounded-lg hover:bg-[#01408C] disabled:opacity-50 disabled:cursor-not-allowed">
+                        Selesaikan
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -610,11 +587,12 @@
 </style>
 @endpush
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
+<script>document.addEventListener("DOMContentLoaded", () => {
     // === VARIABLES ===
     let currentReportId = null;
     let currentAction = null;
+    let toastTimer = null;
+    let confirmResolve = null;
 
     // === ELEMEN UTAMA ===
     const kelolaBtn = document.getElementById("kelolaBtn");
@@ -630,6 +608,45 @@ document.addEventListener("DOMContentLoaded", () => {
     const closeBtn = document.getElementById("closeDetail");
     const filterStatus = document.getElementById("filterStatus");
     const filterTanggal = document.getElementById("filterTanggal");
+
+    // === ELEMEN CONFIRM MODAL ===
+    const confirmModal = document.getElementById('confirmModal');
+    const confirmMessage = document.getElementById('confirmMessage');
+    const confirmOkBtn = document.getElementById('confirmOk');
+    const confirmCancelBtn = document.getElementById('confirmCancel');
+
+    // === INITIALIZE CONFIRM MODAL ===
+    function initConfirmModal() {
+        if (confirmOkBtn && confirmCancelBtn) {
+            confirmOkBtn.addEventListener('click', () => {
+                if (confirmResolve) {
+                    confirmResolve(true);
+                    hideConfirmModal();
+                }
+            });
+            
+            confirmCancelBtn.addEventListener('click', () => {
+                if (confirmResolve) {
+                    confirmResolve(false);
+                    hideConfirmModal();
+                }
+            });
+            
+            // Close modal ketika klik di luar
+            confirmModal.addEventListener('click', (e) => {
+                if (e.target === confirmModal && confirmResolve) {
+                    confirmResolve(false);
+                    hideConfirmModal();
+                }
+            });
+        }
+    }
+
+    function hideConfirmModal() {
+        confirmModal.classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
+        confirmResolve = null;
+    }
 
     // === FILTER FUNCTIONS ===
     if (filterStatus) {
@@ -665,20 +682,137 @@ document.addEventListener("DOMContentLoaded", () => {
         window.location.href = `/admin/laporan${queryString ? '?' + queryString : ''}`;
     }
 
-    // === TOAST FUNCTION ===
-    function showToast(message, type = 'success') {
+    /* =========================
+    TOAST CONFIG
+    ========================= */
+    const TOAST_STYLES = {
+        success: {
+            bg: 'bg-green-100',
+            border: 'border-green-500',
+            text: 'text-green-800',
+            iconBg: 'bg-green-500',
+            iconColor: 'text-white',
+            icon: `
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+            `
+        },
+        error: {
+            bg: 'bg-red-100',
+            border: 'border-red-500',
+            text: 'text-red-800',
+            iconBg: 'bg-red-500',
+            iconColor: 'text-white',
+            icon: `
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            `
+        },
+        info: {
+            bg: 'bg-blue-100',
+            border: 'border-blue-500',
+            text: 'text-blue-800',
+            iconBg: 'bg-blue-500',
+            iconColor: 'text-white',
+            icon: `
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            `
+        }
+    };
+
+    /* =========================
+    TOAST FUNCTION
+    ========================= */
+    function showToast(message, type = 'success', duration = 3000) {
         const toast = document.getElementById('toast');
         const toastMessage = document.getElementById('toastMessage');
+        const toastIcon = document.getElementById('toastIcon');
+        const toastInner = document.getElementById('toastInner');
 
-        if (!toast || !toastMessage) return;
+        if (!toast || !toastMessage || !toastIcon || !toastInner) {
+            console.error('Toast elements not found');
+            return;
+        }
 
+        // Clear previous timer
+        if (window.toastTimer) {
+            clearTimeout(window.toastTimer);
+        }
+
+        const style = TOAST_STYLES[type] || TOAST_STYLES.success;
+
+        // Reset classes dengan animasi
+        toastInner.className = 'flex items-center gap-3 px-6 py-4 rounded-lg border shadow-lg min-w-[300px] max-w-[500px] transition-all duration-300 ease-out transform translate-y-[-20px] opacity-0';
+        toastIcon.className = 'w-10 h-10 flex items-center justify-center rounded-full shrink-0';
+        toastMessage.className = 'text-base font-medium grow';
+
+        // Apply styles
+        toastInner.classList.add(style.bg, style.border);
+        toastIcon.classList.add(style.iconBg, style.iconColor);
+        toastMessage.classList.add(style.text);
+
+        // Set content
         toastMessage.textContent = message;
-        toast.className = `fixed top-4 right-4 px-4 py-2 rounded-lg shadow-lg z-50 flex items-center gap-2 ${type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white`;
-        toast.classList.remove('hidden');
+        toastIcon.innerHTML = style.icon;
 
+        // Show toast with animation
+        toast.classList.remove('hidden');
+        
+        // Trigger animation
         setTimeout(() => {
-            toast.classList.add('hidden');
-        }, 3000);
+            toastInner.classList.remove('translate-y-[-20px]', 'opacity-0');
+            toastInner.classList.add('translate-y-0', 'opacity-100');
+        }, 10);
+
+        // Auto hide with animation
+        window.toastTimer = setTimeout(() => {
+            toastInner.classList.remove('translate-y-0', 'opacity-100');
+            toastInner.classList.add('translate-y-[-20px]', 'opacity-0');
+            
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 300);
+        }, duration);
+    }
+
+    /* =========================
+    CONFIRM FUNCTION
+    ========================= */
+    function showConfirm(message, actionType = 'archive') {
+        return new Promise(resolve => {
+            if (!confirmModal || !confirmMessage || !confirmOkBtn || !confirmCancelBtn) {
+                console.error('Confirm modal elements not found');
+                resolve(false);
+                return;
+            }
+
+            // Reset tombol OK
+            confirmOkBtn.classList.remove(
+                'bg-[#002C55]', 'hover:bg-[#001f3f]',
+                'bg-red-600', 'hover:bg-red-700',
+                'bg-yellow-500', 'hover:bg-yellow-600'
+            );
+
+            // Set warna berdasarkan actionType
+            if (actionType === 'delete') {
+                confirmOkBtn.classList.add('bg-red-600', 'hover:bg-red-700');
+                confirmOkBtn.textContent = 'Ya, Hapus Permanen';
+            } else {
+                confirmOkBtn.classList.add('bg-[#002C55]', 'hover:bg-[#001f3f]');
+                confirmOkBtn.textContent = 'Ya, Arsipkan';
+            }
+
+            confirmMessage.textContent = message;
+            confirmModal.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+
+            // Simpan resolve function
+            confirmResolve = resolve;
+        });
     }
 
     // === DETAIL MODAL FUNCTIONS ===
@@ -751,71 +885,67 @@ document.addEventListener("DOMContentLoaded", () => {
         if (detailLokasi) detailLokasi.textContent = report.lokasi_kerusakan || '-';
         if (detailDeskripsi) detailDeskripsi.textContent = report.deskripsi_kerusakan || '-';
 
-    // Set status
-    const statusElement = document.getElementById('detailStatus');
-    const status = report.status_laporan || 'menunggu';
-    const STATUS_CONFIG = {
-        menunggu: { text: 'Menunggu', class: 'bg-[#E1E7E9] text-[#022C55]' },
-        diproses: { text: 'Diproses', class: 'bg-[#FEEF94] text-[#022C55]' },
-        terselesaikan: { text: 'Terselesaikan', class: 'bg-[#A0F1B5] text-[#022C55]' },
-        ditolak: { text: 'Ditolak', class: 'bg-[#FF7A7E] text-[#022C55]' }
-    };
+        // Set status
+        const statusElement = document.getElementById('detailStatus');
+        const status = report.status_laporan || 'menunggu';
+        const STATUS_CONFIG = {
+            menunggu: { text: 'Menunggu', class: 'bg-[#E1E7E9] text-[#022C55]' },
+            diproses: { text: 'Diproses', class: 'bg-[#FEEF94] text-[#022C55]' },
+            terselesaikan: { text: 'Terselesaikan', class: 'bg-[#A0F1B5] text-[#022C55]' },
+            ditolak: { text: 'Ditolak', class: 'bg-[#FF7A7E] text-[#022C55]' }
+        };
 
-    const config = STATUS_CONFIG[status] || STATUS_CONFIG.menunggu;
-    if (statusElement) {
-        statusElement.textContent = config.text;
-        statusElement.className = 'inline-flex px-3 py-1 text-sm font-semibold rounded-md ' + config.class;
-    }
-
-    // === PERBAIKAN: TAMPILKAN BUTTON SESUAI STATUS ===
-    const actionButtonsContainer = document.getElementById('actionButtonsContainer');
-    if (actionButtonsContainer) {
-        actionButtonsContainer.innerHTML = ''; // Kosongkan dulu
-
-        switch(status) {
-            case 'menunggu':
-                // Hanya tampilkan "Diproses"
-                actionButtonsContainer.innerHTML = `
-                    <button onclick="updateStatus('diproses')"
-                            class="py-1 px-2 bg-[#FED43E] text-white rounded-md hover:bg-yellow-600 col-span-2">
-                        Set Diproses
-                    </button>
-                `;
-                break;
-
-            case 'diproses':
-                // Tampilkan "Selesai" dan "Tolak"
-                actionButtonsContainer.innerHTML = `
-                    <button onclick="updateStatus('terselesaikan')"
-                            class="py-1 px-2 bg-[#A0F1B5] text-white rounded-md hover:bg-green-600">
-                        Set Selesai
-                    </button>
-                    <button onclick="updateStatus('ditolak')"
-                            class="py-1 px-2 bg-[#ED3237] text-white rounded-md hover:bg-red-600">
-                        Tolak
-                    </button>
-                `;
-                break;
-
-            case 'ditolak':
-                // Hanya tampilkan "Review Ulang"
-                actionButtonsContainer.innerHTML = `
-                    <button onclick="updateStatus('menunggu')"
-                            class="py-1 px-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 col-span-2">
-                        Review Ulang
-                    </button>
-                `;
-                break;
-
-            case 'terselesaikan':
-                // Tidak tampilkan button apapun
-                const detailActions = document.getElementById('detailActions');
-                if (detailActions) {
-                    detailActions.classList.add('hidden');
-                }
-                break;
+        const config = STATUS_CONFIG[status] || STATUS_CONFIG.menunggu;
+        if (statusElement) {
+            statusElement.textContent = config.text;
+            statusElement.className = 'inline-flex px-3 py-1 text-sm font-semibold rounded-md ' + config.class;
         }
-    }
+
+        // TAMPILKAN BUTTON SESUAI STATUS
+        const actionButtonsContainer = document.getElementById('actionButtonsContainer');
+        if (actionButtonsContainer) {
+            actionButtonsContainer.innerHTML = '';
+
+            switch(status) {
+                case 'menunggu':
+                    actionButtonsContainer.innerHTML = `
+                        <button onclick="updateStatus('diproses')"
+                                class="py-1 px-2 bg-[#FED43E] text-white rounded-md hover:bg-yellow-600 col-span-2">
+                            Set Diproses
+                        </button>
+                    `;
+                    break;
+
+                case 'diproses':
+                    actionButtonsContainer.innerHTML = `
+                        <button onclick="updateStatus('terselesaikan')"
+                                class="py-1 px-2 bg-[#00EA00] text-white rounded-md hover:bg-green-600">
+                            Set Selesai
+                        </button>
+                        <button onclick="updateStatus('ditolak')"
+                                class="py-1 px-2 bg-[#ED3237] text-white rounded-md hover:bg-red-600">
+                            Tolak
+                        </button>
+                    `;
+                    break;
+
+                case 'ditolak':
+                    actionButtonsContainer.innerHTML = `
+                        <button onclick="updateStatus('menunggu')"
+                                class="py-1 px-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 col-span-2">
+                            Review Ulang
+                        </button>
+                    `;
+                    break;
+
+                case 'terselesaikan':
+                    const detailActions = document.getElementById('detailActions');
+                    if (detailActions) {
+                        detailActions.classList.add('hidden');
+                    }
+                    break;
+            }
+        }
 
         // Set foto
         const fotoElement = document.getElementById('detailFoto');
@@ -1004,9 +1134,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function sendStatusUpdate(status, additionalData = null) {
         try {
-            const url = `http://localhost:8001/api/admin/laporan/${currentReportId}/status`;
-            const data = { status };
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+            if (!csrfToken) {
+                showToast('Token CSRF tidak ditemukan', 'error');
+                return;
+            }
 
+            const data = { status };
             if (additionalData) {
                 Object.assign(data, additionalData);
             }
@@ -1015,7 +1149,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    'X-CSRF-TOKEN': csrfToken
                 },
                 body: JSON.stringify(data)
             });
@@ -1031,42 +1165,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         } catch (error) {
             showToast('Terjadi kesalahan: ' + error.message, 'error');
-        }
-    }
-
-    async function submitCompleteWithFile() {
-        const fileInput = document.getElementById('buktiFile');
-        const file = fileInput.files[0];
-
-        if (!file) {
-            showToast('Harap pilih file bukti', 'error');
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append('bukti_penyelesaian', file);
-        formData.append('status', 'terselesaikan');
-
-        try {
-            const response = await fetch(`/api/admin/laporan/${currentReportId}/status`, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                }
-            });
-
-            const result = await response.json();
-
-            if (result.success) {
-                showToast('Laporan berhasil diselesaikan');
-                closeAllModals();
-                setTimeout(() => location.reload(), 1000);
-            } else {
-                showToast(result.message, 'error');
-            }
-        } catch (error) {
-            showToast('Terjadi kesalahan', 'error');
         }
     }
 
@@ -1092,23 +1190,23 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+        if (!csrfToken) {
+            showToast('Token CSRF tidak ditemukan', 'error');
+            return;
+        }
+
         const formData = new FormData();
         formData.append('bukti_penyelesaian', file);
         formData.append('status', 'terselesaikan');
-
-        // Tambahkan CSRF token
-        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-        if (csrfToken) {
-            formData.append('_token', csrfToken);
-        }
+        formData.append('_token', csrfToken);
 
         try {
             const response = await fetch(`http://localhost:8001/api/admin/laporan/${currentReportId}/status`, {
                 method: 'POST',
                 body: formData,
                 headers: {
-                    'Accept': 'application/json',
-                    // 'X-CSRF-TOKEN' header tidak diperlukan untuk FormData
+                    'Accept': 'application/json'
                 }
             });
 
@@ -1144,6 +1242,127 @@ document.addEventListener("DOMContentLoaded", () => {
         return statusMap[status] || status;
     }
 
+    // === ARCHIVE & DELETE FUNCTIONS ===
+    async function archiveReports() {
+        console.log('Archive function called');
+        
+        const selectedIds = Array.from(
+            document.querySelectorAll('.report-checkbox:checked')
+        ).map(cb => cb.value);
+
+        console.log('Selected IDs:', selectedIds);
+
+        if (selectedIds.length === 0) {
+            showToast('Pilih laporan yang akan diarsipkan', 'error');
+            return;
+        }
+
+        const confirmed = await showConfirm(
+            `Arsipkan ${selectedIds.length} laporan?`,
+            'archive'
+        );
+        
+        console.log('User confirmed:', confirmed);
+        
+        if (!confirmed) {
+            showToast('Arsip dibatalkan', 'info');
+            return;
+        }
+
+        try {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+            console.log('CSRF Token:', csrfToken);
+            
+            if (!csrfToken) {
+                showToast('Token CSRF tidak ditemukan', 'error');
+                return;
+            }
+
+            const response = await fetch("{{ route('admin.laporan.archive') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                body: JSON.stringify({ ids: selectedIds })
+            });
+
+            console.log('Response status:', response.status);
+            const data = await response.json();
+            console.log('Response data:', data);
+
+            if (data.success) {
+                showToast(data.message || 'Laporan berhasil diarsipkan', 'success');
+                setTimeout(() => location.reload(), 1500);
+            } else {
+                showToast(data.message || 'Gagal mengarsipkan laporan', 'error');
+            }
+        } catch (err) {
+            console.error('Archive error:', err);
+            showToast('Terjadi kesalahan sistem', 'error');
+        }
+    }
+
+    async function deletePermanent() {
+        console.log('Delete function called');
+        
+        const selectedIds = Array.from(
+            document.querySelectorAll('.report-checkbox:checked')
+        ).map(cb => cb.value);
+
+        console.log('Selected IDs:', selectedIds);
+
+        if (selectedIds.length === 0) {
+            showToast('Pilih laporan yang akan dihapus permanen', 'error');
+            return;
+        }
+
+        const confirmed = await showConfirm(
+            `Hapus permanen ${selectedIds.length} laporan? Tindakan ini tidak dapat dibatalkan.`,
+            'delete'
+        );
+        
+        console.log('User confirmed:', confirmed);
+        
+        if (!confirmed) {
+            showToast('Hapus permanen dibatalkan', 'info');
+            return;
+        }
+
+        try {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+            console.log('CSRF Token:', csrfToken);
+            
+            if (!csrfToken) {
+                showToast('Token CSRF tidak ditemukan', 'error');
+                return;
+            }
+
+            const response = await fetch("{{ route('admin.laporan.destroy') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                body: JSON.stringify({ ids: selectedIds })
+            });
+
+            console.log('Response status:', response.status);
+            const data = await response.json();
+            console.log('Response data:', data);
+
+            if (data.success) {
+                showToast(data.message || 'Laporan berhasil dihapus permanen', 'success');
+                setTimeout(() => location.reload(), 1500);
+            } else {
+                showToast(data.message || 'Gagal menghapus laporan', 'error');
+            }
+        } catch (err) {
+            console.error('Delete error:', err);
+            showToast('Terjadi kesalahan sistem', 'error');
+        }
+    }
+
     // === EVENT LISTENERS ===
     document.querySelectorAll(".aksiBtn").forEach(btn => {
         btn.addEventListener("click", function() {
@@ -1169,6 +1388,7 @@ document.addEventListener("DOMContentLoaded", () => {
         kelolaBtn.addEventListener("click", () => {
             kelolaBtn.classList.add("hidden");
             if (manageOptions) manageOptions.classList.remove("hidden");
+
             actionCells.forEach(cell => cell.classList.add("hidden"));
             checkboxCells.forEach(cell => cell.classList.remove("hidden"));
         });
@@ -1191,75 +1411,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // ARCHIVE & DELETE
-    async function archiveReports() {
-        const selectedIds = Array.from(document.querySelectorAll('.report-checkbox:checked'))
-            .map(checkbox => checkbox.value);
-
-        if (selectedIds.length === 0) {
-            showToast('Pilih laporan yang akan diarsipkan', 'error');
-            return;
-        }
-
-        const confirmed = confirm(`Arsipkan ${selectedIds.length} laporan?`);
-        if (!confirmed) return;
-
-        try {
-            const response = await fetch("{{ route('admin.laporan.archive') }}", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: JSON.stringify({ ids: selectedIds })
-            });
-
-            const data = await response.json();
-            if (data.success) {
-                showToast(data.message);
-                setTimeout(() => location.reload(), 1500);
-            } else {
-                showToast(data.message, 'error');
-            }
-        } catch (error) {
-            showToast('Terjadi kesalahan: ' + error.message, 'error');
-        }
-    }
-
-    async function deletePermanent() {
-        const selectedIds = Array.from(document.querySelectorAll('.report-checkbox:checked'))
-            .map(checkbox => checkbox.value);
-
-        if (selectedIds.length === 0) {
-            showToast('Pilih laporan yang akan dihapus permanen', 'error');
-            return;
-        }
-
-        const confirmed = confirm(`Hapus permanen ${selectedIds.length} laporan? Tindakan ini tidak dapat dibatalkan.`);
-        if (!confirmed) return;
-
-        try {
-            const response = await fetch("{{ route('admin.laporan.destroy') }}", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: JSON.stringify({ ids: selectedIds })
-            });
-
-            const data = await response.json();
-            if (data.success) {
-                showToast(data.message);
-                setTimeout(() => location.reload(), 1500);
-            } else {
-                showToast(data.message, 'error');
-            }
-        } catch (error) {
-            showToast('Terjadi kesalahan: ' + error.message, 'error');
-        }
-    }
-
+    // Event Listeners untuk tombol arsip dan hapus
     if (arsipBtn) {
         arsipBtn.addEventListener('click', archiveReports);
     }
@@ -1267,6 +1419,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (hapusPermanenBtn) {
         hapusPermanenBtn.addEventListener('click', deletePermanent);
     }
+
+    // === INITIALIZATION ===
+    initConfirmModal();
 
     // Expose functions to global scope
     window.updateStatus = updateStatus;
@@ -1279,5 +1434,6 @@ document.addEventListener("DOMContentLoaded", () => {
     window.submitReject = submitReject;
     window.submitComplete = submitComplete;
     window.submitProcess = submitProcess;
+    window.showToast = showToast; // Juga expose showToast
 });
 </script>
