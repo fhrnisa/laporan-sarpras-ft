@@ -50,8 +50,6 @@
                     </svg>
                     Kelola
             </button>
-        @endif
-
 
             <!-- Hidden buttons -->
             <div id="manageOptions" class="hidden gap-2 items-center">
@@ -85,6 +83,7 @@
                 </div>
             </div>
         </div>
+        @endif
     </div>
 
     <!-- INFO MESSAGE -->
@@ -107,13 +106,14 @@
                         <th class="px-6 py-3 text-left text-base font-medium text-white tracking-wider">Tanggal</th>
                         <th class="px-6 py-3 text-left text-base font-medium text-white tracking-wider">Lokasi Kerusakan</th>
                         <th class="px-6 py-3 text-left text-base font-medium text-white tracking-wider">Status</th>
+
                         <!-- Aksi -->
-                        <th class="action-cell px-6 py-3 text-left text-base font-medium text-white tracking-wider">
+                        <th class="action-cell px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                             Aksi
                         </th>
 
                         <!-- Checkbox Column (Hidden by default) -->
-                        <th class="checkbox-cell hidden px-6 py-3 text-left text-base font-medium text-white tracking-wider">
+                        <th class="checkbox-cell hidden px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             <input type="checkbox" id="select-all" class="rounded border-gray-300">
                         </th>
                     </tr>
@@ -379,75 +379,45 @@
         <!-- Footer Actions -->
         <!-- TIDAK ADA FOOTER ACTION DI ARSIP -->
         <!-- Data arsip tidak bisa diubah status -->
-</div>
-
-
-<!-- Toast Notification -->
-<div id="toast" class="hidden fixed top-20 left-1/2 -translate-x-1/2 bg-green-200 border border-green-500 text-white px-6 py-3 rounded-sm shadow-lg z-50">
-    <div class="flex items-center gap-2">
-        <div class="bg-green-500 rounded-full p-2">
-            <svg class="w-6 h-6" fill="none" stroke="#fff" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
-            </svg>
-        </div>
-        <span id="toastMessage" class="ml-4 text-[#002C55] text-lg font-medium"></span>
     </div>
 </div>
 
-
-<!-- Confirm Pulihkan Modal -->
-<div id="restoreModal" class="hidden fixed inset-0 z-50 bg-black/40">
-    <div class="flex items-center justify-center">
-        <div class="bg-white w-full max-w-md rounded-xl shadow-xl p-6">
-
-            <h2 class="text-xl font-semibold text-[#002C55] mb-2">
-                Konfirmasi
-            </h2>
-
-            <p id="restoreMessage" class="text-[#002C55] mb-6">
-                Apakah Anda yakin?
-            </p>
-
-            <div class="flex justify-end gap-3">
-                <button
-                    id="restoreCancel"
-                    class="px-4 py-2 border rounded-lg hover:bg-gray-100">
-                    Batal
-                </button>
-
-                <button
-                    id="restoreConfirm"
-                    class="px-4 py-2 bg-[#002C55] text-white rounded-lg hover:bg-[#01408C]">
-                    Ya, Pulihkan
-                </button>
-            </div>
+<!-- TOAST NOTIFICATION -->
+<div id="toast"
+     role="status"
+     aria-live="polite"
+     class="fixed top-20 left-1/2 -translate-x-1/2 z-50 hidden pointer-events-none">
+    <div id="toastInner" 
+         class="flex items-center gap-3 px-6 py-4 rounded-lg border shadow-lg min-w-[320px] max-w-md transform -translate-y-10 opacity-0 transition-all duration-300 ease-out pointer-events-auto">
+        <div id="toastIcon" class="w-10 h-10 flex items-center justify-center rounded-full shrink-0">
+            <!-- Icon akan diisi via JS -->
         </div>
+        <span id="toastMessage" class="text-base font-medium grow text-center"></span>
     </div>
 </div>
 
-<!-- Confirm Hapus Permanen Modal -->
-<div id="deleteModal" class="hidden fixed inset-0 z-50 bg-black/40">
-    <div class="flex items-center justify-center">
-        <div class="bg-white w-full max-w-md rounded-xl shadow-xl p-6">
-            <h2 class="text-xl font-semibold text-[#002C55] mb-2">
+<!-- CONFIRM MODAL -->
+<div id="confirmModal"
+     class="fixed inset-0 bg-black/40 z-50 hidden">
+    <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white rounded-xl w-full max-w-md p-6">
+            <h3 id="confirmTitle"
+                class="text-xl font-semibold text-[#002C55] mb-2">
                 Konfirmasi
-            </h2>
-
-            <p id="deleteMessage" class="text-[#002C55] mb-6">
-                Apakah Anda yakin ingin menghapus laporan ini secara permanen? Tindakan ini tidak dapat dibatalkan.
+            </h3>
+    
+            <p id="confirmMessage"
+               class="text-gray-600 mb-6">
             </p>
-
-            <div class="flex justify-end gap-3">
-                <button
-                    id="deleteCancel"
-                    class="px-4 py-2 border rounded-lg hover:bg-gray-100">
+    
+            <div class="flex gap-3">
+                <button id="confirmCancel"
+                        class="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors">
                     Batal
                 </button>
-
-                <button
-                    id="deleteConfirm"
-                    class="px-4 py-2 bg-[#ED3237] text-white rounded-lg hover:bg-red-600">
-                    Ya, Hapus Permanen
+                <button id="confirmOk"
+                        class="flex-1 px-4 py-2 rounded-lg text-white transition-colors">
+                    Ya
                 </button>
             </div>
         </div>
@@ -465,11 +435,58 @@
     .status-diproses { background-color: #FEEF94; color: #022C55; }
     .status-terselesaikan { background-color: #A0F1B5; color: #022C55; }
     .status-ditolak { background-color: #FF7A7E; color: #022C55; }
+    
+    /* Animation classes */
+    .toast-enter {
+        animation: toastEnter 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+    
+    .toast-exit {
+        animation: toastExit 0.3s cubic-bezier(0.6, -0.28, 0.735, 0.045) forwards;
+    }
+    
+    @keyframes toastEnter {
+        0% {
+            opacity: 0;
+            transform: translateY(-50px) scale(0.9);
+        }
+        70% {
+            transform: translateY(5px) scale(1.02);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+    
+    @keyframes toastExit {
+        0% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        100% {
+            opacity: 0;
+            transform: translateY(-50px) scale(0.9);
+        }
+    }
+    
+    /* Toast styling */
+    #toastInner {
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 
+                    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
 </style>
 @endpush
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
+    // === VARIABLES ===
+    let currentReportId = null;
+    let toastTimer = null;
+    let confirmResolve = null;
+
     // === ELEMEN UTAMA ===
     const kelolaBtn = document.getElementById("kelolaBtn");
     const batalBtn = document.getElementById("batalBtn");
@@ -485,6 +502,46 @@ document.addEventListener("DOMContentLoaded", () => {
     const filterStatus = document.getElementById("filterStatus");
     const filterTanggal = document.getElementById("filterTanggal");
 
+    // === ELEMEN CONFIRM MODAL ===
+    const confirmModal = document.getElementById('confirmModal');
+    const confirmMessage = document.getElementById('confirmMessage');
+    const confirmOkBtn = document.getElementById('confirmOk');
+    const confirmCancelBtn = document.getElementById('confirmCancel');
+
+    // === INIT CONFIRM MODAL ===
+    function initConfirmModal() {
+        if (confirmOkBtn && confirmCancelBtn) {
+            // Setup event listener permanen
+            confirmOkBtn.addEventListener('click', () => {
+                if (confirmResolve) {
+                    confirmResolve(true);
+                    hideConfirmModal();
+                }
+            });
+            
+            confirmCancelBtn.addEventListener('click', () => {
+                if (confirmResolve) {
+                    confirmResolve(false);
+                    hideConfirmModal();
+                }
+            });
+            
+            // Close modal ketika klik di luar
+            confirmModal.addEventListener('click', (e) => {
+                if (e.target === confirmModal && confirmResolve) {
+                    confirmResolve(false);
+                    hideConfirmModal();
+                }
+            });
+        }
+    }
+
+    function hideConfirmModal() {
+        confirmModal.classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
+        confirmResolve = null;
+    }
+
     // === FILTER FUNCTIONS ===
     // Set initial filter values from URL params
     const urlParams = new URLSearchParams(window.location.search);
@@ -494,7 +551,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (statusParam && filterStatus) filterStatus.value = statusParam;
     if (tanggalParam && filterTanggal) filterTanggal.value = tanggalParam;
 
-    // Filter change event - hanya jika elemen ada
     if (filterStatus) {
         filterStatus.addEventListener('change', applyFilters);
     }
@@ -502,20 +558,16 @@ document.addEventListener("DOMContentLoaded", () => {
         filterTanggal.addEventListener('change', applyFilters);
     }
 
-    // Di bagian applyFilters() halaman arsip (baris ~180)
     function applyFilters() {
         const params = new URLSearchParams();
-
-        // Get search value from topbar
         const searchInput = document.querySelector('input[name="search"]') || document.querySelector('.search-input');
         const searchValue = searchInput ? searchInput.value.trim() : '';
 
-        // Add filters only if not default value
         if (filterStatus && filterStatus.value !== 'all') {
             params.append('status', filterStatus.value);
         }
 
-        if (filterTanggal && filterTanggal.value !== 'semua') { // PERUBAHAN INI
+        if (filterTanggal && filterTanggal.value !== 'semua') {
             params.append('tanggal', filterTanggal.value);
         }
 
@@ -523,7 +575,6 @@ document.addEventListener("DOMContentLoaded", () => {
             params.append('search', searchValue);
         }
 
-        // Add page parameter if exists
         const currentPage = new URLSearchParams(window.location.search).get('page');
         if (currentPage) {
             params.append('page', currentPage);
@@ -533,27 +584,147 @@ document.addEventListener("DOMContentLoaded", () => {
         window.location.href = `/admin/arsip${queryString ? '?' + queryString : ''}`;
     }
 
-    // === TOAST FUNCTION ===
-    function showToast(message, type = 'success') {
-    const toast = document.getElementById('toast');
-    const toastMessage = document.getElementById('toastMessage');
-    const iconContainer = toast.querySelector('div.rounded-full');
-    const svg = toast.querySelector('svg');
+    /* =========================
+    TOAST CONFIG
+    ========================= */
+    const TOAST_STYLES = {
+        success: {
+            bg: 'bg-green-100',
+            border: 'border-green-500',
+            text: 'text-green-800',
+            iconBg: 'bg-green-500',
+            iconColor: 'text-white',
+            icon: `
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+            `
+        },
+        error: {
+            bg: 'bg-red-100',
+            border: 'border-red-500',
+            text: 'text-red-800',
+            iconBg: 'bg-red-500',
+            iconColor: 'text-white',
+            icon: `
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            `
+        },
+        info: {
+            bg: 'bg-blue-100',
+            border: 'border-blue-500',
+            text: 'text-blue-800',
+            iconBg: 'bg-blue-500',
+            iconColor: 'text-white',
+            icon: `
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            `
+        }
+    };
 
-    if (!toast || !toastMessage) return;
+    /* =========================
+    TOAST FUNCTION - POSISI TENGAH DENGAN ANIMASI
+    ========================= */
+    function showToast(message, type = 'success', duration = 3000) {
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+        const toastIcon = document.getElementById('toastIcon');
+        const toastInner = document.getElementById('toastInner');
 
+        if (!toast || !toastMessage || !toastIcon || !toastInner) {
+            console.error('Toast elements not found');
+            return;
+        }
+
+        // Clear previous timer
+        if (toastTimer) {
+            clearTimeout(toastTimer);
+            // Remove animation classes
+            toastInner.classList.remove('toast-enter', 'toast-exit');
+        }
+
+        const style = TOAST_STYLES[type] || TOAST_STYLES.success;
+
+        // Reset classes
+        toastInner.className = 'flex items-center gap-3 px-6 py-4 rounded-lg border shadow-lg min-w-[300px] max-w-[500px] backdrop-blur-sm transform -translate-y-10 opacity-0';
+        toastIcon.className = 'w-10 h-10 flex items-center justify-center rounded-full shrink-0';
+        toastMessage.className = 'text-base font-medium grow';
+
+        // Apply colors
+        toastInner.classList.add(style.bg, style.border);
+        toastIcon.classList.add(style.iconBg, style.iconColor);
+        toastMessage.classList.add(style.text);
+
+        // Set content
         toastMessage.textContent = message;
-        toast.className = `fixed top-4 right-4 px-4 py-2 rounded-lg shadow-lg z-50 flex items-center gap-2 ${type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white`;
-        toast.classList.remove('hidden');
+        toastIcon.innerHTML = style.icon;
 
-    setTimeout(() => {
-        toast.classList.add('hidden');
-    }, 3000);
-}
+        // Show toast
+        toast.classList.remove('hidden');
+        
+        // Trigger animation
+        setTimeout(() => {
+            toastInner.classList.add('toast-enter');
+            toastInner.classList.remove('-translate-y-10', 'opacity-0');
+        }, 10);
+
+        // Auto hide
+        toastTimer = setTimeout(() => {
+            toastInner.classList.remove('toast-enter');
+            toastInner.classList.add('toast-exit');
+            
+            setTimeout(() => {
+                toast.classList.add('hidden');
+                toastInner.classList.remove('toast-exit');
+            }, 300);
+        }, duration);
+    }
+
+    /* =========================
+    CONFIRM FUNCTION UNTUK ARSIP
+    ========================= */
+    function showConfirm(message, actionType = 'restore') {
+        return new Promise(resolve => {
+            if (!confirmModal || !confirmMessage || !confirmOkBtn || !confirmCancelBtn) {
+                console.error('Confirm modal elements not found');
+                resolve(false);
+                return;
+            }
+
+            // Reset tombol OK
+            confirmOkBtn.classList.remove(
+                'bg-[#002C55]', 'hover:bg-[#001f3f]',
+                'bg-red-600', 'hover:bg-red-700',
+                'bg-yellow-500', 'hover:bg-yellow-600'
+            );
+
+            // Set warna berdasarkan actionType
+            if (actionType === 'delete') {
+                confirmOkBtn.classList.add('bg-red-600', 'hover:bg-red-700');
+                confirmOkBtn.textContent = 'Ya, Hapus Permanen';
+            } else {
+                confirmOkBtn.classList.add('bg-[#002C55]', 'hover:bg-[#001f3f]');
+                confirmOkBtn.textContent = 'Ya, Pulihkan';
+            }
+
+            confirmMessage.textContent = message;
+            confirmModal.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+
+            // Simpan resolve function
+            confirmResolve = resolve;
+        });
+    }
 
     // === DETAIL MODAL FUNCTIONS ===
     async function loadReportDetail(id) {
         try {
+            currentReportId = id;
+
             const detailLoading = document.getElementById('detailLoading');
             const detailContent = document.getElementById('detailContent');
             const detailError = document.getElementById('detailError');
@@ -619,13 +790,40 @@ document.addEventListener("DOMContentLoaded", () => {
         if (detailLokasi) detailLokasi.textContent = report.lokasi_kerusakan || '-';
         if (detailDeskripsi) detailDeskripsi.textContent = report.deskripsi_kerusakan || '-';
 
-        // Set status
-        const statusElement = document.getElementById('detailStatus');
-        const status = report.status_laporan || 'menunggu';
-        if (statusElement) {
-            statusElement.textContent = getStatusText(status);
-            statusElement.className = `px-3 py-1 text-sm rounded-md font-medium status-${status}`;
+         // Set status dengan warna yang benar
+    const statusElement = document.getElementById('detailStatus');
+    const status = report.status_laporan || 'menunggu';
+    
+    // Konfigurasi status
+    const STATUS_CONFIG = {
+        menunggu: { 
+            text: 'Menunggu', 
+            bg: 'bg-[#E1E7E9]', 
+            textColor: 'text-[#022C55]' 
+        },
+        diproses: { 
+            text: 'Diproses', 
+            bg: 'bg-[#FEEF94]', 
+            textColor: 'text-[#022C55]' 
+        },
+        terselesaikan: { 
+            text: 'Terselesaikan', 
+            bg: 'bg-[#A0F1B5]', 
+            textColor: 'text-[#022C55]' 
+        },
+        ditolak: { 
+            text: 'Ditolak', 
+            bg: 'bg-[#FF7A7E]', 
+            textColor: 'text-[#022C55]' 
         }
+    };
+
+    const config = STATUS_CONFIG[status] || STATUS_CONFIG.menunggu;
+    
+    if (statusElement) {
+        statusElement.textContent = config.text;
+        statusElement.className = `inline-flex px-3 py-1 text-sm font-semibold rounded-md ${config.bg} ${config.textColor}`;
+    }
 
         // Set foto
         const fotoElement = document.getElementById('detailFoto');
@@ -660,6 +858,10 @@ document.addEventListener("DOMContentLoaded", () => {
         if (rejectedInfo) {
             if (status === 'ditolak') {
                 rejectedInfo.classList.remove('hidden');
+                document.getElementById('detailAlasan').textContent = report.alasan_ditolak || '-';
+                document.getElementById('detailWaktuDitolak').textContent = report.ditolak_pada ?
+                    new Date(report.ditolak_pada).toLocaleString('id-ID') : '-';
+                document.getElementById('detailAdmin').textContent = report.ditolak_oleh || '-';
             } else {
                 rejectedInfo.classList.add('hidden');
             }
@@ -678,6 +880,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function closeDetailModal() {
         if (overlay) overlay.classList.add('hidden');
+        currentReportId = null;
     }
 
     function openDetailModal() {
@@ -688,6 +891,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".aksiBtn").forEach(btn => {
         btn.addEventListener("click", function() {
             const id = this.dataset.id;
+            currentReportId = id;
             openDetailModal();
             loadReportDetail(id);
         });
@@ -742,32 +946,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // === ACTION FUNCTIONS UNTUK ARSIP ===
 
-    // Function untuk memulihkan data dari arsip
-    function showConfirm(message) {
-        return new Promise((resolve) => {
-            const modal = document.getElementById('restoreModal');
-            const msg = document.getElementById('restoreMessage');
-            const okBtn = document.getElementById('restoreConfirm');
-            const cancelBtn = document.getElementById('restoreCancel');
-
-            msg.textContent = message;
-            modal.classList.remove('hidden');
-
-            const close = (result) => {
-                modal.classList.add('hidden');
-                okBtn.onclick = null;
-                cancelBtn.onclick = null;
-                resolve(result);
-            };
-
-            okBtn.onclick = () => close(true);
-            cancelBtn.onclick = () => close(false);
-        });
-    }
-
     async function restoreReports() {
-        const selectedIds = Array.from(document.querySelectorAll('.report-checkbox:checked'))
-            .map(checkbox => checkbox.value);
+        const selectedIds = Array.from(
+            document.querySelectorAll('.report-checkbox:checked')
+        ).map(cb => cb.value);
 
         if (selectedIds.length === 0) {
             showToast('Pilih laporan yang akan dipulihkan', 'error');
@@ -775,18 +957,27 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         const confirmed = await showConfirm(
-        `Pulihkan ${selectedIds.length} laporan dari arsip?`
+            `Pulihkan ${selectedIds.length} laporan dari arsip?`,
+            'restore'
         );
 
-        if (!confirmed) return;
-
+        if (!confirmed) {
+            showToast('Pemulihan dibatalkan', 'info');
+            return;
+        }
 
         try {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+            if (!csrfToken) {
+                showToast('Token CSRF tidak ditemukan', 'error');
+                return;
+            }
+
             const response = await fetch("{{ route('admin.arsip.restore') }}", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    'X-CSRF-TOKEN': csrfToken
                 },
                 body: JSON.stringify({ ids: selectedIds })
             });
@@ -794,58 +985,49 @@ document.addEventListener("DOMContentLoaded", () => {
             const data = await response.json();
 
             if (data.success) {
-                showToast(data.message);
+                showToast(data.message || 'Laporan berhasil dipulihkan', 'success');
                 setTimeout(() => location.reload(), 1500);
             } else {
-                showToast(data.message, 'error');
+                showToast(data.message || 'Gagal memulihkan laporan', 'error');
             }
         } catch (error) {
+            console.error('Restore error:', error);
             showToast('Terjadi kesalahan: ' + error.message, 'error');
         }
     }
 
-    // Function untuk menghapus permanen dari arsip
-    const deleteConfirmed = async () => {
-        return new Promise((resolve) => {
-            const modal = document.getElementById('deleteModal');
-            const okBtn = document.getElementById('deleteConfirm');
-            const cancelBtn = document.getElementById('deleteCancel');
-
-            modal.classList.remove('hidden');
-
-            const close = (result) => {
-                modal.classList.add('hidden');
-                okBtn.onclick = null;
-                cancelBtn.onclick = null;
-                resolve(result);
-            };
-
-            okBtn.onclick = () => close(true);
-            cancelBtn.onclick = () => close(false);
-        });
-    };
-
     async function deletePermanent() {
-        const selectedIds = Array.from(document.querySelectorAll('.report-checkbox:checked'))
-            .map(checkbox => checkbox.value);
+        const selectedIds = Array.from(
+            document.querySelectorAll('.report-checkbox:checked')
+        ).map(cb => cb.value);
 
         if (selectedIds.length === 0) {
             showToast('Pilih laporan yang akan dihapus permanen', 'error');
             return;
         }
 
-        const confirmed = await deleteConfirmed(
-            `Hapus permanen ${selectedIds.length} laporan? Tindakan ini tidak dapat dibatalkan.`
+        const confirmed = await showConfirm(
+            `Hapus permanen ${selectedIds.length} laporan? Tindakan ini tidak dapat dibatalkan.`,
+            'delete'
         );
 
-        if (!confirmed) return;
+        if (!confirmed) {
+            showToast('Penghapusan dibatalkan', 'info');
+            return;
+        }
 
         try {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+            if (!csrfToken) {
+                showToast('Token CSRF tidak ditemukan', 'error');
+                return;
+            }
+
             const response = await fetch("{{ route('admin.arsip.destroy') }}", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    'X-CSRF-TOKEN': csrfToken
                 },
                 body: JSON.stringify({ ids: selectedIds })
             });
@@ -853,12 +1035,13 @@ document.addEventListener("DOMContentLoaded", () => {
             const data = await response.json();
 
             if (data.success) {
-                showToast(data.message);
+                showToast(data.message || 'Laporan berhasil dihapus permanen', 'success');
                 setTimeout(() => location.reload(), 1500);
             } else {
-                showToast(data.message, 'error');
+                showToast(data.message || 'Gagal menghapus laporan', 'error');
             }
         } catch (error) {
+            console.error('Delete error:', error);
             showToast('Terjadi kesalahan: ' + error.message, 'error');
         }
     }
@@ -880,7 +1063,10 @@ document.addEventListener("DOMContentLoaded", () => {
         closeDetailModal();
     }
 
-    // Expose updateStatus ke global scope untuk modal
+    // === INITIALIZATION ===
+    initConfirmModal();
+
+    // Expose functions to global scope
     window.updateStatus = updateStatus;
     window.closeDetailModal = closeDetailModal;
     window.showToast = showToast;
