@@ -38,8 +38,7 @@
         <!-- BUTTONS -->
         @if(session('user.role') === 'admin')
         <div class="flex gap-3 items-center">
-            <a id="addadminBtn"
-                href="{{ route('admin.tambah') }}"
+            <button id="addadminBtn"
                 class="bg-[#022C55] text-white text-base rounded-lg py-2 px-4 flex gap-2 items-center hover:bg-[#01408C] transition-colors">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 12.75C8.83 12.75 6.25 10.17 6.25 7C6.25 3.83 8.83 1.25 12 1.25C15.17 1.25 17.75 3.83 17.75 7C17.75 10.17 15.17 12.75 12 12.75ZM12 2.75C9.66 2.75 7.75 4.66 7.75 7C7.75 9.34 9.66 11.25 12 11.25C14.34 11.25 16.25 9.34 16.25 7C16.25 4.66 14.34 2.75 12 2.75Z" fill="white"/>
@@ -49,40 +48,8 @@
                     <path d="M18 20.26C17.59 20.26 17.25 19.92 17.25 19.51V16.52C17.25 16.11 17.59 15.77 18 15.77C18.41 15.77 18.75 16.11 18.75 16.52V19.51C18.75 19.93 18.41 20.26 18 20.26Z" fill="white"/>
                 </svg>
                 Tambah Admin
-            </a>
-
-            <!-- Button Kelola -->
-            <button id="kelolaBtn"
-                    class="bg-[#022C55] text-white text-base rounded-lg py-2 px-4 flex gap-2 hover:bg-[#01408C]">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M13.2633 5.43908L5.05327 14.1291C4.74327 14.4591 4.44327 15.1091 4.38327 15.5591L4.01327 18.7991C3.88327 19.9691 4.72327 20.7691 5.88327 20.5691L9.10327 20.0191C9.55327 19.9391 10.1833 19.6091 10.4933 19.2691L18.7033 10.5791C20.1233 9.07908 20.7633 7.36908 18.5533 5.27908C16.3533 3.20908 14.6833 3.93908 13.2633 5.43908Z" stroke="white" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M11.8931 6.88916C12.3231 9.64916 14.5631 11.7592 17.3431 12.0392" stroke="white" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    Kelola
             </button>
             @endif
-
-            <!-- Hidden buttons -->
-            <div id="manageOptions" class="hidden gap-4 items-center">
-                <button id="hapusBtn" class="px-4 py-2 bg-[#ED3237] text-white rounded-lg flex gap-2">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M21.0002 6.72998C20.9802 6.72998 20.9502 6.72998 20.9202 6.72998C15.6302 6.19998 10.3502 5.99998 5.12016 6.52998L3.08016 6.72998C2.66016 6.76998 2.29016 6.46998 2.25016 6.04998C2.21016 5.62998 2.51016 5.26998 2.92016 5.22998L4.96016 5.02998C10.2802 4.48998 15.6702 4.69998 21.0702 5.22998C21.4802 5.26998 21.7802 5.63998 21.7402 6.04998C21.7102 6.43998 21.3802 6.72998 21.0002 6.72998Z" fill="white"/>
-                        <path d="M8.49977 5.72C8.45977 5.72 8.41977 5.72 8.36977 5.71C7.96977 5.64 7.68977 5.25 7.75977 4.85L7.97977 3.54C8.13977 2.58 8.35977 1.25 10.6898 1.25H13.3098C15.6498 1.25 15.8698 2.63 16.0198 3.55L16.2398 4.85C16.3098 5.26 16.0298 5.65 15.6298 5.71C15.2198 5.78 14.8298 5.5 14.7698 5.1L14.5498 3.8C14.4098 2.93 14.3798 2.76 13.3198 2.76H10.6998C9.63977 2.76 9.61977 2.9 9.46977 3.79L9.23977 5.09C9.17977 5.46 8.85977 5.72 8.49977 5.72Z" fill="white"/>
-                        <path d="M15.2099 22.75H8.7899C5.2999 22.75 5.1599 20.82 5.0499 19.26L4.3999 9.18995C4.3699 8.77995 4.6899 8.41995 5.0999 8.38995C5.5199 8.36995 5.8699 8.67995 5.8999 9.08995L6.5499 19.16C6.6599 20.68 6.6999 21.25 8.7899 21.25H15.2099C17.3099 21.25 17.3499 20.68 17.4499 19.16L18.0999 9.08995C18.1299 8.67995 18.4899 8.36995 18.8999 8.38995C19.3099 8.41995 19.6299 8.76995 19.5999 9.18995L18.9499 19.26C18.8399 20.82 18.6999 22.75 15.2099 22.75Z" fill="white"/>
-                        <path d="M13.6601 17.25H10.3301C9.92008 17.25 9.58008 16.91 9.58008 16.5C9.58008 16.09 9.92008 15.75 10.3301 15.75H13.6601C14.0701 15.75 14.4101 16.09 14.4101 16.5C14.4101 16.91 14.0701 17.25 13.6601 17.25Z" fill="white"/>
-                        <path d="M14.5 13.25H9.5C9.09 13.25 8.75 12.91 8.75 12.5C8.75 12.09 9.09 11.75 9.5 11.75H14.5C14.91 11.75 15.25 12.09 15.25 12.5C15.25 12.91 14.91 13.25 14.5 13.25Z" fill="white"/>
-                    </svg>
-                    Hapus
-                </button>
-
-                <button id="batalBtn" class="px-4 py-2 bg-gray-600 text-white rounded flex gap-2">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M5.00098 5L19 18.9991" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M4.99996 18.9991L18.999 5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    Batal
-                </button>
-            </div>
         </div>
     </div>
 
@@ -169,7 +136,7 @@
                                 @php
                                     $roleColors = [
                                         'viewer' => 'bg-[#DDDDDD] text-[#022C55]',
-                                        'admin' => 'bg-[#A0F1B5] text-[#022C55]'
+                                        'admin' => 'bg-blue-100 text-[#022C55]'
                                     ];
                                 @endphp
                                 <span class="px-4 py-2 text-sm font-medium rounded-sm {{ $roleColors[$admin->role] ?? 'bg-gray-200' }}">
@@ -275,12 +242,15 @@
 <!-- === MODAL TAMBAH/EDIT ADMIN === -->
 <div id="adminModal" class="hidden fixed inset-0 bg-black/40 z-50">
     <div class="absolute inset-0 flex items-center justify-center p-4">
-        <div class="bg-white rounded-xl shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto">
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-[100vh] max-h-[90vh] overflow-y-auto">
             <!-- Header -->
-            <div class="flex justify-between items-center p-5 border-b">
-                <h2 id="modalTitle" class="text-xl font-semibold text-gray-800">Tambah Admin Baru</h2>
+            <div class="flex justify-between items-center p-5 border-b border-[#DDDDDD]">
+                <h2 id="modalTitle" class="text-2xl font-semibold text-[#002C55]">Tambah <span class="text-[#F36A00]">Admin Baru</span></h2>
                 <button id="closeModal" class="text-gray-500 hover:text-gray-700 text-2xl">
-                    &times;
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5.00098 5L19 18.9991" stroke="#002C55" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M4.99996 18.9991L18.999 5" stroke="#002C55" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
                 </button>
             </div>
 
@@ -289,52 +259,74 @@
                 <input type="hidden" id="adminId">
 
                 <div>
-                    <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap *</label>
-                    <input type="text" id="name" name="name" required
-                           class="w-full border border-[#DDDDDD] rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[#002C55] focus:border-[#002C55]">
+                    <label for="name" class="block text-base font-medium text-[#002D56] mb-1">Nama Lengkap <span class="text-red-500">*</span></label>
+                    <input type="text"
+                    name="name"
+                    id="name"
+                    placeholder="Contoh: Budi Santoso"
+                    class="w-full rounded-lg border border-[#DDDDDD] text-sm md:text-base px-3 py-3 focus:outline-none focus:ring-1 focus:ring-[#002D56]"
+                    required>
+                    <div class="text-red-500 text-sm mt-1 error-name hidden"></div>
                 </div>
 
                 <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
-                    <input type="email" id="email" name="email" required
-                           class="w-full border border-[#DDDDDD] rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[#002C55] focus:border-[#002C55]">
+                    <label for="email" class="block text-base font-medium text-[#002D56] mb-1">Email <span class="text-red-500">*</span></label>
+                    <input type="email"
+                           name="email"
+                           id="email"
+                           placeholder="Contoh: user123@gmail.com"
+                           class="w-full rounded-lg border border-[#DDDDDD] text-sm md:text-base px-3 py-3 text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#002D56]"
+                           required>
+                    <div class="text-red-500 text-sm mt-1 error-email hidden"></div>
                 </div>
 
                 <div>
-                    <label for="nomor_telepon" class="block text-sm font-medium text-gray-700 mb-1">Nomor WhatsApp *</label>
-                    <input type="tel" id="nomor_telepon" name="nomor_telepon" required
-                           class="w-full border border-[#DDDDDD] rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[#002C55] focus:border-[#002C55]">
+                    <label class="block text-base font-medium text-[#002D56] mb-1">Nomor WhatsApp <span class="text-red-500">*</span></label>
+                    <div class="flex items-center rounded-lg border border-[#DDDDDD] overflow-hidden">
+                        <span class="px-3 py-3 bg-gray-100 text-gray-700">+62</span>
+                        <input type="text" name="nomor_telepon" id="nomor_telepon"
+                               placeholder="Contoh: 8123456789"
+                               class="flex-1 px-3 py-3 text-sm md:text-base focus:ring-[#002D56]"
+                               required>
+                    </div>
+                    <div class="text-red-500 text-sm mt-1 error-nomor_telepon hidden"></div>
                 </div>
 
                 <div>
-                    <label for="role" class="block text-sm font-medium text-gray-700 mb-1">Role *</label>
-                    <select id="role" name="role" required
-                            class="w-full border border-[#DDDDDD] rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[#002C55] focus:border-[#002C55]">
+                    <label for="role" class="block text-base font-medium text-[#002D56] mb-1">Role <span class="text-red-500">*</span></label>
+                    <select name="role" id="role" class="border border-[#DDDDDD] w-full px-3 py-3 rounded-lg text-base text-gray-500 focus:outline-none focus:ring-1 focus:ring-[#002C55] focus:border-[#002C55]">
+                        <option value="" disabled selected hidden>Pilih role</option>
                         <option value="admin">Admin</option>
                         <option value="viewer">Viewer</option>
                     </select>
+                    <div class="text-red-500 text-sm mt-1 error-role hidden"></div>
+                    <p id="roleHelper" class="text-sm text-gray-500 mt-1"></p>
                 </div>
 
-                <div>
-                    <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Status *</label>
-                    <select id="status" name="status" required
-                            class="w-full border border-[#DDDDDD] rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[#002C55] focus:border-[#002C55]">
-                        <option value="aktif">Aktif</option>
-                        <option value="tidak_aktif">Tidak Aktif</option>
-                    </select>
-                </div>
-
-                <div id="passwordFields">
+                <div id="passwordFields" class="space-y-4">
                     <div>
-                        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password *</label>
-                        <input type="password" id="password" name="password"
-                               class="w-full border border-[#DDDDDD] rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[#002C55] focus:border-[#002C55]">
+                        <label for="password" class="block text-base font-medium text-[#002D56] mb-1">Password <span class="text-red-500">*</span></label>
+                        <input type="password"
+                            name="password"
+                            id="password"
+                            placeholder="Masukkan password"
+                            class="w-full rounded-lg border border-[#DDDDDD] text-sm md:text-base px-3 py-3 focus:outline-none focus:ring-1 focus:ring-[#002D56]"
+                            required>
+                            <div class="text-red-500 text-sm mt-1 error-password hidden"></div>
+                        <p id="passwordMessage" class="text-sm text-gray-500 mt-1">
+                            Minimal 6 karakter
+                        </p>
                     </div>
 
                     <div>
-                        <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-1">Konfirmasi Password *</label>
-                        <input type="password" id="password_confirmation" name="password_confirmation"
-                               class="w-full border border-[#DDDDDD] rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[#002C55] focus:border-[#002C55]">
+                        <label for="password_confirmation" class="block text-base font-medium text-[#002D56] mb-1">Konfirmasi Password <span class="text-red-500">*</span></label>
+                        <input type="password"
+                           name="password_confirmation"
+                           id="password_confirmation"
+                           placeholder="Masukkan kembali password"
+                           class="w-full rounded-lg border border-[#DDDDDD] text-sm md:text-base px-3 py-3 focus:outline-none focus:ring-1 focus:ring-[#002D56]"
+                           required>
+                    <div class="text-red-500 text-sm mt-1 error-password_confirmation hidden"></div>
                     </div>
                 </div>
 
@@ -343,7 +335,7 @@
             </form>
 
             <!-- Footer -->
-            <div class="p-5 border-t flex justify-end gap-3">
+            <div class="p-5 border-t border-[#DDDDDD] flex justify-end gap-3">
                 <button id="cancelBtn" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
                     Batal
                 </button>
@@ -355,39 +347,52 @@
     </div>
 </div>
 
-<!-- === MODAL KONFIRMASI === -->
-<div id="confirmModal" class="hidden fixed inset-0 bg-black/40 z-50">
-    <div class="absolute inset-0 flex items-center justify-center p-4">
-        <div class="bg-white rounded-xl shadow-xl w-full max-w-md">
-            <div class="p-5">
-                <h3 id="confirmTitle" class="text-lg font-semibold text-gray-800 mb-2"></h3>
-                <p id="confirmMessage" class="text-gray-600 mb-4"></p>
 
-                <div class="flex justify-end gap-3">
-                    <button id="cancelConfirm" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
-                        Batal
-                    </button>
-                    <button id="confirmAction" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
-                        Konfirmasi
-                    </button>
-                </div>
+<!-- TOAST NOTIFICATION -->
+<div id="toast"
+     role="status"
+     aria-live="polite"
+     class="fixed top-20 left-1/2 -translate-x-1/2 z-50 hidden pointer-events-none">
+    <div id="toastInner" 
+         class="flex items-center gap-3 px-6 py-4 rounded-lg border shadow-lg min-w-[320px] max-w-md transform -translate-y-10 opacity-0 transition-all duration-300 ease-out pointer-events-auto">
+        <div id="toastIcon" class="w-10 h-10 flex items-center justify-center rounded-full shrink-0">
+            <!-- Icon akan diisi via JS -->
+        </div>
+        <span id="toastMessage" class="text-base font-medium grow text-center"></span>
+    </div>
+</div>
+
+
+<!-- CONFIRM MODAL -->
+<div id="confirmModal"
+     class="fixed inset-0 bg-black/40 z-50 hidden">
+    <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white rounded-xl w-full max-w-md p-6">
+            <h3 id="confirmTitle"
+                class="text-xl font-semibold text-[#002C55] mb-2">
+                Konfirmasi
+            </h3>
+    
+            <p id="confirmMessage"
+               class="text-gray-600 mb-6">
+            </p>
+    
+            <div class="flex gap-3">
+                <button id="confirmCancel"
+                        class="flex-1 px-4 py-2 border rounded-lg">
+                    Batal
+                </button>
+                <button id="confirmOk"
+                        class="flex-1 px-4 py-2 rounded-lg text-white">
+                    Ya
+                </button>
             </div>
         </div>
     </div>
 </div>
-
-<!-- Success Toast -->
-<div id="successToast" class="hidden fixed top-4 right-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg shadow-lg z-50">
-    <div class="flex items-center">
-        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-        </svg>
-        <span id="toastMessage"></span>
-    </div>
-</div>
 @endsection
 
-@push('scripts')
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     const baseUrl = '{{ env("BE_API_URL") }}/admin/admins';
@@ -517,29 +522,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // === BATAL MODE KELOLA ===
-    if (batalBtn) {
-        batalBtn.addEventListener("click", () => {
-            if (kelolaBtn) kelolaBtn.classList.remove("hidden");
-            if (manageOptions) manageOptions.classList.add("hidden");
-
-            // Sembunyikan checkbox, tampilkan action cell
-            checkboxCells.forEach(cell => cell.classList.add("hidden"));
-            actionCells.forEach(cell => cell.classList.remove("hidden"));
-
-            // Uncheck semua checkbox
-            adminCheckboxes.forEach(ch => ch.checked = false);
-            if (selectAll) selectAll.checked = false;
-        });
-    }
-
-    // === SELECT ALL CHECKBOX ===
-    if (selectAll) {
-        selectAll.addEventListener("change", function() {
-            adminCheckboxes.forEach(ch => ch.checked = selectAll.checked);
-        });
-    }
-
     // Hapus multiple (tombol hapus di mode kelola)
     if (hapusBtn) {
         hapusBtn.addEventListener("click", () => {
@@ -598,14 +580,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const passwordFields = document.getElementById('passwordFields');
 
         if (action === 'add') {
-            modalTitle.textContent = 'Tambah Admin Baru';
+            modalTitle.innerHTML = 'Tambah <span class="text-[#F36A00]">Admin Baru</span>';
             if (form) form.reset();
             if (document.getElementById('adminId')) document.getElementById('adminId').value = '';
             if (passwordFields) passwordFields.style.display = 'block';
             if (document.getElementById('password')) document.getElementById('password').required = true;
             if (document.getElementById('password_confirmation')) document.getElementById('password_confirmation').required = true;
         } else if (action === 'edit' && data) {
-            modalTitle.textContent = 'Edit Admin';
+            modalTitle.innerHTML = 'Edit <span class="text-[#F36A00]">Admin</span>';
             if (document.getElementById('adminId')) document.getElementById('adminId').value = data.id;
             if (document.getElementById('name')) document.getElementById('name').value = data.name;
             if (document.getElementById('email')) document.getElementById('email').value = data.email;
@@ -856,4 +838,3 @@ document.addEventListener("DOMContentLoaded", () => {
     attachActionListeners();
 });
 </script>
-@endpush
