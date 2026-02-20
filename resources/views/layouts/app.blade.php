@@ -48,9 +48,7 @@
 
 </head>
 
-<body class="bg-white text-gray-900 font-sans">
-    <div class="p-6 w-full">
-        @yield('content')
-    </div>
+<body class="bg-white text-[#002C55] font-sans">
+    @yield('content')
 </body>
 </html>

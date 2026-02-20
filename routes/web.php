@@ -7,7 +7,7 @@ use App\Http\Controllers\Admin\LaporanController;
 use App\Http\Controllers\Admin\ArsipController;
 use App\Http\Controllers\Admin\AdminController as FeAdminController;
 
-Route::view('/', 'index')->name('home');
+Route::view('/', 'welcome')->name('home');
 
 // Routes untuk authentication
 Route::get('/auth/login', [AuthController::class, 'showLoginForm'])->name('auth.login');
