@@ -45,7 +45,7 @@ class ArsipController extends Controller
         } catch (\Throwable $e) {
             \Log::error('FE Arsip Error: ' . $e->getMessage());
 
-            return view('admin.arsip', [
+            return view('admin.arsip.index', [
                 'laporan' => [],
                 'total'   => 0,
                 'error'   => 'Gagal mengambil data arsip'

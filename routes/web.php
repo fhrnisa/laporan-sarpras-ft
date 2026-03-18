@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\ArsipController;
 use App\Http\Controllers\Admin\AdminController as FeAdminController;
 
 Route::view('/', 'welcome')->name('home');
+Route::view('/lapor', 'laporan.create')->name('lapor.create');
+
 
 // Routes untuk authentication
 Route::get('/auth/login', [AuthController::class, 'showLoginForm'])->name('auth.login');
@@ -21,7 +23,7 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::get('/admin/dashboard/filter', [DashboardController::class, 'filter'])->name('admin.dashboard.filter');
 
     // Laporan routes - viewer hanya bisa melihat
-    Route::get('/admin/laporan', [LaporanController::class, 'index'])->name('admin.laporan');
+    Route::get('/admin/laporan', [LaporanController::class, 'index'])->name('admin.laporan.index');
 
     // Di routes/web.php di FE
     Route::middleware(['role'])->group(function () {
@@ -29,11 +31,16 @@ Route::middleware(['auth.admin'])->group(function () {
             Route::get('/laporan', [App\Http\Controllers\Admin\LaporanController::class, 'index'])->name('admin.laporan');
             Route::post('/laporan/archive', [App\Http\Controllers\Admin\LaporanController::class, 'archive'])->name('admin.laporan.archive');
             Route::post('/laporan/destroy', [App\Http\Controllers\Admin\LaporanController::class, 'destroy'])->name('admin.laporan.destroy');
+ 
+            // Notification routes
+            Route::get('/notifications/fetch', [NotificationController::class, 'fetch']);
+            Route::post('/notifications/mark-all-read', [NotificationController::class, 'markAllAsRead']);
+            Route::get('/notifications/read/{id}', [NotificationController::class, 'markAsRead']);
         });
     });
 
     // Arsip routes - viewer hanya bisa melihat
-    Route::get('/admin/arsip', [ArsipController::class, 'index'])->name('admin.arsip');
+    Route::get('/admin/arsip', [ArsipController::class, 'index'])->name('admin.arsip.index');
 
     // Routes yang hanya boleh diakses admin
     Route::middleware(['role'])->group(function () {

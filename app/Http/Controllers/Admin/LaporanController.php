@@ -49,7 +49,7 @@ class LaporanController extends Controller
                 }
             }
 
-            return view('admin.laporan', [
+            return view('admin.laporan.index', [
                 'laporan' => $laporan,
                 'total' => $total,
                 'filters' => [

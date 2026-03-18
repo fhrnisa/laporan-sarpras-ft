@@ -143,7 +143,7 @@
 
             <!-- Arsip -->
             @php $active  = request()->routeIs('admin.arsip'); @endphp
-            <a href="{{ route('admin.arsip') }}"
+            <a href="{{ route('admin.arsip.index') }}"
                class="sidebar-item flex items-center gap-3 p-3 rounded-lg transition-all
                 {{ $active ? 'bg-white text-[#002C5F]' : 'text-white hover:bg-white/20' }}">
 

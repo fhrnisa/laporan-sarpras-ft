@@ -28,14 +28,22 @@ $laporanSelesai = [
         'foto_after' => 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c',
         'tanggal' => '25 Desember 2025'
     ],
+    [
+        'id' => 4,
+        'lokasi' => 'Ruang Dosen Gedung E',
+        'deskripsi' => 'AC tidak dingin dan mengeluarkan suara berisik.',
+        'foto_before' => 'https://images.unsplash.com/photo-1598300053653-3c2c8d6d5c6c',
+        'foto_after' => 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c',
+        'tanggal' => '25 Desember 2025'
+    ],
 ];
 @endphp
 
 @section('content')
-<div class="p-6 min-h-screen">
+<div class="p-6 min-h-screen md:mx-16">
 
     <!-- ===== HEADER ===== -->
-    <header class="flex items-center justify-between">
+    <header class="flex items-center justify-between ">
     
             <img src="{{ asset('img/unnes-logo-horizontal.webp') }}"
                  alt="Logo Unnes Horizontal"
@@ -50,30 +58,30 @@ $laporanSelesai = [
 
     <!-- ===== HERO ===== -->
     <section class="px-6 pt-10 text-center space-y-4">
-        <h1 class="text-[32px] md:text-6xl font-semibold text-[#002C55] leading-tight">
-            Laporan Perbaikan Sarana Prasarana
+        <h1 class="text-[32px] md:text-5xl font-semibold text-[#002C55] leading-tight">
+            Laporan Perbaikan Sarana Prasarana<br>
             <span class="text-[#F36A00]">Fakultas Teknik </span>UNNES
         </h1>
 
-        <p class="text-sm md:text-base text-[#002C55]">
+        <p class="text-sm md:text-base md:w-150 mx-auto text-[#002C55]">
             Sistem pelaporan kerusakan sarana dan prasarana Fakultas Teknik UNNES
             untuk mendukung kenyamanan, keamanan, dan kelancaran kegiatan akademik.
         </p>
 
         <!-- Mockup dummy -->
         <div class="flex justify-center pt-6">
-            <img src="{{ asset('img/mockup-web.png') }}" alt="Mockup Website" class="w-full max-w-4xl">
+            <img src="{{ asset('img/mockup-web.png') }}" alt="Mockup Website" class="w-full max-w-3xl">
         </div>
     </section>
 
     <!-- ===== LAPORAN SELESAI ===== -->
-    <section class="mt-20 pb-16">
-        <h2 class="text-xl font-semibold text-center text-[#002C55] leading-tight">
+    <section class="mt-20 md:mt-32 pb-16 md:px-16">
+        <h2 class="text-xl md:text-3xl font-semibold text-center text-[#002C55] leading-tight">
             Perbaikan yang<br>
             <span class="text-orange-500">Baru Terselesaikan</span>
         </h2>
 
-        <div class="mt-6 space-y-6">
+        <div class="mt-6 space-y-6 grid md:grid-cols-2 md:space-x-6">
             @foreach ($laporanSelesai as $laporan)
                 <article class="bg-white rounded-xl shadow overflow-hidden">
 
@@ -154,5 +162,65 @@ $laporanSelesai = [
         </div>
     </section>
 
+    <section class="mt-20 md:mt-32 pb-16 md:px-16">
+        <h2 class="text-xl md:text-3xl font-semibold text-center text-[#002C55] leading-tight pb-2 md:pb-4">
+            Laporkan Sarana<br>
+            <span class="text-orange-500">atau Prasarana Rusak</span>
+        </h2>
+        <p class="text-center text-sm md:text-base md:w-150 mx-auto text-[#002C55]">
+            Menemukan fasilitas rusak? Laporkan agar segera ditindaklanjuti.
+        </p>
+
+        <div class="flex justify-center mt-8">
+            <a href="{{route('lapor.create')}}"
+                class="flex gap-2 mt-6 px-6 py-3 
+                    bg-[#002C55] text-white rounded-lg
+                    transition-all duration-300 ease-in-out
+                    hover:bg-[#001F3F]
+                    hover:scale-105
+                    hover:shadow-lg">
+                Isi Form
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14.4301 5.18C14.6201 5.18 14.8101 5.25 14.9601 5.4L21.0301 11.47C21.3201 11.76 21.3201 12.24 21.0301 12.53L14.9601 18.6C14.6701 18.89 14.1901 18.89 13.9001 18.6C13.6101 18.31 13.6101 17.83 13.9001 17.54L19.4401 12L13.9001 6.46C13.6101 6.17 13.6101 5.69 13.9001 5.4C14.0401 5.25 14.2401 5.18 14.4301 5.18Z" fill="white"/>
+                <path d="M3.50008 11.25H20.3301C20.7401 11.25 21.0801 11.59 21.0801 12C21.0801 12.41 20.7401 12.75 20.3301 12.75L3.50008 12.75C3.09008 12.75 2.75008 12.41 2.75008 12C2.75008 11.59 3.09008 11.25 3.50008 11.25Z" fill="white"/>
+                </svg>
+            </a>
+        </div>
+    </section>
 </div>
 @endsection
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const container = document.getElementById('laporan-container');
+
+        fetch('http://api-laporan-db.test/api/laporan-selesai') // Ganti dengan URL API Anda
+            .then(response => response.json())
+            .then(data => {
+                let html = '';
+                data.forEach(item => {
+                    html += `
+                        <div class="card-laporan border rounded shadow-sm overflow-hidden">
+                            <div class="grid grid-cols-2 gap-1 bg-gray-100 p-1">
+                                <div class="relative">
+                                    <span class="absolute top-0 left-0 bg-red-600 text-white text-[10px] px-1">Before</span>
+                                    <img src="${item.foto_before}" class="w-full h-32 object-cover">
+                                </div>
+                                <div class="relative">
+                                    <span class="absolute top-0 left-0 bg-green-600 text-white text-[10px] px-1">After</span>
+                                    <img src="${item.foto_after}" class="w-full h-32 object-cover">
+                                </div>
+                            </div>
+                            <div class="p-3">
+                                <h4 class="font-bold text-sm">${item.nama_aset}</h4>
+                                <p class="text-xs text-gray-500">${item.tanggal_selesai}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+                container.innerHTML = html;
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    });
+</script>

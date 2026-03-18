@@ -49,6 +49,13 @@ class AuthController extends Controller
                 return redirect()->route('admin.dashboard')->with('success', 'Login berhasil');
             } else {
                 $errorData = $response->json();
+
+                if (!is_array($errorData)) {
+                    $errorData = [
+                        'raw_response' => $response->body(),
+                        'status' => $response->status(),
+                    ];
+                }
                 \Log::error('Login failed:', $errorData);
 
                 return back()->withErrors([

@@ -159,10 +159,22 @@
 
                             <!-- Waktu Aktif -->
                             <td class="px-6 py-4 whitespace-nowrap text-base text-[#002C55]">
-                                @if($admin->last_active_at)
-                                    {{ \Carbon\Carbon::parse($admin->last_active_at)->translatedFormat('d M Y H:i:s') }}
+                                @php
+                                    // Mengambil log terbaru dari relasi logs
+                                    $latestLog = $admin->logs->first(); 
+                                @endphp
+
+                                @if($latestLog)
+                                    <div class="flex flex-col">
+                                        <span class="font-medium">
+                                            {{ \Carbon\Carbon::parse($latestLog->created_at)->translatedFormat('d M Y, H:i') }}
+                                        </span>
+                                        <span class="text-xs text-blue-500 italic">
+                                            {{ $latestLog->activity }}
+                                        </span>
+                                    </div>
                                 @else
-                                    Belum pernah
+                                    <span class="text-gray-400 italic text-sm">Belum pernah aktif</span>
                                 @endif
                             </td>
 
@@ -255,7 +267,8 @@
             </div>
 
             <!-- Form -->
-            <form id="adminForm" class="p-5 space-y-4">
+            <form id="adminForm" class="p-5 space-y-4"
+            action="/admin" method="POST">
                 <input type="hidden" id="adminId">
 
                 <div>
