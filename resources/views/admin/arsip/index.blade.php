@@ -79,4 +79,4 @@
 </style>
 @endpush
 
-@vite('resources/js/admin/arsip/main.js')
+@vite('resources/js/admin/pages/arsip.js')

@@ -49,7 +49,7 @@ Route::middleware(['auth.admin'])->group(function () {
     });
 
     // Kontrol admin - viewer hanya bisa melihat
-    Route::get('/admin/kontrol-admin', [FeAdminController::class, 'index'])->name('admin.kontrol-admin');
+    Route::get('/admin/kontrol-admin', [FeAdminController::class, 'index'])->name('admin.kontrol-admin.index');
 
     // Routes yang hanya boleh diakses admin
     Route::middleware(['role'])->group(function () {

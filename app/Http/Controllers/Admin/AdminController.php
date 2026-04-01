@@ -18,68 +18,63 @@ class AdminController extends Controller
 
     // Method untuk halaman kontrol-admin (view)
     public function index(Request $request)
-    {
-        // Cek role - hanya admin yang bisa akses
-        if (!AdminHelper::isAdmin() && AdminHelper::isViewer()) {
-            // Viewer hanya bisa melihat
-            return view('admin.kontrol-admin', [
-                'admins' => collect([]),
-                'total' => 0,
-                'error' => null,
-                'readonly' => true // Tambahkan flag readonly
-            ]);
-        }
+{
+    // 1. Inisialisasi awal agar tidak "Undefined"
+    $params = [
+        'page' => $request->query('page', 1),
+        'limit' => 10,
+    ]; 
 
-        try {
-            $params = [];
-
-            if ($request->has('status') && $request->status !== 'all') {
-                $params['status'] = $request->status;
-            }
-
-            if ($request->has('tanggal')) {
-                $params['tanggal'] = $request->tanggal;
-            }
-
-            if ($request->has('search')) {
-                $params['search'] = $request->search;
-            }
-
-            // Mengambil data admin dari BE
-            $response = Http::get("{$this->apiUrl}/admin/admins", $params);
-
-            if ($response->successful()) {
-                $data = $response->json();
-
-                // Konversi array ke collection agar bisa diakses dengan cara yang sama
-                $admins = collect($data['data'] ?? [])->map(function ($admin) {
-                    // Convert array to object-like structure
-                    return (object) $admin;
-                });
-
-                return view('admin.kontrol-admin', [
-                    'admins' => $admins,
-                    'total' => $data['total'] ?? $data['count'] ?? 0,
-                    'error' => null
-                ]);
-            } else {
-                return view('admin.kontrol-admin', [
-                    'admins' => collect([]),
-                    'total' => 0,
-                    'error' => 'Gagal mengambil data admin'
-                ]);
-            }
-
-        } catch (\Exception $e) {
-            \Log::error('FE AdminController Error: ' . $e->getMessage());
-
-            return view('admin.kontrol-admin', [
-                'admins' => collect([]),
-                'total' => 0,
-                'error' => 'Terjadi kesalahan: ' . $e->getMessage()
-            ]);
-        }
+    // 2. Cek role (Logika Helper Anda)
+    if (!AdminHelper::isAdmin() && AdminHelper::isViewer()) {
+        return view('admin.kontrol-admin.index', [
+            'admins' => collect([]),
+            'total' => 0,
+            'error' => null,
+            'readonly' => true 
+        ]);
     }
+
+    try {
+        // 3. Isi params berdasarkan request (Filter & Search)
+        if ($request->has('status') && $request->status !== 'all') {
+            $params['status'] = $request->status;
+        }
+        if ($request->has('tanggal')) {
+            $params['tanggal'] = $request->tanggal;
+        }
+        if ($request->has('search')) {
+            $params['search'] = $request->search;
+        }
+
+        // 4. Panggil API dengan params yang sudah terisi
+        $response = Http::get("{$this->apiUrl}/admin/admins", $params);
+
+
+        if ($response->successful()) {
+            $data = $response->json();
+            $admins = collect($data['data'] ?? [])->map(fn($admin) => (object) $admin);
+
+            return view('admin.kontrol-admin.index', [
+                'admins' => collect($data['data'] ?? [])->map(fn($a) => (object) $a),
+                'total' => $data['total'] ?? 0,
+                'currentPage' => $data['current_page'] ?? 1,
+                'lastPage' => $data['last_page'] ?? 1,
+                'error' => null
+            ]);
+        }
+        
+        // Handle jika API gagal
+        throw new \Exception('Gagal mengambil data dari API Back-End');
+
+    } catch (\Exception $e) {
+        return view('admin.kontrol-admin.index', [
+            'admins' => collect([]),
+            'total' => 0,
+            'error' => $e->getMessage()
+        ]);
+    }
+}
 
     // Method untuk menyimpan admin baru (API call)
     public function store(Request $request)

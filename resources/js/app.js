@@ -1,1 +1,1 @@
-import './admin/laporan/main'
+import './admin/main.js';

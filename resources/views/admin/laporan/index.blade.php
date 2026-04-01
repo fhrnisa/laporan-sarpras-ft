@@ -8,9 +8,15 @@
 @section('search-placeholder', 'Cari nama, email, atau lokasi laporan')
 @section('search-mode', 'laporan')
 
-@section('content')
+@section('body_class', 'laporan-page') @section('content')
+<div class="space-y-6">
 
-@include('admin.laporan.partials.table')
+    @include('admin.laporan.partials.filter')
+
+    @include('admin.laporan.partials.table')
+
+</div>
+
 @include('admin.laporan.partials.modal-detail')
 @include('admin.laporan.partials.modal-reject')
 @include('admin.laporan.partials.modal-process')
@@ -33,6 +39,3 @@
     .status-ditolak { background-color: #FF7A7E; color: #022C55; }
 </style>
 @endpush
-
-
-@vite('resources/js/admin/laporan/main.js')

@@ -1,5 +1,5 @@
 <div id="detailOverlay" class="hidden overflow-y-auto fixed inset-0 bg-black/40 z-50">
-    <div class="absolute right-0 top-0 h-auto w-full max-w-md bg-white mt-6 mr-6 shadow-xl rounded-xl overflow-y-auto">
+    <div id="detailModal" class="absolute right-0 top-0 h-auto w-full max-w-md bg-white mt-6 mr-6 shadow-xl rounded-xl overflow-y-auto">
 
         <!-- Header -->
         <div class="sticky top-0 bg-white z-10 flex justify-between items-start p-5 border-b">
@@ -8,10 +8,9 @@
                 <div class="flex gap-4 mt-2">
                     <div>
                         <span id="detailStatus" class="inline-flex px-3 py-1 text-lg font-semibold rounded-md">
-
                         </span>
                     </div>
-                    <p id="detailDate" class="text-lg text-[#002C55]">17 Desember 2025</p>
+                    <p id="detailDate" class="text-lg text-[#002C55]">-</p>
                 </div>
             </div>
 
@@ -38,37 +37,41 @@
             <!-- User Info -->
             <div class="space-y-4">
                 <div>
-                    <p class="text-base text-[#002C55] mb-1">Nama Pengusul:</p>
-                    <p id="detailNama" class="text-base font-semibold text-[#002C55]">Fahrunnisa</p>
+                    <p class="text-base text-[#002C55] mb-1 font-semibold">Kode Laporan:</p>
+                    <p id="detailKodeLaporan" class="text-base text-[#002C55]">-</p>
                 </div>
 
                 <div>
-                    <p class="text-base text-[#002C55] mb-1">Email:</p>
-                    <p id="detailEmail" class="text-base font-semibold text-[#002C55]">nisa@email.com</p>
+                    <p class="text-base text-[#002C55] mb-1 font-semibold">Nama Pengusul:</p>
+                    <p id="detailNama" class="text-base text-[#002C55]"></p>
+                </div>
+
+                <div>
+                    <p class="text-base text-[#002C55] mb-1 font-semibold">Email:</p>
+                    <p id="detailEmail" class="text-base text-[#002C55]"></p>
                 </div>
 
                 <div>
                     <p class="text-base font-semibold text-[#002C55] mb-1">Nomor Telepon:</p>
-                    <p id="detailTelp" class="text-base font-semibold text-[#002C55]">08129383641</p>
+                    <p id="detailTelp" class="text-base text-[#002C55]"></p>
                 </div>
 
                 <div>
-                    <p class="text-base text-[#002C55] mb-1">Lokasi Kerusakan:</p>
-                    <p id="detailLokasi" class="text-base font-semibold text-[#002C55]">E8</p>
+                    <p class="text-base text-[#002C55] mb-1 font-semibold">Lokasi Kerusakan:</p>
+                    <p id="detailLokasi" class="text-base text-[#002C55]"></p>
                 </div>
 
                 <div>
-                    <p class="text-base text-[#002C55] mb-1">Laporan Kerusakan:</p>
-                    <div id="detailDeskripsi" class="mt-1 text-base font-semibold text-[#002C55] whitespace-pre-line">Meja rusak</div>
+                    <p class="text-base text-[#002C55] mb-1 font-semibold">Laporan Kerusakan:</p>
+                    <div id="detailDeskripsi" class="mt-1 text-base text-[#002C55] whitespace-pre-line"></div>
                 </div>
             </div>
 
             <div>
-                <p class="text-base text-[#002C55]">Foto Kerusakan:</p>
+                <p class="text-base text-[#002C55] font-semibold">Foto Kerusakan:</p>
                 <div id="detailFotoContainer" class="mt-2">
                     <img id="detailFoto" class="w-full h-auto rounded-md border border-gray-300"
-                        src="" alt="Foto kerusakan"
-                        onerror="this.onerror=null; this.src='#'; this.style.display='none';">
+                        src="" alt="Foto kerusakan">
                 </div>
                 <p id="noFotoMessage" class="text-gray-500 italic mt-2 hidden">Tidak ada foto</p>
             </div>
@@ -95,18 +98,18 @@
             <!-- Detail Waktu -->
             <div class="pt-4 border-t border-gray-200 space-y-4">
                     <div>
-                        <p class="text-base text-[#002C55]">Waktu Diterima:</p>
-                        <p id="detailCreatedAt" class="text-base font-semibold text-[#002C55]">-</p>
+                        <p class="text-base text-[#002C55] font-semibold">Waktu Diterima:</p>
+                        <p id="detailCreatedAt" class="text-base text-[#002C55]">-</p>
                     </div>
 
                     <div>
-                        <p class="text-base text-[#002C55]">Diselesaikan oleh:</p>
-                        <p id="detailCreatedAt" class="text-base font-semibold text-[#002C55]">-</p>
+                        <p class="text-base text-[#002C55] font-semibold">Diselesaikan oleh:</p>
+                        <p id="detailCreatedAt" class="text-base text-[#002C55]">-</p>
                     </div>
 
                     <div>
-                        <p class="text-base text-[#002C55]">Waktu Terselesaikan:</p>
-                        <p id="detailUpdatedAt" class="text-base font-semibold text-[#002C55]">-</p>
+                        <p class="text-base text-[#002C55] font-semibold">Waktu Terselesaikan:</p>
+                        <p id="detailUpdatedAt" class="text-base text-[#002C55]">-</p>
                     </div>
             </div>
 

@@ -27,6 +27,7 @@
     </div>
 
     <!-- BUTTONS SECTION -->
+    @if(Session::get('user.role') === 'admin' || Session::get('user.role') === 'super_admin')
     <div class="flex gap-3 items-center">
         <button id="kelolaBtn"
                 class="bg-[#022C55] text-white text-base rounded-lg py-2 px-4 flex gap-2 items-center hover:bg-[#01408C] transition-colors">
@@ -73,6 +74,7 @@
             </div>
         </div>
     </div>
+    @endif
 </div>
 
 <!-- INFO MESSAGE -->

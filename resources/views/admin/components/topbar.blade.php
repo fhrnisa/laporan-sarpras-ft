@@ -39,8 +39,8 @@
                         <div class="flex flex-col items-end">
                             <span class="text-base w-full font-medium text-[#002C55] max-w-[180px] truncate">{{ session('user.name') }}</span>
                             <span class="text-xs px-2 py-0.5 rounded
-                                {{ session('user.role') === 'admin' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800' }}">
-                                {{ session('user.role') === 'admin' ? 'Administrator' : 'Viewer' }}
+                                {{ session('user.role') === 'admin' ? 'bg-blue-100 text-blue-800' : (session('user.role') === 'super_admin' ? 'bg-purple-100 text-purple-800' : 'bg-green-100 text-green-800') }}">
+                                {{ session('user.role') === 'admin' ? 'Administrator' : (session('user.role') === 'super_admin' ? 'Super Admin' : 'Viewer') }}
                             </span>
                         </div>
                         <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">

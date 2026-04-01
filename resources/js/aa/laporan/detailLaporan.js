@@ -66,28 +66,29 @@ export function displayReportDetail(report) {
             detailKode.textContent = report.kode_laporan || "-";
         }
 
-if (report.created_at) {
+        if (report.created_at) {
 
-    const date = new Date(report.created_at);
+            const date = new Date(report.created_at);
 
-    detailDate.textContent =
-        date.toLocaleDateString("id-ID", {
-            weekday: "long",
-            day: "numeric",
-            month: "long",
-            year: "numeric"
-        }) +
-        " • " +
-        date.toLocaleTimeString("id-ID", {
-            hour: "2-digit",
-            minute: "2-digit"
-        });
+            detailDate.textContent =
+                date.toLocaleDateString("id-ID", {
+                    weekday: "long",
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric"
+                }) +
+                " • " +
+                date.toLocaleTimeString("id-ID", {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                });
 
-} else {
+        } else {
 
-    detailDate.textContent = "-";
+            detailDate.textContent = "-";
 
-}
+        }
+        
         if (detailNama) detailNama.textContent = report.nama_pengusul || '-';
         if (detailEmail) detailEmail.textContent = report.email || '-';
         if (detailTelp) detailTelp.textContent = report.nomor_telepon || '-';

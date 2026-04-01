@@ -10,44 +10,54 @@ class CheckAdminRole
 {
     public function handle(Request $request, Closure $next)
     {
-        // Cek session user (karena kita simpan data user dari BE di session)
         if (!Session::has('user')) {
             return redirect()->route('auth.login');
         }
 
-        // Ambil role dari session
         $userRole = Session::get('user.role');
+        $currentRoute = $request->route()->getName();
 
-        // Admin bisa akses semua
-        if ($userRole === 'admin') {
+        // 1. SUPER ADMIN: Raja terakhir, bisa akses APAPUN.
+        if ($userRole === 'super_admin') {
             return $next($request);
         }
 
-        // Viewer hanya bisa akses route tertentu
-        if ($userRole === 'viewer') {
-            $allowedRoutes = [
-                'admin.dashboard',
-                'admin.dashboard.filter',
-                'admin.laporan',
-                'admin.arsip',
-                'admin.kontrol-admin'
+        // 2. ADMIN: Kelola Laporan, tapi hanya LIHAT Kontrol Admin.
+        if ($userRole === 'admin') {
+            // Daftar route yang dilarang keras untuk Admin (biasanya route POST/PUT/DELETE)
+            $forbiddenForAdmin = [
+                'admin.kontrol-admin.store',
+                'admin.kontrol-admin.update',
+                'admin.kontrol-admin.destroy',
             ];
 
-            $currentRoute = $request->route()->getName();
-
-            // Viewer bisa akses jika route ada di daftar allowed
-            if (in_array($currentRoute, $allowedRoutes)) {
-                return $next($request);
+            if (in_array($currentRoute, $forbiddenForAdmin)) {
+                abort(403, 'Admin hanya boleh melihat daftar akun, tidak boleh mengelola.');
             }
 
-            // Untuk route API/view detail, kita perlu cek pattern
-            if (preg_match('/^admin\.api\.admins$/', $currentRoute) ||
-                preg_match('/^admin\.api\.admins\.show$/', $currentRoute)) {
+            return $next($request);
+        }
+
+        // 3. VIEWER: Hanya Baca (Read-Only) di semua halaman.
+        if ($userRole === 'viewer') {
+            // Viewer hanya boleh akses route GET
+            if (!$request->isMethod('get')) {
+                abort(403, 'Viewer tidak diizinkan mengubah atau menambah data.');
+            }
+
+            // Daftar halaman yang boleh dibuka Viewer
+            $allowedRoutes = [
+                'admin.dashboard',
+                'admin.laporan',
+                'admin.arsip',
+                'admin.kontrol-admin', // Bisa lihat daftar tapi tidak bisa klik simpan/hapus karena filter isMethod('get') di atas
+            ];
+
+            if (in_array($currentRoute, $allowedRoutes) || str_starts_with($currentRoute, 'admin.api')) {
                 return $next($request);
             }
         }
 
-        // Jika tidak diizinkan
-        abort(403, 'Anda tidak memiliki izin untuk mengakses halaman ini');
+        abort(403, 'Anda tidak memiliki akses ke halaman ini.');
     }
 }

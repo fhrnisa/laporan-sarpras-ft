@@ -37,7 +37,7 @@ class ArsipController extends Controller
             $laporan = $json['data'] ?? [];
             $total   = $json['total'] ?? count($laporan);
 
-            return view('admin.arsip', [
+            return view('admin.arsip.index', [
                 'laporan' => $laporan,
                 'total'   => $total
             ]);

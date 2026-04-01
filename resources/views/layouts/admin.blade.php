@@ -17,6 +17,15 @@
     <!-- Font Awesome untuk icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <script>
+        window.appConfig = {
+            apiUrl: "{{ url('/api/admin') }}",
+            csrfToken: "{{ csrf_token() }}"
+        };
+    </script>
+    
+    @vite(['resources/js/admin/main.js'])
+
     @vite('resources/css/app.css')
     <style>
         /* Tambahkan style untuk transisi yang smooth */
@@ -30,7 +39,7 @@
     </style>
 </head>
 
-<body class="bg-white">
+<body class="@yield('body_class') bg-white">
 
 <div class="flex min-h-screen">
 
@@ -114,9 +123,9 @@
             </a>
 
             <!-- Kontrol Admin -->
-            @if(session('user.role') === 'admin')
-            @php $active  = request()->routeIs('admin.kontrol-admin'); @endphp
-            <a href="{{ route('admin.kontrol-admin') }}"
+            @if(Session::get('user.role') === 'admin' || Session::get('user.role') === 'super_admin')
+            @php $active  = request()->routeIs('admin.kontrol-admin.index'); @endphp
+            <a href="{{ route('admin.kontrol-admin.index') }}"
                 class="sidebar-item flex items-center gap-3 p-3 rounded-lg transition-all
                 {{ $active ? 'bg-white text-[#002C5F]' : 'text-white hover:bg-white/20' }}">
 

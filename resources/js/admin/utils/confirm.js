@@ -37,7 +37,7 @@ export function initConfirmModal() {
     }
 }
 
-function hideConfirmModal() {
+export function hideConfirmModal() {
     const { confirmModal } = getElements();
     if (confirmModal) {
         confirmModal.classList.add('hidden');

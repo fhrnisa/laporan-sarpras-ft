@@ -1,4 +1,3 @@
-<!-- === MODAL DETAIL LAPORAN === -->
 <div id="detailOverlay" class="hidden overflow-y-auto fixed inset-0 bg-black/40 z-50">
     <div id="detailModal" class="absolute right-0 top-0 h-auto w-full max-w-md bg-white mt-6 mr-6 shadow-xl rounded-xl overflow-y-auto">
 
@@ -143,12 +142,12 @@
 
                     <div>
                         <p class="text-base font-semibold text-[#002C55]">Diselesaikan oleh:</p>
-                        <p id="detailDiselesaikanOleh" class="text-base font-semibold text-[#002C55]">-</p>
+                        <p id="detailDiselesaikanOleh" class="text-base text-[#002C55]">-</p>
                     </div>
 
                     <div>
                         <p class="text-base font-semibold text-[#002C55]">Waktu Terselesaikan:</p>
-                        <p id="detailUpdatedAt" class="text-base font-semibold text-[#002C55]">-</p>
+                        <p id="detailUpdatedAt" class="text-base text-[#002C55]">-</p>
                     </div>
             </div>
 
@@ -168,11 +167,9 @@
         </div>
 
         <!-- Footer Actions -->
-        @if(session('user.role') === 'admin')
+        @if(session('user.role') === 'admin' || session('user.role') === 'super_admin')
         <div id="detailActions" class="hidden p-5 border-t border-gray-200">
-            <div class="grid grid-cols-2 gap-3" id="actionButtonsContainer">
-                <!-- Buttons akan di-generate oleh JavaScript berdasarkan status -->
-            </div>
+            <div class="grid grid-cols-2 gap-3" id="actionButtonsContainer"></div>
         </div>
         @endif
     </div>
