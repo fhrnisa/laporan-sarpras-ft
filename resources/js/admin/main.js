@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (bodyClass.contains('admin-page')) {
         initAdminPage();
     } 
-    else if (bodyClass.contains('laporan-page') || document.getElementById('kelolaBtn')) {
+    else if (bodyClass.contains('laporan-page')) {
         initLaporanPage();
     } 
     else if (bodyClass.contains('arsip-page')) {

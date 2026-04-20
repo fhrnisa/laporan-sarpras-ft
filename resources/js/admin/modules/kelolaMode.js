@@ -4,13 +4,38 @@ export const initKelolaMode = (options = {}) => {
     const manageOptions = document.getElementById("manageOptions");
     const selectAll = document.getElementById("select-all");
 
+    const pulihkanBtn = document.getElementById("pulihkanBtn");
+    const arsipBtn = document.getElementById("arsipBtn");
+    const hapusBtn = document.getElementById("hapusPermanenBtn");
+    
     const getCells = () => ({
         actionCells: document.querySelectorAll(".action-cell"),
         checkboxCells: document.querySelectorAll(".checkbox-cell"),
         reportCheckboxes: document.querySelectorAll(".report-checkbox")
     });
 
-    const enableKelolaMode = () => {
+
+
+    // === EVENT LISTENERS ===
+    if (pulihkanBtn && options.onRestore) {
+        console.log("Event listener Pulihkan BERHASIL dipasang");
+        pulihkanBtn.addEventListener('click', options.onRestore);
+    }   else {
+        console.log("Gagal memasang listener Pulihkan. Elemen:", pulihkanBtn, "Fungsi:", options.onRestore);
+    }
+    
+    if (arsipBtn && options.onArchive) {
+        console.log("Event listener Arsip BERHASIL dipasang");
+        arsipBtn.addEventListener('click', options.onArchive);
+    }   else {
+        console.log("Gagal memasang listener Arsip. Elemen:", arsipBtn, "Fungsi:", options.onArchive);
+    }
+    
+    if (hapusBtn && options.onDelete) {
+        hapusBtn.addEventListener('click', options.onDelete);
+    }
+
+        const enableKelolaMode = () => {
         const { actionCells, checkboxCells } = getCells();
         
         if (kelolaBtn) kelolaBtn.classList.add("hidden");
@@ -33,7 +58,6 @@ export const initKelolaMode = (options = {}) => {
         if (selectAll) selectAll.checked = false;
     };
 
-    // === EVENT LISTENERS ===
     if (kelolaBtn) {
         kelolaBtn.addEventListener("click", enableKelolaMode);
     }

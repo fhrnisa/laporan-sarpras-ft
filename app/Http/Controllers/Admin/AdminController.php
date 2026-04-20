@@ -18,63 +18,63 @@ class AdminController extends Controller
 
     // Method untuk halaman kontrol-admin (view)
     public function index(Request $request)
-{
-    // 1. Inisialisasi awal agar tidak "Undefined"
-    $params = [
-        'page' => $request->query('page', 1),
-        'limit' => 10,
-    ]; 
+    {
+        // 1. Inisialisasi awal agar tidak "Undefined"
+        $params = [
+            'page' => $request->query('page', 1),
+            'limit' => 10,
+        ]; 
 
-    // 2. Cek role (Logika Helper Anda)
-    if (!AdminHelper::isAdmin() && AdminHelper::isViewer()) {
-        return view('admin.kontrol-admin.index', [
-            'admins' => collect([]),
-            'total' => 0,
-            'error' => null,
-            'readonly' => true 
-        ]);
-    }
-
-    try {
-        // 3. Isi params berdasarkan request (Filter & Search)
-        if ($request->has('status') && $request->status !== 'all') {
-            $params['status'] = $request->status;
-        }
-        if ($request->has('tanggal')) {
-            $params['tanggal'] = $request->tanggal;
-        }
-        if ($request->has('search')) {
-            $params['search'] = $request->search;
-        }
-
-        // 4. Panggil API dengan params yang sudah terisi
-        $response = Http::get("{$this->apiUrl}/admin/admins", $params);
-
-
-        if ($response->successful()) {
-            $data = $response->json();
-            $admins = collect($data['data'] ?? [])->map(fn($admin) => (object) $admin);
-
+        // 2. Cek role (Logika Helper Anda)
+        if (!AdminHelper::isAdmin() && AdminHelper::isViewer()) {
             return view('admin.kontrol-admin.index', [
-                'admins' => collect($data['data'] ?? [])->map(fn($a) => (object) $a),
-                'total' => $data['total'] ?? 0,
-                'currentPage' => $data['current_page'] ?? 1,
-                'lastPage' => $data['last_page'] ?? 1,
-                'error' => null
+                'admins' => collect([]),
+                'total' => 0,
+                'error' => null,
+                'readonly' => true 
             ]);
         }
-        
-        // Handle jika API gagal
-        throw new \Exception('Gagal mengambil data dari API Back-End');
 
-    } catch (\Exception $e) {
-        return view('admin.kontrol-admin.index', [
-            'admins' => collect([]),
-            'total' => 0,
-            'error' => $e->getMessage()
-        ]);
+        try {
+            // 3. Isi params berdasarkan request (Filter & Search)
+            if ($request->has('status') && $request->status !== 'all') {
+                $params['status'] = $request->status;
+            }
+            if ($request->has('tanggal')) {
+                $params['tanggal'] = $request->tanggal;
+            }
+            if ($request->has('search')) {
+                $params['search'] = $request->search;
+            }
+
+            // 4. Panggil API dengan params yang sudah terisi
+            $response = Http::get("{$this->apiUrl}/admin/admins", $params);
+
+
+            if ($response->successful()) {
+                $data = $response->json();
+                $admins = collect($data['data'] ?? [])->map(fn($admin) => (object) $admin);
+
+                return view('admin.kontrol-admin.index', [
+                    'admins' => collect($data['data'] ?? [])->map(fn($a) => (object) $a),
+                    'total' => $data['total'] ?? 0,
+                    'currentPage' => $data['current_page'] ?? 1,
+                    'lastPage' => $data['last_page'] ?? 1,
+                    'error' => null
+                ]);
+            }
+            
+            // Handle jika API gagal
+            throw new \Exception('Gagal mengambil data dari API Back-End');
+
+        } catch (\Exception $e) {
+            return view('admin.kontrol-admin.index', [
+                'admins' => collect([]),
+                'total' => 0,
+                'error' => $e->getMessage()
+            ]);
+        }
     }
-}
 
     // Method untuk menyimpan admin baru (API call)
     public function store(Request $request)

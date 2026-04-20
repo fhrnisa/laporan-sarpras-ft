@@ -32,14 +32,22 @@ const updateStatus = async (newStatus, additionalData = {}) => {
         return;
     }
 
+    if (newStatus === 'terselesaikan') {
+        showCompletionModal(currentReportId);
+        return;
+    }
+
     try {
         console.log('Updating status:', { currentReportId, newStatus, additionalData });
         
+        const token = localStorage.getItem('token'); // Ambil token jika pakai auth
+
         const response = await fetch(`http://localhost:8001/api/admin/laporan/${currentReportId}/status`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
+                'Authorization': `Bearer ${token}`, // Sertakan token jika diperlukan
                 'X-Requested-With': 'XMLHttpRequest'
             },
             body: JSON.stringify({
@@ -48,38 +56,21 @@ const updateStatus = async (newStatus, additionalData = {}) => {
             })
         });
 
-        console.log('Response status:', response.status);
-        
-        // Coba parse response sebagai text terlebih dahulu untuk debugging
         const responseText = await response.text();
-        console.log('Raw response:', responseText);
-        
-        let data;
-        try {
-            data = JSON.parse(responseText);
-        } catch (e) {
-            console.error('Failed to parse JSON:', e);
-            throw new Error(`Server returned invalid JSON: ${responseText.substring(0, 200)}`);
-        }
+        const data = JSON.parse(responseText);
 
         if (response.ok && data.success) {
-            // Refresh detail laporan
             await loadReportDetail(currentReportId);
+            if (window.loadReports) await window.loadReports();
             
-            // Refresh daftar laporan jika perlu
-            if (window.loadReports) {
-                await window.loadReports();
-            }
-            
-            // Tampilkan notifikasi sukses
             const statusText = STATUS_CONFIG[newStatus]?.text || newStatus;
             showNotification('success', `Status berhasil diubah menjadi ${statusText}`);
         } else {
-            throw new Error(data.message || data.error || 'Gagal mengupdate status');
+            throw new Error(data.message || 'Gagal mengupdate status');
         }
     } catch (error) {
         console.error("Error updating status:", error);
-        showNotification('error', error.message || 'Gagal mengupdate status');
+        showNotification('error', error.message);
     }
 };
 
@@ -192,6 +183,77 @@ window.submitRejection = async (reportId) => {
     }
 };
 
+
+/**
+ * Menampilkan modal bukti penyelesaian laporan
+ */
+const showCompletionModal = (reportId) => {
+    const existingModal = document.querySelector('.completion-modal');
+    if (existingModal) existingModal.remove();
+    
+    const modal = document.createElement('div');
+    modal.className = 'completion-modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+    modal.innerHTML = `
+        <div class="bg-white rounded-lg p-6 w-96 max-w-md shadow-xl">
+            <h3 class="text-lg font-semibold mb-4 text-[#002C55]">Selesaikan Laporan</h3>
+            <p class="text-gray-600 mb-3 text-sm">Silakan unggah foto bukti perbaikan/penyelesaian:</p>
+            
+            <input type="file" id="completionPhoto" accept="image/*" 
+                class="w-full border rounded-lg p-2 mb-4 text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+            
+            <div class="flex justify-end gap-2">
+                <button onclick="document.querySelector('.completion-modal').remove()" class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400 transition text-sm">Batal</button>
+                <button onclick="window.submitCompletion('${reportId}')" class="px-4 py-2 bg-[#00EA00] text-white rounded-lg hover:bg-green-600 transition text-sm font-bold">Kirim & Selesai</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+};
+
+/** 
+ * Submit terselesaikan dengan bukti 
+*/
+window.submitCompletion = async (reportId) => {
+    const fileInput = document.getElementById('completionPhoto');
+    const file = fileInput?.files[0];
+    
+    if (!file) {
+        showNotification('error', 'Harap unggah foto bukti penyelesaian!');
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('status', 'terselesaikan');
+    formData.append('foto_selesai', file); // Sesuaikan nama field dengan di Controller
+    formData.append('_method', 'PUT'); // Penting: Laravel butuh ini untuk spoofing method PUT pada FormData
+
+    try {
+        const token = localStorage.getItem('token');
+        const response = await fetch(`http://localhost:8001/api/admin/laporan/${reportId}/status`, {
+            method: 'POST', // Gunakan POST karena FormData tidak stabil di PUT murni
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+            document.querySelector('.completion-modal').remove();
+            await loadReportDetail(reportId);
+            if (window.loadReports) await window.loadReports();
+            showNotification('success', 'Laporan telah diselesaikan!');
+        } else {
+            throw new Error(data.message || 'Gagal mengunggah bukti');
+        }
+    } catch (error) {
+        showNotification('error', error.message);
+    }
+};
+
 /**
  * Menampilkan notifikasi
  */
@@ -248,7 +310,6 @@ export const displayReportDetail = (report) => {
     const elements = {
         detailTitle: document.getElementById('detailTitle'),
         detailKode: document.getElementById("detailKodeLaporan"),
-        detailDate: document.getElementById('detailDate'),
         detailNama: document.getElementById('detailNama'),
         detailEmail: document.getElementById('detailEmail'),
         detailTelp: document.getElementById('detailTelp'),
@@ -289,15 +350,6 @@ export const displayReportDetail = (report) => {
     // 5. Set judul dan data dasar
     if (elements.detailTitle) elements.detailTitle.textContent = `Detail Laporan`;
     if (elements.detailKode) elements.detailKode.textContent = report.kode_laporan || "-";
-    
-    if (report.created_at) {
-        const date = new Date(report.created_at);
-        elements.detailDate.textContent = date.toLocaleDateString("id-ID", {
-            weekday: "long", day: "numeric", month: "long", year: "numeric"
-        }) + " • " + date.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" });
-    } else {
-        elements.detailDate.textContent = "-";
-    }
 
     if (elements.detailNama) elements.detailNama.textContent = report.nama_pengusul || '-';
     if (elements.detailEmail) elements.detailEmail.textContent = report.email || '-';
@@ -314,6 +366,50 @@ export const displayReportDetail = (report) => {
         statusElement.textContent = config.text;
         statusElement.className = `inline-flex px-3 py-1 text-sm font-semibold rounded-md ${config.class}`;
     }
+
+    
+    // 2. Isi "Waktu Diterima" (Selalu diisi karena ini data awal laporan)
+    const txtCreatedAt = document.getElementById('detailCreatedAt');
+
+    if (txtCreatedAt) {
+        txtCreatedAt.textContent = formatTanggal(report.created_at);
+    }
+
+    /**
+     * Menampilkan foto bukti penyelesaian laporan
+     */
+    // Di dalam function displayReportDetail
+    const buktiElement = document.getElementById('detailBukti');
+    const noBuktiMessage = document.getElementById('noBuktiMessage');
+
+    if (buktiElement && noBuktiMessage) {
+        // Pastikan menggunakan foto_selesai (sesuai yang terisi di database kamu)
+        if (report.foto_selesai) { 
+            const buktiUrl = `http://localhost:8001/storage/${report.foto_selesai}`;
+            buktiElement.src = buktiUrl;
+            buktiElement.classList.remove('hidden');
+            noBuktiMessage.classList.add('hidden');
+        } else {
+            buktiElement.classList.add('hidden');
+            noBuktiMessage.classList.remove('hidden');
+        }
+    }
+
+    /**
+    * Helper function untuk format tanggal
+    */
+    function formatTanggal(dateString) {
+        if (!dateString) return "-";
+        try {
+            const date = new Date(dateString);
+            return date.toLocaleDateString("id-ID", {
+                weekday: "long", day: "numeric", month: "long", year: "numeric"
+            }) + " • " + date.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" }) + " WIB";
+        } catch (e) {
+            return "-";
+        }
+    }
+    
 
     // 7. Set Foto Kerusakan
     const fotoElement = document.querySelector('#detailFotoContainer img');
@@ -336,36 +432,67 @@ export const displayReportDetail = (report) => {
         completed: document.getElementById('completedInfo')
     };
 
-    Object.values(infoBoxes).forEach(box => box?.classList.add('hidden'));
+    Object.values(infoBoxes).forEach(box => {
+        if (box) box.classList.add('hidden');
+    });
 
-    if (status === 'diproses' && infoBoxes.approved) {
-        infoBoxes.approved.classList.remove('hidden');
-        const approvedByElement = document.getElementById('detailDisetujuiOleh');
-        const approvedAtElement = document.getElementById('detailWaktuDisetujui');
-        if (approvedByElement) approvedByElement.textContent = report.disetujui_oleh || '-';
-        if (approvedAtElement) approvedAtElement.textContent = report.disetujui_pada ? new Date(report.disetujui_pada).toLocaleString('id-ID') : '-';
-    } else if (status === 'ditolak' && infoBoxes.rejected) {
-        infoBoxes.rejected.classList.remove('hidden');
-        const reasonElement = document.getElementById('detailAlasan');
-        const rejectedByElement = document.getElementById('detailDitolakOleh');
-        if (reasonElement) reasonElement.textContent = report.alasan_ditolak || '-';
-        if (rejectedByElement) rejectedByElement.textContent = report.ditolak_oleh || '-';
-    } else if (status === 'terselesaikan' && infoBoxes.completed) {
-        infoBoxes.completed.classList.remove('hidden');
-        const completedByElement = document.getElementById('detailDiselesaikanOleh');
-        if (completedByElement) completedByElement.textContent = report.diselesaikan_oleh || '-';
-        
-        const buktiElement = document.getElementById('detailBukti');
-        const noBuktiMessage = document.getElementById('noBuktiMessage');
-        if (buktiElement && noBuktiMessage) {
-            if (report.bukti_penyelesaian) {
-                const buktiUrl = report.bukti_penyelesaian.startsWith('http') ? report.bukti_penyelesaian : `http://localhost:8001/storage/${report.bukti_penyelesaian}`;
-                buktiElement.src = buktiUrl;
-                buktiElement.classList.remove('hidden');
-                noBuktiMessage.classList.add('hidden');
-            } else {
-                buktiElement.classList.add('hidden');
-                noBuktiMessage.classList.remove('hidden');
+    if (status === 'diproses' || status === 'terselesaikan') {
+        if (infoBoxes.approved) {
+            infoBoxes.approved.classList.remove('hidden');
+            
+            const approvedBy = document.getElementById('detailDisetujuiOleh');
+            const approvedAt = document.getElementById('detailWaktuDisetujui');
+
+            if (approvedBy) approvedBy.textContent = report.disetujui_oleh || 'Admin';
+            if (approvedAt) {
+                // Gunakan formatTanggal yang sudah kita buat sebelumnya
+                approvedAt.textContent = report.disetujui_pada 
+                    ? formatTanggal(report.disetujui_pada) 
+                    : formatTanggal(report.updated_at);
+            }
+        }
+    }
+
+    if (status === 'ditolak') {
+        if (infoBoxes.rejected) {
+            infoBoxes.rejected.classList.remove('hidden');
+            const reasonElement = document.getElementById('detailAlasan');
+            const rejectedByElement = document.getElementById('detailDitolakOleh');
+            const rejectedAtElement = document.getElementById('detailWaktuDitolak');
+
+            if (rejectedAtElement) rejectedAtElement.textContent = report.ditolak_pada ? new Date(report.ditolak_pada).toLocaleString('id-ID') : '-';
+            if (reasonElement) reasonElement.textContent = report.alasan_ditolak || '-';
+            if (rejectedByElement) rejectedByElement.textContent = report.ditolak_oleh || '-';
+        }
+    }
+
+    if (status === 'terselesaikan') {
+        if (infoBoxes.completed) {
+            infoBoxes.completed.classList.remove('hidden');
+
+            const completedByElement = document.getElementById('detailDiselesaikanOleh');
+            const completedAtElement = document.getElementById('detailWaktuSelesai');
+
+            if (completedByElement) completedByElement.textContent = report.diselesaikan_oleh || '-';
+            if (completedAtElement) {
+                completedAtElement.textContent = report.diselesaikan_pada 
+                    ? formatTanggal(report.diselesaikan_pada) 
+                    : '-';
+            }
+            
+            // Render Bukti Foto Selesai
+            const buktiElement = document.getElementById('detailBukti');
+            const noBuktiMessage = document.getElementById('noBuktiMessage');
+            
+            if (buktiElement && noBuktiMessage) {
+                if (report.foto_selesai) {
+                    buktiElement.src = `http://localhost:8001/storage/${report.foto_selesai}`;
+                    buktiElement.classList.remove('hidden');
+                    noBuktiMessage.classList.add('hidden');
+                } else {
+                    buktiElement.classList.add('hidden');
+                    noBuktiMessage.classList.remove('hidden');
+                }
             }
         }
     }

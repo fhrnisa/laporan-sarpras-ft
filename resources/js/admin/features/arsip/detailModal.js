@@ -52,7 +52,6 @@ export function displayReportDetail(report) {
 
     // Set basic info
     const detailTitle = document.getElementById('detailTitle');
-    const detailDate = document.getElementById('detailDate');
     const detailNama = document.getElementById('detailNama');
     const detailEmail = document.getElementById('detailEmail');
     const detailTelp = document.getElementById('detailTelp');
@@ -60,15 +59,6 @@ export function displayReportDetail(report) {
     const detailDeskripsi = document.getElementById('detailDeskripsi');
 
     if (detailTitle) detailTitle.textContent = `Laporan #${report.id}`;
-    if (detailDate) {
-        detailDate.textContent = report.created_at ? 
-            new Date(report.created_at).toLocaleDateString('id-ID', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            }) : '-';
-    }
     if (detailNama) detailNama.textContent = report.nama_pengusul || '-';
     if (detailEmail) detailEmail.textContent = report.email || '-';
     if (detailTelp) detailTelp.textContent = report.nomor_telepon || '-';

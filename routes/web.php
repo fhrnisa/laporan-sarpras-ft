@@ -31,6 +31,7 @@ Route::middleware(['auth.admin'])->group(function () {
             Route::get('/laporan', [App\Http\Controllers\Admin\LaporanController::class, 'index'])->name('admin.laporan');
             Route::post('/laporan/archive', [App\Http\Controllers\Admin\LaporanController::class, 'archive'])->name('admin.laporan.archive');
             Route::post('/laporan/destroy', [App\Http\Controllers\Admin\LaporanController::class, 'destroy'])->name('admin.laporan.destroy');
+            // Route::post('/arsip/restore/{id}', [App\Http\Controllers\Admin\LaporanController::class, 'restore'])->name('admin.arsip.restore');
  
             // Notification routes
             Route::get('/notifications/fetch', [NotificationController::class, 'fetch']);
@@ -61,6 +62,11 @@ Route::middleware(['auth.admin'])->group(function () {
 
 // API Routes untuk admin di FE (untuk AJAX calls)
 Route::prefix('admin/api')->middleware(['auth.admin'])->group(function () {
+    Route::prefix('arsip')->middleware(['role'])->group(function () {
+        Route::post('/restore', [App\Http\Controllers\Admin\ArsipController::class, 'restore']);
+        Route::post('/destroy', [App\Http\Controllers\Admin\ArsipController::class, 'destroy']);
+    });
+
     // Routes GET yang boleh diakses viewer
     Route::get('/admins', [FeAdminController::class, 'index'])->name('admin.api.admins');
     Route::get('/admins/{id}', [FeAdminController::class, 'show'])->name('admin.api.admins.show');
@@ -74,6 +80,11 @@ Route::prefix('admin/api')->middleware(['auth.admin'])->group(function () {
         Route::put('/admins/{id}/status', [FeAdminController::class, 'updateStatus'])->name('admin.api.updateStatus');
     });
 
+
     // Route untuk last-active yang boleh diakses semua
     Route::put('/admins/{id}/last-active', [FeAdminController::class, 'updateLastActive'])->name('admin.api.updateLastActive');
+});
+
+Route::post('/admin/arsip/restore', function () {
+    return response()->json(['success' => true]);
 });

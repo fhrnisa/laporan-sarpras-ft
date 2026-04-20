@@ -5,77 +5,72 @@ export class AdminFilter {
         this.filterTanggal = null;
         
         this.initElements();
-        this.setFilterValuesFromUrl();
-        this.attachEvents();
+        // Cek apakah elemen ada sebelum lanjut
+        if (this.searchInput || this.filterStatus || this.filterTanggal) {
+            this.setFilterValuesFromUrl();
+            this.attachEvents();
+        }
     }
 
     initElements() {
-        this.searchInput = document.querySelector('input[type="search"], input[name="search"], .search-input, #topbarSearch');
+        // Gunakan selektor yang lebih spesifik agar tidak salah ambil elemen
+        this.searchInput = document.getElementById('topbarSearch') || document.querySelector('.search-input');
         this.filterStatus = document.getElementById('filterStatus');
         this.filterTanggal = document.getElementById('filterTanggal');
     }
 
     setFilterValuesFromUrl() {
         const urlParams = new URLSearchParams(window.location.search);
-
-        if (this.filterStatus) {
-            this.filterStatus.value = urlParams.get('status') || 'all';
-        }
-
-        if (this.filterTanggal) {
-            this.filterTanggal.value = urlParams.get('tanggal') || 'semua';
-        }
-
-        if (this.searchInput) {
-            this.searchInput.value = urlParams.get('search') || '';
-        }
+        if (this.filterStatus) this.filterStatus.value = urlParams.get('status') || 'all';
+        if (this.filterTanggal) this.filterTanggal.value = urlParams.get('tanggal') || 'semua';
+        if (this.searchInput) this.searchInput.value = urlParams.get('search') || '';
     }
 
     attachEvents() {
-        // Search with debounce
         if (this.searchInput) {
             let searchTimeout;
             this.searchInput.addEventListener('input', () => {
                 clearTimeout(searchTimeout);
-                searchTimeout = setTimeout(() => this.applyFilters(), 800);
+                searchTimeout = setTimeout(() => this.applyFilters(true), 800); // true = reset page
             });
         }
 
         if (this.filterStatus) {
-            this.filterStatus.addEventListener('change', () => this.applyFilters());
+            this.filterStatus.addEventListener('change', () => this.applyFilters(true));
         }
 
         if (this.filterTanggal) {
-            this.filterTanggal.addEventListener('change', () => this.applyFilters());
+            this.filterTanggal.addEventListener('change', () => this.applyFilters(true));
         }
     }
 
-    applyFilters() {
-        const params = new URLSearchParams();
+    applyFilters(shouldResetPage = false) {
+        const params = new URLSearchParams(window.location.search); // Ambil params yang ada dulu
 
+        // Update atau Hapus params berdasarkan input
         const searchValue = this.searchInput ? this.searchInput.value.trim() : '';
+        
+        if (searchValue) params.set('search', searchValue);
+        else params.delete('search');
 
         if (this.filterStatus && this.filterStatus.value !== 'all') {
-            params.append('status', this.filterStatus.value);
+            params.set('status', this.filterStatus.value);
+        } else {
+            params.delete('status');
         }
 
         if (this.filterTanggal && this.filterTanggal.value !== 'semua') {
-            params.append('tanggal', this.filterTanggal.value);
+            params.set('tanggal', this.filterTanggal.value);
+        } else {
+            params.delete('tanggal');
         }
 
-        if (searchValue) {
-            params.append('search', searchValue);
+        // KUNCI: Reset halaman ke 1 jika filter berubah
+        if (shouldResetPage) {
+            params.delete('page');
         }
 
-        // Preserve current page
-        const currentPage = new URLSearchParams(window.location.search).get('page');
-        if (currentPage) {
-            params.append('page', currentPage);
-        }
-
-        const basePath = window.location.pathname;
         const queryString = params.toString();
-
-        window.location.href = `${basePath}${queryString ? '?' + queryString : ''}`;
+        window.location.href = `${window.location.pathname}${queryString ? '?' + queryString : ''}`;
     }
 }

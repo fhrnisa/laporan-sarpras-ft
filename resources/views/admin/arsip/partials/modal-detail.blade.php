@@ -10,7 +10,6 @@
                         <span id="detailStatus" class="inline-flex px-3 py-1 text-lg font-semibold rounded-md">
                         </span>
                     </div>
-                    <p id="detailDate" class="text-lg text-[#002C55]">-</p>
                 </div>
             </div>
 
@@ -41,6 +40,11 @@
                     <p id="detailKodeLaporan" class="text-base text-[#002C55]">-</p>
                 </div>
 
+                <div id="rowWaktuDiterima">
+                    <p class="text-base font-semibold text-[#002C55]">Waktu Diterima:</p>
+                    <p id="detailCreatedAt" class="text-base text-[#002C55]">-</p>
+                </div>
+
                 <div>
                     <p class="text-base text-[#002C55] mb-1 font-semibold">Nama Pengusul:</p>
                     <p id="detailNama" class="text-base text-[#002C55]"></p>
@@ -52,7 +56,7 @@
                 </div>
 
                 <div>
-                    <p class="text-base font-semibold text-[#002C55] mb-1">Nomor Telepon:</p>
+                    <p class="text-base font-semibold text-[#002C55] mb-1 font-semibold">Nomor Telepon:</p>
                     <p id="detailTelp" class="text-base text-[#002C55]"></p>
                 </div>
 
@@ -76,41 +80,61 @@
                 <p id="noFotoMessage" class="text-gray-500 italic mt-2 hidden">Tidak ada foto</p>
             </div>
 
-            <!-- Additional Info for Rejected Reports -->
-            <div id="rejectedInfo" class="hidden mt-4 p-4 bg-red-50 rounded-lg">
-                <h3 class="font-semibold text-red-800 mb-2">Informasi Penolakan</h3>
+            <!-- Additional Info for Approved Reports -->
+            <div id="approvedInfo" class="hidden mt-4 p-4 bg-blue-50 rounded-lg">
+                <h3 class="text-base font-semibold text-blue-800 mb-2">Informasi Persetujuan</h3>
                 <div class="space-y-2">
                     <div>
-                        <p class="font-medium text-red-700">Alasan Ditolak:</p>
-                        <p id="detailAlasan" class="text-red-600">-</p>
+                        <p class="font-semibold text-blue-700">Disetujui oleh:</p>
+                        <p id="detailDisetujuiOleh" class="text-blue-600">-</p>
                     </div>
                     <div>
-                        <p class="font-medium text-red-700">Waktu Ditolak:</p>
-                        <p id="detailWaktuDitolak" class="text-red-600">-</p>
-                    </div>
-                    <div>
-                        <p class="font-medium text-red-700">Ditolak oleh:</p>
-                        <p id="detailAdmin" class="text-red-600">-</p>
+                        <p class="font-semibold text-blue-700">Waktu Disetujui:</p>
+                        <p id="detailWaktuDisetujui" class="text-blue-600">-</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Detail Waktu -->
-            <div class="pt-4 border-t border-gray-200 space-y-4">
+            <!-- Additional Info for Rejected Reports -->
+            <div id="rejectedInfo" class="hidden mt-4 p-4 bg-red-50 rounded-lg">
+                <h3 class="text-base font-semibold text-red-800 mb-2">Informasi Penolakan</h3>
+                <div class="space-y-2">
                     <div>
-                        <p class="text-base text-[#002C55] font-semibold">Waktu Diterima:</p>
-                        <p id="detailCreatedAt" class="text-base text-[#002C55]">-</p>
+                        <p class="font-semibold text-red-700">Alasan Ditolak:</p>
+                        <p id="detailAlasan" class="text-red-600">-</p>
                     </div>
+                    <div>
+                        <p class="font-semibold text-red-700">Waktu Ditolak:</p>
+                        <p id="detailWaktuDitolak" class="text-red-600">-</p>
+                    </div>
+                    <div>
+                        <p class="font-semibold text-red-700">Ditolak oleh:</p>
+                        <p id="detailDitolakOleh" class="text-red-600">-</p>
+                    </div>
+                </div>
+            </div>
 
+            <!-- Additional Info for Completed Reports -->
+            <div id="completedInfo" class="hidden mt-4 p-4 bg-green-50 rounded-lg">
+                <h3 class="text-base font-semibold text-green-800 mb-2">Informasi Penyelesaian</h3>
+                <div class="space-y-2">
                     <div>
-                        <p class="text-base text-[#002C55] font-semibold">Diselesaikan oleh:</p>
-                        <p id="detailCreatedAt" class="text-base text-[#002C55]">-</p>
+                        <p class="font-semibold text-green-700">Diselesaikan oleh:</p>
+                        <p id="detailDiselesaikanOleh" class="text-green-600">-</p>
                     </div>
-
                     <div>
-                        <p class="text-base text-[#002C55] font-semibold">Waktu Terselesaikan:</p>
-                        <p id="detailUpdatedAt" class="text-base text-[#002C55]">-</p>
+                        <p class="font-semibold text-green-700">Waktu Selesai:</p>
+                        <p id="detailWaktuSelesai" class="text-green-600">-</p>
                     </div>
+                    <div>
+                        <p class="font-semibold text-green-700">Bukti Penyelesaian:</p>
+                        <div id="detailBuktiContainer" class="mt-2">
+                            <img id="detailBukti"
+                                class="w-full rounded-lg border hidden object-cover max-h-72" />
+                        </div>
+                        <p id="noBuktiMessage" class="text-gray-500 italic mt-2 hidden">Tidak ada bukti</p>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -127,9 +151,5 @@
                 Tutup
             </button>
         </div>
-
-        <!-- Footer Actions -->
-        <!-- TIDAK ADA FOOTER ACTION DI ARSIP -->
-        <!-- Data arsip tidak bisa diubah status -->
     </div>
 </div>

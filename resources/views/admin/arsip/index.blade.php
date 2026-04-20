@@ -9,7 +9,7 @@
 @section('search-mode', 'arsip')
 
 
-@section('content')
+@section('body_class', 'arsip-page') @section('content')
 <div class="space-y-6">
 
     @include('admin.arsip.partials.filter')

@@ -62,9 +62,12 @@ export function showConfirm(message, actionType = 'archive') {
         if (actionType === 'delete') {
             confirmOkBtn.classList.add('bg-red-600', 'hover:bg-red-700');
             confirmOkBtn.textContent = 'Ya, Hapus Permanen';
-        } else {
+        } else if (actionType === 'archive') {
             confirmOkBtn.classList.add('bg-[#002C55]', 'hover:bg-[#001f3f]');
             confirmOkBtn.textContent = 'Ya, Arsipkan';
+        } else if (actionType === 'restore') {
+            confirmOkBtn.classList.add('bg-[#002C55]', 'hover:bg-[#001f3f]');
+            confirmOkBtn.textContent = 'Ya, Pulihkan';
         }
 
         confirmMessage.textContent = message;

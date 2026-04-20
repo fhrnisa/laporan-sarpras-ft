@@ -58,17 +58,29 @@ class ArsipController extends Controller
      */
     public function restore(Request $request)
     {
-        $request->validate([
-            'ids' => 'required|array',
-            'ids.*' => 'integer'
-        ]);
+        $ids = $request->ids;
 
-        $response = Http::post(
-            $this->apiBaseUrl . '/api/admin/arsip/restore',
-            ['ids' => $request->ids]
-        );
+        if (!$ids || count($ids) === 0) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Tidak ada data yang dipilih'
+            ], 400);
+        }
 
-        return response()->json($response->json(), $response->status());
+        try {
+            \App\Models\Laporan::whereIn('id', $ids)->restore();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Laporan berhasil dipulihkan'
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal memulihkan laporan'
+            ], 500);
+        }
     }
 
     /**

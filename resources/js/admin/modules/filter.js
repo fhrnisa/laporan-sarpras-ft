@@ -1,7 +1,6 @@
 export const initFilters = () => {
     const filterStatus = document.getElementById("filterStatus");
     const filterTanggal = document.getElementById("filterTanggal");
-    // Ambil search input secara dinamis agar tidak null
     const getSearchInput = () => document.querySelector('input[name="search"]') || document.querySelector('.search-input');
 
     const applyFilters = () => {
@@ -22,15 +21,16 @@ export const initFilters = () => {
         }
 
         const queryString = params.toString();
-        window.location.href = `/admin/laporan${queryString ? '?' + queryString : ''}`;
+        
+        /** * PERBAIKAN DINAMIS:
+         * Kita ambil path halaman saat ini (misal: /admin/arsip atau /admin/laporan)
+         * sehingga dia akan me-refresh ke dirinya sendiri dengan query string baru.
+         */
+        const currentPath = window.location.pathname;
+        window.location.href = `${currentPath}${queryString ? '?' + queryString : ''}`;
     };
 
     // Pasang listener
-    if (filterStatus) {
-        filterStatus.onchange = applyFilters;
-    }
-
-    if (filterTanggal) {
-        filterTanggal.onchange = applyFilters;
-    }
+    if (filterStatus) filterStatus.onchange = applyFilters;
+    if (filterTanggal) filterTanggal.onchange = applyFilters;
 };

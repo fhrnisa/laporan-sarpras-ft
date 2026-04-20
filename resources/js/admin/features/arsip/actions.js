@@ -1,7 +1,11 @@
+// actions.js
+import { api } from '../../utils/api.js';
 import { showToast } from '../../utils/toast.js';
 import { showConfirm } from '../../utils/confirm.js';
 
-export async function restoreReports() {
+export const restoreReports = async () => {
+    console.log("Fungsi restoreReports terpanggil!");
+
     const selectedIds = Array.from(
         document.querySelectorAll('.report-checkbox:checked')
     ).map(cb => cb.value);
@@ -22,18 +26,29 @@ export async function restoreReports() {
     }
 
     try {
-        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
-        
-        const response = await fetch('/admin/api/arsip/restore', {
+        // Pastikan URL benar - cek di route list Anda
+        const response = await fetch('http://localhost:8001/api/admin/arsip/restore', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken
+                'Accept': 'application/json',
+                // Tambahkan token jika pakai authentication
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
             body: JSON.stringify({ ids: selectedIds })
         });
 
+        // Debug: Log response status
+        console.log('Response status:', response.status);
+        
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Error response:', errorText);
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
         const data = await response.json();
+        console.log('Response data:', data);
 
         if (data.success) {
             showToast(data.message || 'Laporan berhasil dipulihkan', 'success');
@@ -47,7 +62,7 @@ export async function restoreReports() {
     }
 }
 
-export async function deletePermanent() {
+export const deletePermanent = async () => {
     const selectedIds = Array.from(
         document.querySelectorAll('.report-checkbox:checked')
     ).map(cb => cb.value);
@@ -68,16 +83,19 @@ export async function deletePermanent() {
     }
 
     try {
-        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
-        
-        const response = await fetch('/admin/api/arsip/destroy', {
-            method: 'POST',
+        const response = await fetch('http://localhost:8001/api/admin/arsip/destroy', {
+            method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
             body: JSON.stringify({ ids: selectedIds })
         });
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
 
         const data = await response.json();
 

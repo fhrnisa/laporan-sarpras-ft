@@ -5,6 +5,10 @@ import { initLaporanPage as initLaporanFeature } from '../features/laporan/index
 export const initLaporanPage = () => {
     console.log("Memulai inisialisasi halaman laporan...");
 
+    initKelolaMode({
+        onArchive: archiveReports
+    });
+
     // Gunakan try-catch per blok agar jika satu gagal, yang lain tetap jalan
     try {
         initLaporanFeature();
@@ -18,12 +22,5 @@ export const initLaporanPage = () => {
         console.log("Filters Load");
     } catch (e) {
         console.error("Gagal load Filters:", e);
-    }
-
-    try {
-        initKelolaMode();
-        console.log("Kelola Mode Load");
-    } catch (e) {
-        console.error("Gagal load Kelola Mode:", e);
     }
 };

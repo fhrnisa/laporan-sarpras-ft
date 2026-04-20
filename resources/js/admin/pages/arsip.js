@@ -8,15 +8,14 @@ export function initArsipPage() {
     initFilters();
 
     // 2. Inisialisasi mode kelola (UI checkbox)
-    initKelolaMode();
+    initKelolaMode({
+        onRestore: restoreReports,
+        onDelete: deletePermanent
+    });
     
+    console.log("ARSIP PAGE INIT JALAN");
     // 3. Daftarkan event listener untuk tombol aksi
-    const pulihkanBtn = document.getElementById("pulihkanBtn");
     const hapusPermanenBtn = document.getElementById("hapusPermanenBtn");
-    
-    if (pulihkanBtn) {
-        pulihkanBtn.addEventListener('click', restoreReports);
-    }
     
     if (hapusPermanenBtn) {
         hapusPermanenBtn.addEventListener('click', deletePermanent);
@@ -26,5 +25,3 @@ export function initArsipPage() {
     initArsipFeatures();
 }
 
-// Opsional: Jika Anda ingin file ini tetap bisa jalan sendiri tanpa main.js (untuk sementara)
-// document.addEventListener('DOMContentLoaded', initArsipPage);
